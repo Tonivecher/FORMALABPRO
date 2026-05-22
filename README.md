@@ -1,29 +1,43 @@
-# Инженерия формы
+# Engineering Form
 
-Промо-сайт премиального мебельного производства, собранный на `Vite + React + TypeScript + Tailwind CSS`.
+Premium landing page for a furniture production concept. The project is built as a static React application and deployed to GitHub Pages.
 
-## Скрипты
+## Stack
+
+- React + TypeScript
+- Vite
+- Tailwind CSS
+- Framer Motion
+- Lenis smooth scrolling
+
+## Features
+
+- Responsive landing page for desktop and mobile screens.
+- Product-focused visual system for a premium furniture brand.
+- Smooth scrolling, motion accents and custom CTA interactions.
+- Static contact flow through `mailto:`.
+- GitHub Pages deployment with repository-aware asset paths.
+
+## Local Development
 
 ```bash
 npm install
 npm run dev
+```
+
+## Build
+
+```bash
 npm run build
 npm run preview
+```
+
+## Deployment
+
+The site is published to GitHub Pages from the `gh-pages` branch.
+
+```bash
 npm run deploy
 ```
 
-## Деплой
-
-Сайт публикуется на GitHub Pages из ветки `gh-pages`.
-
-- `homepage`: `https://Tonivecher.github.io/engineering-form/`
-- `base`: `/engineering-form/`
-
-## Особенности
-
-- концепция «Архитектурная Чистота»
-- hosted-шрифты `Satoshi` и `Geist`
-- плавный скролл на `Lenis`
-- кастомный курсор с `mix-blend-mode: difference`
-- магнитные CTA-кнопки
-- статическая контактная форма через `mailto:`
+Production URL: `https://Tonivecher.github.io/engineering-form/`
