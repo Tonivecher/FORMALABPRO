@@ -41,6 +41,12 @@ npm run build
 npm run preview
 ```
 
+Для деплоя на домен, где сайт открывается из корня, используйте:
+
+```bash
+VITE_BASE_PATH=/ npm run build
+```
+
 ## Структура
 
 ```text
