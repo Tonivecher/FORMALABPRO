@@ -11,10 +11,10 @@ export default {
       },
       fontFamily: {
         sans: ['"Manrope"', "system-ui", "sans-serif"],
-        display: ['"Roundex"', '"Manrope"', "sans-serif"],
+        display: ['"Cormorant Garamond"', "Georgia", "serif"],
       },
       letterSpacing: {
-        display: "-0.08em",
+        display: "-0.02em",
       },
       transitionTimingFunction: {
         editorial: "cubic-bezier(0.22, 1, 0.36, 1)",

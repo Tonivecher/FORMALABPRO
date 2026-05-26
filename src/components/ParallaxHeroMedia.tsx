@@ -23,10 +23,13 @@ export function ParallaxHeroMedia({ image }: ParallaxHeroMediaProps) {
         alt=""
         aria-hidden="true"
         className="image-monochrome h-full w-full object-cover object-center"
+        initial={shouldReduceMotion ? {} : { clipPath: "polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%)", scale: 1.15 }}
+        animate={shouldReduceMotion ? {} : { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)", scale: 1 }}
+        transition={{ duration: 1.8, ease: [0.25, 1, 0.3, 1], delay: 0.2 }}
         style={shouldReduceMotion ? undefined : { y, scale }}
       />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,5,0.18)_0%,rgba(5,5,5,0.52)_40%,rgba(5,5,5,0.92)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(244,241,235,0.08),transparent_22%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,6,0.22)_0%,rgba(7,7,6,0.58)_45%,rgba(7,7,6,0.96)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(243,238,229,0.08),transparent_24%)]" />
     </div>
   );
 }

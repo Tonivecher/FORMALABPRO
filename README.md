@@ -1,43 +1,72 @@
-# Engineering Form
+# PASHADEMO
 
-Premium landing page for a furniture production concept. The project is built as a static React application and deployed to GitHub Pages.
+Публичная демо-версия лендинга для мебельного производства «Инженерия формы». Проект показывает премиальные интерьерные изделия, встроенные системы, HoReCa- и retail-мебель, а также рабочий процесс от инженерной проработки до монтажа.
 
-## Stack
+## Технологии
 
-- React + TypeScript
+- React 19
+- TypeScript
 - Vite
 - Tailwind CSS
 - Framer Motion
 - Lenis smooth scrolling
 
-## Features
+## Возможности
 
-- Responsive landing page for desktop and mobile screens.
-- Product-focused visual system for a premium furniture brand.
-- Smooth scrolling, motion accents and custom CTA interactions.
-- Static contact flow through `mailto:`.
-- GitHub Pages deployment with repository-aware asset paths.
+- Адаптивный лендинг для desktop и mobile.
+- Две визуальные концепции интерфейса с переключателем версий.
+- SEO-метаданные, Open Graph и JSON-LD разметка.
+- Галерея проектов и блоки услуг, материалов, процесса, доверия и FAQ.
+- Контактный сценарий через подготовленную `mailto:`-ссылку.
+- Настройка под публикацию на GitHub Pages.
 
-## Local Development
+## Быстрый старт
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build
+Локальная версия открывается по адресу:
+
+```text
+http://127.0.0.1:5173/PASHADEMO/
+```
+
+## Проверка и сборка
 
 ```bash
+npm run lint
 npm run build
 npm run preview
 ```
 
-## Deployment
+## Структура
 
-The site is published to GitHub Pages from the `gh-pages` branch.
+```text
+src/
+  components/       UI-компоненты и секции лендинга
+  components/v2/    альтернативная светлая концепция
+  data/             текстовый контент и данные секций
+  hooks/            хуки для плавной прокрутки и интерактивности
+  lib/              общие утилиты
+  types/            типы данных сайта
+public/
+  gallery/          изображения галереи
+  projects/         изображения проектов
+  images/           дополнительные визуальные материалы
+```
+
+## Публикация
+
+Репозиторий рассчитан на GitHub Pages:
 
 ```bash
 npm run deploy
 ```
 
-Production URL: `https://Tonivecher.github.io/engineering-form/`
+Production URL:
+
+```text
+https://Tonivecher.github.io/PASHADEMO/
+```

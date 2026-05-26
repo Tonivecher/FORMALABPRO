@@ -12,6 +12,17 @@ dist
 dist-ssr
 *.local
 
+# Локальные индексы и рабочие артефакты
+.codegraph/
+.cursor/
+inspector-extension/
+inspector-extension.crx
+inspector-extension.pem
+toggle_v1.png
+v2_contact.png
+v2_gallery.png
+v2_hero.png
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

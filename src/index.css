@@ -40,16 +40,24 @@
 @layer base {
   :root {
     color-scheme: dark;
-    --color-black: #0a0a0a;
-    --color-white: #f4f1eb;
-    --color-graphite: #1a1a1a;
-    --color-graphite-soft: #222222;
+    --color-black: #070706;      /* graphite-950 */
+    --color-white: #F3EEE5;      /* stone-100 */
+    --color-graphite: #11110F;   /* graphite-900 */
+    --color-graphite-soft: #1E1E1C;
     --color-chrome: rgba(72, 74, 78, 0.16);
-    --color-muted: rgba(244, 241, 235, 0.68);
-    --color-subtle: rgba(244, 241, 235, 0.48);
-    --color-line: rgba(244, 241, 235, 0.1);
+    --color-muted: #C9BDAA;      /* stone-300 */
+    --color-subtle: rgba(243, 238, 229, 0.48);
+    --color-line: rgba(243, 238, 229, 0.1);
+    --color-walnut: #8A6242;     /* walnut-500 */
+    --color-brass: #C5A46D;      /* brass-400 */
+    --color-lime: #D7FF3F;       /* lime-accent */
     --section-space: clamp(5rem, 8vw, 8.5rem);
     --container-padding: clamp(1.25rem, 3vw, 2.75rem);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-brass) !important;
+    outline-offset: 4px !important;
   }
 
   * {
@@ -86,9 +94,10 @@
   h5,
   h6 {
     margin: 0;
-    font-family: "Roundex", "Manrope", sans-serif;
+    font-family: "Cormorant Garamond", Georgia, serif;
     font-weight: 400;
-    letter-spacing: -0.06em;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
   }
 
   p {
@@ -188,7 +197,13 @@
   }
 
   .image-monochrome {
-    filter: grayscale(1) saturate(0) contrast(1.12) brightness(0.76);
+    filter: grayscale(1) saturate(0) contrast(1.1) brightness(0.78);
+    transition: filter 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .group:hover .image-monochrome,
+  .image-monochrome:hover {
+    filter: grayscale(0) saturate(1) contrast(1) brightness(0.95);
   }
 
   .media-surface {
