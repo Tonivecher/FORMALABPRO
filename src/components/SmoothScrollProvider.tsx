@@ -38,8 +38,11 @@ export function SmoothScrollProvider({ children }: PropsWithChildren) {
 
     const prefersReducedMotion =
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isTouchLike =
+      window.matchMedia("(hover: none), (pointer: coarse), (max-width: 767px)")
+        .matches;
 
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || isTouchLike) {
       return;
     }
 

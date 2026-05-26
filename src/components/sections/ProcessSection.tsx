@@ -1,20 +1,43 @@
-import { useRef } from "react";
+import { useRef, type RefObject } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { processSteps } from "../../data/siteContent";
 import { SectionReveal } from "../SectionReveal";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 
-export function ProcessSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const shouldReduceMotion = useReducedMotion();
+interface ProcessTimelineTrackerProps {
+  containerRef: RefObject<HTMLDivElement | null>;
+}
 
-  // Link scroll progress of the entire section to the vertical indicator
+function ProcessTimelineTracker({ containerRef }: ProcessTimelineTrackerProps) {
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end center"]
   });
 
-  // Transform scroll progress to vertical height scale
   const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  return (
+    <div className="mt-12 hidden lg:flex items-center gap-6">
+      <div className="relative h-48 w-0.5 bg-white/10 rounded-full overflow-hidden">
+        <motion.div
+          className="absolute inset-x-0 top-0 bg-[var(--color-lime)] origin-top rounded-full"
+          style={{ scaleY, height: "100%" }}
+        />
+      </div>
+      <div className="space-y-1 text-[10px] font-mono tracking-[0.2em] uppercase text-white/40">
+        <div className="text-[var(--color-lime)]">01 // START</div>
+        <div className="pt-12">04 // APPROVAL</div>
+        <div className="pt-12">06 // ATELIER</div>
+        <div className="pt-10">08 // INSTALL</div>
+      </div>
+    </div>
+  );
+}
+
+export function ProcessSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+  const isDesktopFinePointer = useMediaQuery("(min-width: 1024px) and (hover: hover) and (pointer: fine)");
 
   return (
     <section
@@ -37,22 +60,9 @@ export function ProcessSection() {
           </SectionReveal>
 
           {/* Graphical timeline tracker */}
-          {!shouldReduceMotion && (
-            <div className="mt-12 hidden lg:flex items-center gap-6">
-              <div className="relative h-48 w-0.5 bg-white/10 rounded-full overflow-hidden">
-                <motion.div
-                  className="absolute inset-x-0 top-0 bg-[var(--color-lime)] origin-top rounded-full"
-                  style={{ scaleY, height: "100%" }}
-                />
-              </div>
-              <div className="space-y-1 text-[10px] font-mono tracking-[0.2em] uppercase text-white/40">
-                <div className="text-[var(--color-lime)]">01 // START</div>
-                <div className="pt-12">04 // APPROVAL</div>
-                <div className="pt-12">06 // ATELIER</div>
-                <div className="pt-10">08 // INSTALL</div>
-              </div>
-            </div>
-          )}
+          {!shouldReduceMotion && isDesktopFinePointer ? (
+            <ProcessTimelineTracker containerRef={containerRef} />
+          ) : null}
         </div>
 
         {/* Right Column: 8 Chronological Steps */}

@@ -62,6 +62,14 @@ export interface FaqItem {
   answer: string;
 }
 
+export interface StudioContacts {
+  email: string;
+  phone: string;
+  location: string;
+  emailHref: string | null;
+  phoneHref: string | null;
+}
+
 export interface ContactFormValues {
   name: string;
   contact: string;
@@ -72,4 +80,3 @@ export interface ContactFormValues {
   hasDrawings: boolean;
   message: string;
 }
-

@@ -1,13 +1,36 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
+import { useMediaQuery } from "../hooks/useMediaQuery";
+
 interface ParallaxHeroMediaProps {
   image: string;
 }
 
 export function ParallaxHeroMedia({ image }: ParallaxHeroMediaProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const isTouchLike = useMediaQuery("(hover: none), (pointer: coarse), (max-width: 767px)");
+
+  if (shouldReduceMotion || isTouchLike) {
+    return (
+      <div className="absolute inset-0 overflow-hidden">
+        <img
+          src={image}
+          alt=""
+          aria-hidden="true"
+          className="image-monochrome h-full w-full object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,6,0.22)_0%,rgba(7,7,6,0.58)_45%,rgba(7,7,6,0.96)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(243,238,229,0.08),transparent_24%)]" />
+      </div>
+    );
+  }
+
+  return <ParallaxHeroMediaMotion image={image} />;
+}
+
+function ParallaxHeroMediaMotion({ image }: ParallaxHeroMediaProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -23,10 +46,10 @@ export function ParallaxHeroMedia({ image }: ParallaxHeroMediaProps) {
         alt=""
         aria-hidden="true"
         className="image-monochrome h-full w-full object-cover object-center"
-        initial={shouldReduceMotion ? {} : { clipPath: "polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%)", scale: 1.15 }}
-        animate={shouldReduceMotion ? {} : { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)", scale: 1 }}
+        initial={{ clipPath: "polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%)", scale: 1.15 }}
+        animate={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)", scale: 1 }}
         transition={{ duration: 1.8, ease: [0.25, 1, 0.3, 1], delay: 0.2 }}
-        style={shouldReduceMotion ? undefined : { y, scale }}
+        style={{ y, scale }}
       />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,6,0.22)_0%,rgba(7,7,6,0.58)_45%,rgba(7,7,6,0.96)_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(243,238,229,0.08),transparent_24%)]" />

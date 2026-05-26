@@ -215,6 +215,20 @@
   }
 }
 
+@media (hover: none), (pointer: coarse), (max-width: 767px) {
+  .image-monochrome {
+    transition: none;
+  }
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .theme-v1 > section:not(:first-child),
+  .theme-v2 > section:not(:first-child) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 56rem;
+  }
+}
+
 html.lenis,
 html.lenis body {
   height: auto;

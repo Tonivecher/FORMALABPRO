@@ -2,7 +2,6 @@ import { ArrowUpRight } from "lucide-react";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 
 import { studioContacts } from "../data/siteContent";
-import { buildMailtoUrl } from "../lib/utils";
 import type { ContactFormValues } from "../types/site";
 import { MagneticButton } from "./MagneticButton";
 import { SectionReveal } from "./SectionReveal";
@@ -78,35 +77,6 @@ export function ContactSection() {
       return;
     }
 
-    const projectTypesMap: Record<string, string> = {
-      private: "Частный интерьер",
-      horeca: "Рестораны и HoReCa",
-      retail: "Retail и торговые зоны",
-      office: "Офис / Коммерческий объект",
-      other: "Другое",
-    };
-
-    const friendlyProjectType = projectTypesMap[values.projectType] || values.projectType;
-
-    const subject = `Проектный бриф [${friendlyProjectType}] — ${values.name.trim()}`;
-    const mailtoUrl = buildMailtoUrl(studioContacts.email, subject, [
-      "НОВЫЙ ПРОЕКТНЫЙ БРИФ С САЙТА «ИНЖЕНЕРИЯ ФОРМЫ»",
-      "========================================",
-      `1. Имя клиента: ${values.name.trim()}`,
-      `2. Контактная связь: ${values.contact.trim()}`,
-      `3. Направление объекта: ${friendlyProjectType}`,
-      `4. Что нужно изготовить: ${values.scope.trim()}`,
-      `5. Город / Локация: ${values.location.trim() || "Не указан"}`,
-      `6. Желаемые сроки: ${values.timeframe.trim() || "Не указаны"}`,
-      `7. Наличие чертежей: ${values.hasDrawings ? "Да, чертежи/визуализации подготовлены" : "Нет, чертежей нет (нужна разработка)"}`,
-      "========================================",
-      "8. Дополнительный комментарий:",
-      values.message.trim() || "Комментарий отсутствует",
-      "========================================",
-      "Отправлено через интерактивный бриф.",
-    ]);
-
-    window.location.href = mailtoUrl;
     setIsSubmitted(true);
   };
 
@@ -127,24 +97,36 @@ export function ContactSection() {
           <div className="mt-12 space-y-8">
             <div className="border-t border-white/10 pt-5">
               <p className="section-kicker">Прямая связь (Email)</p>
-              <a
-                href={`mailto:${studioContacts.email}`}
-                className="mt-4 inline-block font-display text-xl md:text-2xl tracking-[-0.05em] text-white/90 hover:text-[var(--color-brass)] transition duration-300"
-                data-cursor="interactive"
-              >
-                {studioContacts.email}
-              </a>
+              {studioContacts.emailHref ? (
+                <a
+                  href={studioContacts.emailHref}
+                  className="mt-4 inline-block font-display text-xl md:text-2xl tracking-[-0.05em] text-white/90 hover:text-[var(--color-brass)] transition duration-300"
+                  data-cursor="interactive"
+                >
+                  {studioContacts.email}
+                </a>
+              ) : (
+                <span className="mt-4 inline-block font-display text-xl md:text-2xl tracking-[-0.05em] text-white/90">
+                  {studioContacts.email}
+                </span>
+              )}
             </div>
 
             <div className="border-t border-white/10 pt-5">
               <p className="section-kicker">Телефон ателье</p>
-              <a
-                href={`tel:${studioContacts.phone.replace(/[^\d+]/g, "")}`}
-                className="mt-4 inline-block font-display text-xl md:text-2xl tracking-[-0.05em] text-white/90 hover:text-[var(--color-brass)] transition duration-300"
-                data-cursor="interactive"
-              >
-                {studioContacts.phone}
-              </a>
+              {studioContacts.phoneHref ? (
+                <a
+                  href={studioContacts.phoneHref}
+                  className="mt-4 inline-block font-display text-xl md:text-2xl tracking-[-0.05em] text-white/90 hover:text-[var(--color-brass)] transition duration-300"
+                  data-cursor="interactive"
+                >
+                  {studioContacts.phone}
+                </a>
+              ) : (
+                <span className="mt-4 inline-block font-display text-xl md:text-2xl tracking-[-0.05em] text-white/90">
+                  {studioContacts.phone}
+                </span>
+              )}
             </div>
 
             <div className="border-t border-white/10 pt-5">
@@ -305,13 +287,13 @@ export function ContactSection() {
               </MagneticButton>
               
               <p className="max-w-md text-xs leading-5 text-white/40">
-                После нажатия запустится ваш стандартный почтовый клиент с полностью заполненным техническим брифом. Вам останется прикрепить файлы чертежей и нажать кнопку отправки.
+                Бриф проверит обязательные поля и сохранит введенные данные в текущей сессии сайта.
               </p>
               
               {isSubmitted ? (
                 <div className="p-3 bg-[var(--color-brass)]/10 border border-[var(--color-brass)]/20 rounded-md w-full">
                   <p className="text-xs leading-5 text-[var(--color-brass)]">
-                    Почтовый клиент запущен. Если он не открылся, скопируйте бриф и отправьте файлы напрямую на <strong className="text-white">{studioContacts.email}</strong>.
+                    Бриф подготовлен. Рабочие каналы связи будут подключены после уточнения контактов ателье.
                   </p>
                 </div>
               ) : null}

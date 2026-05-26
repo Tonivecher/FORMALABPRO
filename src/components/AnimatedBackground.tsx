@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useMousePosition } from "../hooks/useMousePosition";
 
 const blobs = [
@@ -62,8 +63,37 @@ const noiseTexture = `url("data:image/svg+xml,${encodeURIComponent(
 )}")`;
 
 export function AnimatedBackground() {
-  const { x, y, isFinePointer, isInsideViewport } = useMousePosition();
   const shouldReduceMotion = useReducedMotion();
+  const isTouchLike = useMediaQuery("(hover: none), (pointer: coarse), (max-width: 767px)");
+
+  if (shouldReduceMotion || isTouchLike) {
+    return <StaticBackground />;
+  }
+
+  return <AnimatedBackgroundMotion />;
+}
+
+function StaticBackground() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+    >
+      <div className="absolute inset-0 bg-[#0a0a0a]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(38,38,38,0.28),transparent_34%),linear-gradient(180deg,#090909_0%,#0a0a0a_48%,#121212_100%)]" />
+      <div
+        className="absolute inset-0 opacity-[0.035] mix-blend-soft-light"
+        style={{
+          backgroundImage: noiseTexture,
+          backgroundSize: "220px 220px",
+        }}
+      />
+    </div>
+  );
+}
+
+function AnimatedBackgroundMotion() {
+  const { x, y, isFinePointer, isInsideViewport } = useMousePosition();
   const viewportWidth = typeof window === "undefined" ? 1 : window.innerWidth || 1;
   const viewportHeight =
     typeof window === "undefined" ? 1 : window.innerHeight || 1;
@@ -85,12 +115,10 @@ export function AnimatedBackground() {
           key={blob.id}
           className={`absolute transform-gpu ${blob.position}`}
           animate={
-            shouldReduceMotion
-              ? { x: 0, y: 0 }
-              : {
-                  x: pointerX * blob.mouseX,
-                  y: pointerY * blob.mouseY,
-                }
+            {
+              x: pointerX * blob.mouseX,
+              y: pointerY * blob.mouseY,
+            }
           }
           transition={{
             type: "spring",
@@ -102,16 +130,12 @@ export function AnimatedBackground() {
           <motion.div
             className="h-full w-full rounded-full blur-[90px] md:blur-[120px]"
             style={{ background: blob.gradient }}
-            animate={
-              shouldReduceMotion
-                ? undefined
-                : {
-                    x: blob.driftX,
-                    y: blob.driftY,
-                    scale: blob.scale,
-                    rotate: blob.rotate,
-                  }
-            }
+            animate={{
+              x: blob.driftX,
+              y: blob.driftY,
+              scale: blob.scale,
+              rotate: blob.rotate,
+            }}
             transition={{
               duration: blob.duration,
               repeat: Infinity,

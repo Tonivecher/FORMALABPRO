@@ -17,8 +17,8 @@
 - Две визуальные концепции интерфейса с переключателем версий.
 - SEO-метаданные, Open Graph и JSON-LD разметка.
 - Галерея проектов и блоки услуг, материалов, процесса, доверия и FAQ.
-- Контактный сценарий через подготовленную `mailto:`-ссылку.
-- Настройка под публикацию на GitHub Pages.
+- Контактный бриф с клиентской валидацией.
+- Настройка под публикацию на Timeweb Cloud.
 
 ## Быстрый старт
 
@@ -30,7 +30,7 @@ npm run dev
 Локальная версия открывается по адресу:
 
 ```text
-http://127.0.0.1:5173/PASHADEMO/
+http://127.0.0.1:5173/
 ```
 
 ## Проверка и сборка
@@ -65,14 +65,14 @@ public/
 
 ## Публикация
 
-Репозиторий рассчитан на GitHub Pages:
+Production-деплой выполняется в существующее приложение Timeweb Cloud.
 
 ```bash
-npm run deploy
+VITE_BASE_PATH=/ npm run build
 ```
 
 Production URL:
 
 ```text
-https://Tonivecher.github.io/PASHADEMO/
+https://tonivecher-pashademo-95c1.twc1.net/
 ```

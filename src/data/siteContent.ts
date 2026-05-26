@@ -8,6 +8,7 @@ import type {
   CapabilityItem,
   ProcessStep,
   FaqItem,
+  StudioContacts,
 } from "../types/site";
 
 export const studioName = "Инженерия формы";
@@ -375,4 +376,6 @@ export const studioContacts = {
   email: "atelier@pashademo.example",
   phone: "+7 (000) 000-00-00",
   location: "Москва · частные и общественные интерьеры",
-};
+  emailHref: null,
+  phoneHref: null,
+} satisfies StudioContacts;

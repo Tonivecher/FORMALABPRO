@@ -1,20 +1,43 @@
-import { useRef } from "react";
+import { useRef, type RefObject } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { processSteps } from "../../data/siteContent";
 import { SectionReveal } from "../SectionReveal";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 
-export function ProcessV2() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const shouldReduceMotion = useReducedMotion();
+interface ProcessTimelineTrackerProps {
+  containerRef: RefObject<HTMLDivElement | null>;
+}
 
-  // Link scroll progress of the entire section to the vertical indicator
+function ProcessTimelineTracker({ containerRef }: ProcessTimelineTrackerProps) {
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end center"]
   });
 
-  // Transform scroll progress to vertical height scale
   const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  return (
+    <div className="mt-12 hidden lg:flex items-center gap-6">
+      <div className="relative h-40 w-0.5 bg-[#091423]/10 rounded-full overflow-hidden">
+        <motion.div
+          className="absolute inset-x-0 top-0 bg-[#091423] origin-top rounded-full"
+          style={{ scaleY, height: "100%" }}
+        />
+      </div>
+      <div className="space-y-1.5 text-[9px] font-mono tracking-[0.2em] uppercase text-[#091423]/40 font-bold">
+        <div className="text-[#091423]">01 // BRIEF</div>
+        <div className="pt-8">04 // SAMPLES</div>
+        <div className="pt-8">06 // ATELIER</div>
+        <div className="pt-8">08 // INSTALL</div>
+      </div>
+    </div>
+  );
+}
+
+export function ProcessV2() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+  const isDesktopFinePointer = useMediaQuery("(min-width: 1024px) and (hover: hover) and (pointer: fine)");
 
   return (
     <section
@@ -39,22 +62,9 @@ export function ProcessV2() {
           </SectionReveal>
 
           {/* Blueprint style vertical progress track */}
-          {!shouldReduceMotion && (
-            <div className="mt-12 hidden lg:flex items-center gap-6">
-              <div className="relative h-40 w-0.5 bg-[#091423]/10 rounded-full overflow-hidden">
-                <motion.div
-                  className="absolute inset-x-0 top-0 bg-[#091423] origin-top rounded-full"
-                  style={{ scaleY, height: "100%" }}
-                />
-              </div>
-              <div className="space-y-1.5 text-[9px] font-mono tracking-[0.2em] uppercase text-[#091423]/40 font-bold">
-                <div className="text-[#091423]">01 // BRIEF</div>
-                <div className="pt-8">04 // SAMPLES</div>
-                <div className="pt-8">06 // ATELIER</div>
-                <div className="pt-8">08 // INSTALL</div>
-              </div>
-            </div>
-          )}
+          {!shouldReduceMotion && isDesktopFinePointer ? (
+            <ProcessTimelineTracker containerRef={containerRef} />
+          ) : null}
         </div>
 
         {/* Right Scrolling Column (8 Steps with full borders) */}

@@ -15,12 +15,3 @@ export function withBase(path: string) {
 
   return `${base}${normalizedPath}`;
 }
-
-export function buildMailtoUrl(
-  email: string,
-  subject: string,
-  lines: string[],
-) {
-  const body = lines.join("\n");
-  return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}

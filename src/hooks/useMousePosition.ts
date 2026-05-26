@@ -24,13 +24,7 @@ export function useMousePosition(): MousePositionState {
     let frame = 0;
     let nextX = 0;
     let nextY = 0;
-
-    const updateFinePointer = () => {
-      setState((current) => ({
-        ...current,
-        isFinePointer: finePointerQuery.matches,
-      }));
-    };
+    let isTracking = false;
 
     const commitPosition = () => {
       setState((current) => ({
@@ -63,21 +57,56 @@ export function useMousePosition(): MousePositionState {
       }));
     };
 
-    updateFinePointer();
-    finePointerQuery.addEventListener("change", updateFinePointer);
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    window.addEventListener("pointerleave", handlePointerLeave);
-    window.addEventListener("blur", handlePointerLeave);
-
-    return () => {
-      if (frame) {
-        window.cancelAnimationFrame(frame);
+    const startTracking = () => {
+      if (isTracking) {
+        return;
       }
 
+      window.addEventListener("pointermove", handlePointerMove, { passive: true });
+      window.addEventListener("pointerleave", handlePointerLeave);
+      window.addEventListener("blur", handlePointerLeave);
+      isTracking = true;
+    };
+
+    const stopTracking = () => {
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+        frame = 0;
+      }
+
+      if (isTracking) {
+        window.removeEventListener("pointermove", handlePointerMove);
+        window.removeEventListener("pointerleave", handlePointerLeave);
+        window.removeEventListener("blur", handlePointerLeave);
+        isTracking = false;
+      }
+
+      setState((current) => ({
+        ...current,
+        isFinePointer: false,
+        isInsideViewport: false,
+      }));
+    };
+
+    const updateFinePointer = () => {
+      if (finePointerQuery.matches) {
+        setState((current) => ({
+          ...current,
+          isFinePointer: true,
+        }));
+        startTracking();
+        return;
+      }
+
+      stopTracking();
+    };
+
+    updateFinePointer();
+    finePointerQuery.addEventListener("change", updateFinePointer);
+
+    return () => {
       finePointerQuery.removeEventListener("change", updateFinePointer);
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerleave", handlePointerLeave);
-      window.removeEventListener("blur", handlePointerLeave);
+      stopTracking();
     };
   }, []);
 
