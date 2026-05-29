@@ -1,7 +1,8 @@
 import { ArrowUpRight } from "lucide-react";
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useCallback, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 
 import { studioContacts } from "../data/siteContent";
+import { useContactIntent } from "../hooks/useContactIntent";
 import type { ContactFormValues } from "../types/site";
 import { MagneticButton } from "./MagneticButton";
 import { SectionReveal } from "./SectionReveal";
@@ -23,6 +24,18 @@ export function ContactSection() {
   const [values, setValues] = useState<ContactFormValues>(initialValues);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  const applyContactIntent = useCallback((message: string) => {
+    setValues((current) => ({
+      ...current,
+      message,
+    }));
+    setIsSubmitted(false);
+    window.setTimeout(() => messageRef.current?.focus(), 0);
+  }, []);
+
+  useContactIntent(applyContactIntent);
 
   const handleChange =
     (field: keyof ContactFormValues) =>
@@ -84,7 +97,6 @@ export function ContactSection() {
     <section id="contact" className="section-rule py-[var(--section-space)] bg-[var(--color-black)]">
       <div className="page-grid grid grid-cols-12 gap-y-12 lg:gap-x-10">
         
-        {/* Left Column info */}
         <SectionReveal className="col-span-12 lg:col-span-5">
           <p className="section-kicker">оценка проекта</p>
           <h2 className="section-title max-w-[12ch] text-white">
@@ -138,11 +150,10 @@ export function ContactSection() {
           </div>
         </SectionReveal>
 
-        {/* Right Column: RETHINK COMPREHENSIVE BRIEF FORM */}
         <SectionReveal className="col-span-12 lg:col-span-6 lg:col-start-7" delay={0.08}>
           <form onSubmit={handleSubmit} className="space-y-8 bg-[var(--color-graphite)] p-6 md:p-8 rounded-md border border-white/5 relative">
             <div className="absolute top-6 right-6 font-mono text-[9px] text-white/20">
-              SYS_BRIEF_FORM // REV_2.4
+              BRIEF FORM
             </div>
 
             <h3 className="font-display text-xl text-white border-b border-white/5 pb-4 mb-6">
@@ -151,12 +162,13 @@ export function ContactSection() {
 
             <div className="space-y-6">
               
-              {/* 1. Name Input */}
               <div>
                 <span className="section-kicker block mb-2">Ваше имя *</span>
                 <input
                   type="text"
                   name="name"
+                  aria-label="Ваше имя"
+                  required
                   value={values.name}
                   onChange={handleChange("name")}
                   placeholder="Представьтесь, пожалуйста"
@@ -166,12 +178,13 @@ export function ContactSection() {
                 {errors.name ? <p className="field-error text-[var(--color-lime)]">{errors.name}</p> : null}
               </div>
 
-              {/* 2. Contact Input */}
               <div>
                 <span className="section-kicker block mb-2">Email или телефон *</span>
                 <input
                   type="text"
                   name="contact"
+                  aria-label="Email или телефон"
+                  required
                   value={values.contact}
                   onChange={handleChange("contact")}
                   placeholder="Для отправки расчетов и вопросов"
@@ -181,12 +194,13 @@ export function ContactSection() {
                 {errors.contact ? <p className="field-error text-[var(--color-lime)]">{errors.contact}</p> : null}
               </div>
 
-              {/* 3. Project Type Dropdown Selection */}
               <div>
                 <span className="section-kicker block mb-2">Направление проекта *</span>
                 <select
                   id="projectType"
                   name="projectType"
+                  aria-label="Направление проекта"
+                  required
                   value={values.projectType}
                   onChange={handleChange("projectType")}
                   data-cursor="interactive"
@@ -202,14 +216,13 @@ export function ContactSection() {
                 {errors.projectType ? <p className="field-error text-[var(--color-lime)]">{errors.projectType}</p> : null}
               </div>
 
-              {/* 2-column sub-fields for location & timeframe */}
               <div className="grid gap-6 sm:grid-cols-2">
-                {/* 4. Location */}
                 <div>
                   <span className="section-kicker block mb-2">Город / Объект</span>
                   <input
                     type="text"
                     name="location"
+                    aria-label="Город или объект"
                     value={values.location}
                     onChange={handleChange("location")}
                     placeholder="Например: Москва"
@@ -218,12 +231,12 @@ export function ContactSection() {
                   />
                 </div>
 
-                {/* 5. Timeframe */}
                 <div>
                   <span className="section-kicker block mb-2">Желаемые сроки</span>
                   <input
                     type="text"
                     name="timeframe"
+                    aria-label="Желаемые сроки"
                     value={values.timeframe}
                     onChange={handleChange("timeframe")}
                     placeholder="Например: сентябрь 2026"
@@ -233,12 +246,13 @@ export function ContactSection() {
                 </div>
               </div>
 
-              {/* 6. Scope Input */}
               <div>
                 <span className="section-kicker block mb-2">Что нужно изготовить? *</span>
                 <input
                   type="text"
                   name="scope"
+                  aria-label="Что нужно изготовить"
+                  required
                   value={values.scope}
                   onChange={handleChange("scope")}
                   placeholder="Например: встроенный шкаф, барная стойка"
@@ -248,7 +262,6 @@ export function ContactSection() {
                 {errors.scope ? <p className="field-error text-[var(--color-lime)]">{errors.scope}</p> : null}
               </div>
 
-              {/* 7. Drawings checklist (custom toggle) */}
               <div className="pt-2">
                 <label className="flex items-center gap-3 select-none" data-cursor="interactive">
                   <input
@@ -265,11 +278,12 @@ export function ContactSection() {
                 </label>
               </div>
 
-              {/* 8. Additional Comments text field */}
               <div>
                 <span className="section-kicker block mb-2">Дополнительный комментарий</span>
                 <textarea
+                  ref={messageRef}
                   name="message"
+                  aria-label="Дополнительный комментарий"
                   value={values.message}
                   onChange={handleChange("message")}
                   placeholder="Опишите особенности проекта, требования к материалам или стыкам..."
@@ -279,7 +293,6 @@ export function ContactSection() {
               </div>
             </div>
 
-            {/* Submit Block */}
             <div className="flex flex-col items-start gap-4 pt-4">
               <MagneticButton type="submit" className="w-full justify-center">
                 Отправить бриф на оценку

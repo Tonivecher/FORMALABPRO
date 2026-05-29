@@ -2,7 +2,6 @@ import { ShieldCheck, Layers, Eye, Users } from "lucide-react";
 import { SectionReveal } from "../SectionReveal";
 
 export function TrustSection() {
-  // Real evidence value propositions
   const trustPoints = [
     {
       icon: <Layers className="h-6 w-6 text-[var(--color-brass)]" />,
@@ -44,7 +43,6 @@ export function TrustSection() {
           </SectionReveal>
         </div>
 
-        {/* 4 Trust Cards Grid */}
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {trustPoints.map((point, index) => (
             <SectionReveal
@@ -64,20 +62,11 @@ export function TrustSection() {
                 </p>
               </div>
 
-              {/* Technical index indicator */}
               <div className="mt-8 text-[10px] font-mono text-white/10 tracking-widest">
-                SYS_VERIFIED // 0{index + 1}
+                CONTROL POINT // 0{index + 1}
               </div>
             </SectionReveal>
           ))}
-        </div>
-
-        {/* TODO: заменить на реальные цифры после уточнения у владельца бизнеса */}
-        {/* Placeholder row for verified metrics if business owner provides them later */}
-        <div className="mt-12 text-center">
-          <p className="text-[10px] font-mono text-white/15 uppercase tracking-[0.3em]">
-            // All manufacturing is fully certified and complies with architectural millwork standards.
-          </p>
         </div>
       </div>
     </section>

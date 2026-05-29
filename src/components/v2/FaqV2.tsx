@@ -33,7 +33,6 @@ export function FaqV2() {
 
       <div className="grid lg:grid-cols-12">
         
-        {/* Left Sticky Column */}
         <div className="col-span-12 lg:col-span-5 p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423] lg:sticky lg:top-14 lg:h-[calc(100vh-14px)] flex flex-col justify-between self-start">
           <SectionReveal>
             <span className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-60">
@@ -52,7 +51,6 @@ export function FaqV2() {
           </div>
         </div>
 
-        {/* Right Accordions list (Each row is bordered) */}
         <div className="col-span-12 lg:col-span-7 flex flex-col">
           {faqItems.map((item, index) => {
             const isOpen = activeIndex === index;

@@ -38,7 +38,6 @@ export function SeoTextSection() {
             </p>
           </SectionReveal>
 
-          {/* Technical list of terms for SEO semantic crawlers, formatted beautifully */}
           <SectionReveal delay={0.16} className="mt-10 pt-8 border-t border-white/5">
             <div className="flex flex-wrap gap-x-6 gap-y-3 text-[10px] font-mono uppercase tracking-[0.2em] text-white/30">
               <span>#архитектурная_мебель</span>

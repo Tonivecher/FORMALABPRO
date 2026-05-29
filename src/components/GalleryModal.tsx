@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2, ArrowUpRight } from "lucide-react";
 import type { GalleryItem } from "../types/site";
+import { requestContactIntent } from "../hooks/useContactIntent";
 import { useSmoothScroll } from "../hooks/useSmoothScroll";
 
 interface GalleryModalProps {
@@ -13,7 +14,6 @@ interface GalleryModalProps {
 export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
   const { scrollTo } = useSmoothScroll();
 
-  // Close on Escape key press
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -22,7 +22,6 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
-  // Prevent background scrolling when modal is open
   useEffect(() => {
     if (item) {
       document.body.style.overflow = "hidden";
@@ -37,12 +36,11 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
   if (!item) return null;
 
   const isV1 = theme === "v1";
+  const titleId = `case-modal-title-${item.id}`;
 
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 sm:p-6 md:p-10">
-        
-        {/* BACKDROP */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -55,19 +53,20 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
           }`}
         />
 
-        {/* MODAL WRAPPER */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 30 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
           className={`relative z-10 flex flex-col md:flex-row w-full max-w-5xl h-[85vh] sm:h-[80vh] rounded-md overflow-hidden shadow-2xl border ${
             isV1 
               ? "bg-[var(--color-graphite)] border-white/10 text-white" 
               : "bg-[#F0F1F4] border-[#091423] text-[#091423] border-[2px]"
           }`}
         >
-          {/* CLOSE BUTTON */}
           <button
             type="button"
             onClick={onClose}
@@ -82,7 +81,6 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
             <X className="h-5 w-5" />
           </button>
 
-          {/* LEFT SIDE: FULL-COLOR GLORIOUS PHOTO */}
           <div className={`relative md:w-3/5 h-[40vh] md:h-full overflow-hidden flex items-center justify-center bg-black ${
             !isV1 && "border-b md:border-b-0 md:border-r border-[#091423]"
           }`}>
@@ -92,18 +90,15 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
               className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
               loading="eager"
             />
-            {/* Ambient vignette gradient for integration */}
             {isV1 && (
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/30 pointer-events-none" />
             )}
           </div>
 
-          {/* RIGHT SIDE: RICH EDITORIAL TEXT DETAILS */}
           <div className={`md:w-2/5 h-[45vh] md:h-full p-6 sm:p-8 md:p-10 flex flex-col justify-between overflow-y-auto ${
             isV1 ? "scrollbar-none" : "scrollbar-thin"
           }`}>
             <div>
-              {/* Category tag */}
               <div className="flex justify-between items-center pb-4 border-b border-white/5">
                 <span className={`px-2.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold uppercase tracking-wider ${
                   isV1 
@@ -113,25 +108,21 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
                   {item.category}
                 </span>
                 <span className="text-[10px] font-mono opacity-30">
-                  // {item.id.toUpperCase()}
                 </span>
               </div>
 
-              {/* Title */}
               <h3 className={`mt-6 font-display text-2xl sm:text-3xl lg:text-4xl uppercase leading-tight tracking-tight ${
                 isV1 ? "text-white" : "text-[#091423]"
-              }`}>
+              }`} id={titleId}>
                 {item.title}
               </h3>
 
-              {/* Description */}
               <p className={`mt-4 text-xs sm:text-sm leading-relaxed ${
                 isV1 ? "text-white/60" : "text-[#091423]/70"
               }`}>
                 {item.description}
               </p>
 
-              {/* Blueprint Specifications Details */}
               <div className="mt-8 space-y-5 text-xs">
                 {item.task && (
                   <div className={`border-l-2 pl-4 ${isV1 ? "border-[var(--color-brass)]/30" : "border-[#091423]/25"}`}>
@@ -190,20 +181,15 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
               </div>
             </div>
 
-            {/* ACTION CTA BUTTON */}
             <div className={`mt-10 pt-6 border-t ${isV1 ? "border-white/5" : "border-[#091423]/10"}`}>
               <button
                 type="button"
                 onClick={() => {
                   onClose();
                   scrollTo("#contact", { offset: isV1 ? -72 : -50 });
-                  setTimeout(() => {
-                    const messageTextarea = document.getElementsByName("message")[0] as HTMLTextAreaElement;
-                    if (messageTextarea) {
-                      messageTextarea.value = `Здравствуйте! Хочу обсудить аналогичное решение для проекта: ${item.title}.\n`;
-                      messageTextarea.focus();
-                    }
-                  }, 800);
+                  window.setTimeout(() => {
+                    requestContactIntent(`Здравствуйте! Хочу обсудить аналогичное решение для проекта: ${item.title}.\n`);
+                  }, 450);
                 }}
                 className={`inline-flex items-center justify-center gap-2 w-full px-5 py-3 rounded text-xs font-bold uppercase tracking-widest transition-all duration-300 active:scale-[0.98] ${
                   isV1

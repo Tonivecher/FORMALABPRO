@@ -11,7 +11,6 @@ export function BlueprintLoader({ onComplete }: BlueprintLoaderProps) {
   const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
-    // Smoothly increment progress to 100% over 1.8 seconds
     const duration = 1800;
     const intervalTime = 30;
     const step = 100 / (duration / intervalTime);
@@ -24,7 +23,7 @@ export function BlueprintLoader({ onComplete }: BlueprintLoaderProps) {
           setIsDone(true);
           setTimeout(() => {
             onComplete();
-          }, 450); // Small pause at 100% for impact
+          }, 450);
           return 100;
         }
         return next;
@@ -34,7 +33,6 @@ export function BlueprintLoader({ onComplete }: BlueprintLoaderProps) {
     return () => clearInterval(timer);
   }, [onComplete]);
 
-  // Map progress % to 1440mm width dimension
   useEffect(() => {
     setCurrentDimension(Math.round((progress / 100) * 1440));
   }, [progress]);
@@ -48,13 +46,11 @@ export function BlueprintLoader({ onComplete }: BlueprintLoaderProps) {
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
           className="fixed inset-0 z-[9999] bg-[#070706] text-[#F3EEE5] p-6 md:p-10 flex flex-col justify-between overflow-hidden"
         >
-          {/* VISUAL LAYOUT CORNER TICK MARKS (DRAFTING CROSSHAIRS) */}
           <div className="absolute top-6 left-6 pointer-events-none text-white/10 font-mono text-[9px]">+</div >
           <div className="absolute top-6 right-6 pointer-events-none text-white/10 font-mono text-[9px]">+</div >
           <div className="absolute bottom-6 left-6 pointer-events-none text-white/10 font-mono text-[9px]">+</div >
           <div className="absolute bottom-6 right-6 pointer-events-none text-white/10 font-mono text-[9px]">+</div >
 
-          {/* TOP ROW: Technical credits */}
           <div className="flex justify-between items-start w-full text-[10px] font-mono tracking-[0.25em] uppercase text-[var(--color-brass)] font-semibold border-b border-white/5 pb-4">
             <motion.span
               initial={{ opacity: 0, y: -10 }}
@@ -72,10 +68,7 @@ export function BlueprintLoader({ onComplete }: BlueprintLoaderProps) {
             </motion.span>
           </div>
 
-          {/* CENTER PANEL: Brand Title and the Drafting Dimension line */}
           <div className="my-auto flex flex-col items-center justify-center w-full max-w-4xl mx-auto">
-            
-            {/* Elegant Serif Title */}
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -90,37 +83,27 @@ export function BlueprintLoader({ onComplete }: BlueprintLoaderProps) {
               </p>
             </motion.div>
 
-            {/* DRAFTING DIMENSION LINE PROGRESS */}
             <div className="w-full mt-16 max-w-xl relative flex flex-col items-center">
-              
-              {/* Size value label (updates 0mm -> 1440mm) */}
               <div className="text-[11px] font-mono tracking-[0.2em] uppercase text-white/60 mb-3 flex items-center gap-4">
                 <span>DRAFTING_WIDTH:</span>
                 <span className="text-white font-bold">{currentDimension}mm</span>
                 <span className="text-[var(--color-brass)]">// {Math.round(progress)}%</span>
               </div>
 
-              {/* Blueprint drafting dimension line */}
               <div className="w-full flex items-center justify-between pointer-events-none">
-                {/* Left extension line */}
                 <span className="h-5 w-[1px] bg-white/20" />
                 
-                {/* Connecting dimension line */}
                 <div className="relative flex-grow h-[1px] bg-white/10 mx-0.5">
-                  {/* Left arrow tick */}
                   <span className="absolute left-0 top-[-2px] h-[5px] w-[5px] border-b border-l border-white/40 transform rotate-45" />
                   
-                  {/* Progress bar line itself */}
                   <motion.div
                     className="absolute left-0 top-0 h-full bg-[var(--color-brass)]"
                     style={{ width: `${progress}%` }}
                   />
 
-                  {/* Right arrow tick */}
                   <span className="absolute right-0 top-[-2px] h-[5px] w-[5px] border-t border-r border-white/40 transform rotate-45" />
                 </div>
 
-                {/* Right extension line */}
                 <span className="h-5 w-[1px] bg-white/20" />
               </div>
 
@@ -128,7 +111,6 @@ export function BlueprintLoader({ onComplete }: BlueprintLoaderProps) {
 
           </div>
 
-          {/* BOTTOM ROW: Dynamic calibration statuses */}
           <div className="flex justify-between items-end w-full text-[9px] font-mono tracking-[0.2em] uppercase text-white/40 border-t border-white/5 pt-4">
             <div className="flex flex-col gap-1.5">
               <span className="flex items-center gap-1.5">

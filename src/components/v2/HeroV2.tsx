@@ -16,10 +16,8 @@ export function HeroV2() {
   return (
     <section className="relative min-h-screen bg-[#F0F1F4] text-[#091423] pt-24 border-b border-[#091423] overflow-hidden flex flex-col justify-between">
       
-      {/* 2-Column Main Hero Grid */}
       <div className="w-full grid lg:grid-cols-2 border-t border-[#091423]">
         
-        {/* Left Column: Headline */}
         <div className="p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423] flex flex-col justify-between h-full min-h-[50vh] lg:min-h-[65vh]">
           <SectionReveal>
             <span className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-60">
@@ -46,10 +44,8 @@ export function HeroV2() {
           </SectionReveal>
         </div>
 
-        {/* Right Column: Image and Secondary details */}
         <div className="flex flex-col justify-between h-full border-t border-[#091423] lg:border-t-0">
           
-          {/* Subheadline and Proof lines */}
           <div className="p-6 md:p-10 lg:p-14 border-b border-[#091423] flex-grow">
             <SectionReveal delay={0.1}>
               <p className="text-lg md:text-xl leading-[1.5] text-[#091423]/80">
@@ -70,7 +66,6 @@ export function HeroV2() {
             </SectionReveal>
           </div>
 
-          {/* Hero Showcase Image */}
           <div className="relative aspect-[16/8] lg:aspect-auto lg:h-[35vh] overflow-hidden group">
             <img
               src={heroImage}
@@ -78,7 +73,6 @@ export function HeroV2() {
               className="h-full w-full object-cover grayscale transition duration-700 ease-editorial group-hover:scale-[1.03] group-hover:grayscale-0"
               loading="eager"
             />
-            {/* Overlay border details representing grid coordinates */}
             <div className="absolute inset-0 pointer-events-none border-t border-[#091423] opacity-35" />
           </div>
 
@@ -86,7 +80,6 @@ export function HeroV2() {
 
       </div>
 
-      {/* Hero Bottom metrics (3 horizontal blocks) */}
       <div className="w-full grid md:grid-cols-3 border-t border-[#091423] bg-[#E8EAEF]/60">
         {heroMetrics.map((metric, index) => (
           <div
@@ -98,7 +91,6 @@ export function HeroV2() {
             } md:border-t-0 border-[#091423]`}
           >
             <span className="text-[10px] font-mono opacity-40 block mb-4">
-              // SPEC_VALUE_0{index + 1}
             </span>
             <div>
               <h3 className="font-display text-sm md:text-base font-semibold uppercase tracking-widest text-[#091423]">

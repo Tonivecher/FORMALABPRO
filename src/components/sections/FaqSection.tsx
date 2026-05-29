@@ -11,7 +11,6 @@ export function FaqSection() {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  // Generate the JSON-LD Schema markup for Google search rich snippets
   const schemaMarkup = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -27,7 +26,6 @@ export function FaqSection() {
 
   return (
     <section id="faq" className="section-rule py-[var(--section-space)] bg-[var(--color-black)] relative">
-      {/* Schema.org micro-markup Injection */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
@@ -35,7 +33,6 @@ export function FaqSection() {
 
       <div className="page-grid grid grid-cols-12 gap-y-12 lg:gap-x-10">
         
-        {/* Left Column Header */}
         <div className="col-span-12 lg:col-span-4 lg:sticky lg:top-32 lg:h-fit self-start">
           <SectionReveal>
             <p className="section-kicker">частые вопросы</p>
@@ -48,7 +45,6 @@ export function FaqSection() {
           </SectionReveal>
         </div>
 
-        {/* Right Column Accordions */}
         <div className="col-span-12 lg:col-span-7 lg:col-start-6 space-y-4">
           {faqItems.map((item, index) => {
             const isOpen = activeIndex === index;
@@ -73,7 +69,6 @@ export function FaqSection() {
                     {item.question}
                   </span>
                   
-                  {/* Plus icon with elegant rotation */}
                   <span className="mt-1 p-1 rounded bg-[var(--color-graphite)] border border-white/5 text-white/50 group-hover:text-white transition duration-300">
                     <Plus
                       className={`h-4 w-4 transform transition-transform duration-500 ease-out ${
@@ -83,7 +78,6 @@ export function FaqSection() {
                   </span>
                 </button>
 
-                {/* Animated expandable panel */}
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div

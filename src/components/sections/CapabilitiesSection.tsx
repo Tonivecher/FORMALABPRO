@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { capabilityItems } from "../../data/siteContent";
+import { requestContactIntent } from "../../hooks/useContactIntent";
 import { useSmoothScroll } from "../../hooks/useSmoothScroll";
 import { SectionReveal } from "../SectionReveal";
 
@@ -8,7 +9,6 @@ export function CapabilitiesSection() {
 
   return (
     <section id="capabilities" className="section-rule py-[var(--section-space)] bg-[var(--color-graphite)]/30 relative overflow-hidden">
-      {/* Blueprint decorative lines background */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] z-0">
         <div className="absolute inset-y-0 left-[20%] w-px bg-white" />
         <div className="absolute inset-y-0 left-[40%] w-px bg-white" />
@@ -34,7 +34,6 @@ export function CapabilitiesSection() {
           </SectionReveal>
         </div>
 
-        {/* 8 Capabilities Grid */}
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {capabilityItems.map((item, index) => (
             <SectionReveal
@@ -44,7 +43,6 @@ export function CapabilitiesSection() {
             >
               <div>
                 <span className="text-[0.62rem] uppercase tracking-[0.3em] text-[var(--color-lime)] opacity-80 block">
-                  // {item.id}
                 </span>
 
                 <h3 className="mt-4 font-display text-lg md:text-xl tracking-tight text-white leading-tight min-h-[2.8rem]">
@@ -55,7 +53,6 @@ export function CapabilitiesSection() {
                   {item.description}
                 </p>
 
-                {/* Technical Materials tags */}
                 <div className="mt-4 pt-4 border-t border-white/5">
                   <p className="text-[0.6rem] uppercase tracking-[0.2em] text-[var(--color-brass)] font-semibold">
                     базовые материалы:
@@ -71,13 +68,9 @@ export function CapabilitiesSection() {
                   type="button"
                   onClick={() => {
                     scrollTo("#contact", { offset: -72 });
-                    setTimeout(() => {
-                      const messageTextarea = document.getElementsByName("message")[0] as HTMLTextAreaElement;
-                      if (messageTextarea) {
-                        messageTextarea.value = `Здравствуйте! Интересует производство: ${item.title}.\n`;
-                        messageTextarea.focus();
-                      }
-                    }, 800);
+                    window.setTimeout(() => {
+                      requestContactIntent(`Здравствуйте! Интересует производство: ${item.title}.\n`);
+                    }, 450);
                   }}
                   className="inline-flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-muted)] hover:text-white transition duration-300"
                   data-cursor="interactive"
@@ -87,7 +80,6 @@ export function CapabilitiesSection() {
                 </button>
               </div>
 
-              {/* Bottom decorative technical tick */}
               <div className="absolute bottom-3 right-3 text-[9px] font-mono text-white/10 tracking-widest uppercase">
                 {item.tasks[0]}
               </div>

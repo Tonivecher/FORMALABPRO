@@ -28,7 +28,6 @@ export function TrustV2() {
   return (
     <section id="trust" className="bg-[#F0F1F4] text-[#091423] border-b border-[#091423] relative">
       
-      {/* Split header title block */}
       <div className="grid lg:grid-cols-2 border-b border-[#091423]">
         <div className="p-6 md:p-10 lg:p-14 border-r border-[#091423]">
           <SectionReveal>
@@ -49,7 +48,6 @@ export function TrustV2() {
         </div>
       </div>
 
-      {/* 4 Trust Cards Grid */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4">
         {trustPoints.map((point, index) => (
           <div
@@ -63,8 +61,8 @@ export function TrustV2() {
                 <span className="p-2 w-fit rounded bg-[#091423]/5 border border-[#091423]/10">
                   {point.icon}
                 </span>
-                <span className="text-[10px] font-mono opacity-50 font-bold">
-                  // CRIT_0{index + 1}
+                <span className="text-[10px] font-mono opacity-50 font-bold uppercase">
+                  point 0{index + 1}
                 </span>
               </div>
 
@@ -78,18 +76,10 @@ export function TrustV2() {
             </SectionReveal>
 
             <div className="mt-6 text-[9px] font-mono opacity-30">
-              SECURED_SYS_FLOW // 0{index + 1}
+              контроль качества // 0{index + 1}
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Real figures fallback notice */}
-      {/* TODO: заменить на реальные цифры после уточнения у владельца бизнеса */}
-      <div className="p-4 text-center border-t border-[#091423] bg-[#E8EAEF]/40">
-        <p className="text-[9px] font-mono text-[#091423]/40 uppercase tracking-[0.2em] font-semibold">
-          // All manufacturing processes are fully compliant with ISO 9001 and architectural standards.
-        </p>
       </div>
 
     </section>

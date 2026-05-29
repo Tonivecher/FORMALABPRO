@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { capabilityItems } from "../../data/siteContent";
+import { requestContactIntent } from "../../hooks/useContactIntent";
 import { useSmoothScroll } from "../../hooks/useSmoothScroll";
 import { SectionReveal } from "../SectionReveal";
 
@@ -9,7 +10,6 @@ export function CapabilitiesV2() {
   return (
     <section id="capabilities" className="bg-[#F0F1F4] text-[#091423] border-b border-[#091423] relative">
       
-      {/* Title Block Grid */}
       <div className="grid lg:grid-cols-2 border-b border-[#091423]">
         <div className="p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423]">
           <SectionReveal>
@@ -30,10 +30,8 @@ export function CapabilitiesV2() {
         </div>
       </div>
 
-      {/* 8-Card Grid with Borders */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4">
         {capabilityItems.map((item, index) => {
-          // Calculate border patterns for grid lines
           const borderRight = (index + 1) % 4 !== 0 ? "lg:border-r border-[#091423]" : "";
           const borderRightSm = (index + 1) % 2 !== 0 ? "sm:border-r border-[#091423]" : "";
           const borderBottomReset = index >= 6 ? "sm:border-b-0" : "";
@@ -47,7 +45,6 @@ export function CapabilitiesV2() {
               <SectionReveal delay={index * 0.04}>
                 <div className="flex justify-between items-start">
                   <span className="text-[10px] font-mono opacity-50 block font-bold">
-                    // CAP_SPEC_0{index + 1}
                   </span>
                   <span className="text-[9px] font-mono text-[#091423] opacity-40">
                     ID: {item.id.toUpperCase()}
@@ -62,7 +59,6 @@ export function CapabilitiesV2() {
                   {item.description}
                 </p>
 
-                {/* Base materials tags */}
                 <div className="mt-4 pt-4 border-t border-[#091423]/10">
                   <span className="text-[9px] font-mono uppercase tracking-widest text-[#091423]/40 block">
                     материалы:
@@ -78,13 +74,9 @@ export function CapabilitiesV2() {
                   type="button"
                   onClick={() => {
                     scrollTo("#contact", { offset: -50 });
-                    setTimeout(() => {
-                      const messageTextarea = document.getElementsByName("message")[0] as HTMLTextAreaElement;
-                      if (messageTextarea) {
-                        messageTextarea.value = `Здравствуйте! Интересует производство: ${item.title}.\n`;
-                        messageTextarea.focus();
-                      }
-                    }, 800);
+                    window.setTimeout(() => {
+                      requestContactIntent(`Здравствуйте! Интересует производство: ${item.title}.\n`);
+                    }, 450);
                   }}
                   className="inline-flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[#091423] hover:text-[#091423]/60 transition duration-300 border-b border-[#091423] pb-0.5"
                   data-cursor="interactive"

@@ -1,6 +1,7 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useCallback, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 
 import { studioContacts } from "../../data/siteContent";
+import { useContactIntent } from "../../hooks/useContactIntent";
 import type { ContactFormValues } from "../../types/site";
 import { ButtonV2 } from "./ButtonV2";
 import { SectionReveal } from "../SectionReveal";
@@ -22,6 +23,18 @@ export function ContactV2() {
   const [values, setValues] = useState<ContactFormValues>(initialValues);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  const applyContactIntent = useCallback((message: string) => {
+    setValues((current) => ({
+      ...current,
+      message,
+    }));
+    setIsSubmitted(false);
+    window.setTimeout(() => messageRef.current?.focus(), 0);
+  }, []);
+
+  useContactIntent(applyContactIntent);
 
   const handleChange =
     (field: keyof ContactFormValues) =>
@@ -83,7 +96,6 @@ export function ContactV2() {
     <section id="contact" className="bg-[#F0F1F4] text-[#091423] relative">
       <div className="grid lg:grid-cols-12">
         
-        {/* Left Column Info */}
         <div className="col-span-12 lg:col-span-5 p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423]">
           <SectionReveal>
             <span className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-60">
@@ -141,12 +153,11 @@ export function ContactV2() {
           </div>
         </div>
 
-        {/* Right Column: Dynamic Form */}
         <div className="col-span-12 lg:col-span-7 p-6 md:p-10 lg:p-14 bg-[#E8EAEF]/60 flex flex-col justify-center h-full">
           <SectionReveal className="w-full">
             <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-2xl mx-auto relative">
               <div className="absolute top-0 right-0 font-mono text-[9px] text-[#091423]/30">
-                BRIEF_FORM // REV_2.4
+                BRIEF FORM
               </div>
 
               <h3 className="font-display text-lg md:text-xl font-semibold uppercase tracking-widest text-[#091423] pb-4 border-b border-[#091423]/10">
@@ -155,12 +166,13 @@ export function ContactV2() {
 
               <div className="space-y-6 pt-4">
                 
-                {/* 1. Name */}
                 <div>
                   <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Ваше имя *</span>
                   <input
                     type="text"
                     name="name"
+                    aria-label="Ваше имя"
+                    required
                     value={values.name}
                     onChange={handleChange("name")}
                     placeholder="Представьтесь, пожалуйста"
@@ -170,12 +182,13 @@ export function ContactV2() {
                   {errors.name ? <p className="text-[11px] text-red-600 font-semibold mt-1.5">{errors.name}</p> : null}
                 </div>
 
-                {/* 2. Contact */}
                 <div>
                   <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Email или телефон *</span>
                   <input
                     type="text"
                     name="contact"
+                    aria-label="Email или телефон"
+                    required
                     value={values.contact}
                     onChange={handleChange("contact")}
                     placeholder="Для отправки расчетов и вопросов"
@@ -185,12 +198,13 @@ export function ContactV2() {
                   {errors.contact ? <p className="text-[11px] text-red-600 font-semibold mt-1.5">{errors.contact}</p> : null}
                 </div>
 
-                {/* 3. Project Type Dropdown */}
                 <div>
                   <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Направление проекта *</span>
                   <select
                     id="projectType"
                     name="projectType"
+                    aria-label="Направление проекта"
+                    required
                     value={values.projectType}
                     onChange={handleChange("projectType")}
                     data-cursor="interactive"
@@ -206,14 +220,13 @@ export function ContactV2() {
                   {errors.projectType ? <p className="text-[11px] text-red-600 font-semibold mt-1.5">{errors.projectType}</p> : null}
                 </div>
 
-                {/* 2-column fields */}
                 <div className="grid gap-6 sm:grid-cols-2">
-                  {/* 4. Location */}
                   <div>
                     <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Город / Объект</span>
                     <input
                       type="text"
                       name="location"
+                      aria-label="Город или объект"
                       value={values.location}
                       onChange={handleChange("location")}
                       placeholder="Например: Москва"
@@ -222,12 +235,12 @@ export function ContactV2() {
                     />
                   </div>
 
-                  {/* 5. Timeframe */}
                   <div>
                     <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Желаемые сроки</span>
                     <input
                       type="text"
                       name="timeframe"
+                      aria-label="Желаемые сроки"
                       value={values.timeframe}
                       onChange={handleChange("timeframe")}
                       placeholder="Например: сентябрь 2026"
@@ -237,12 +250,13 @@ export function ContactV2() {
                   </div>
                 </div>
 
-                {/* 6. Scope */}
                 <div>
                   <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Что нужно изготовить? *</span>
                   <input
                     type="text"
                     name="scope"
+                    aria-label="Что нужно изготовить"
+                    required
                     value={values.scope}
                     onChange={handleChange("scope")}
                     placeholder="Например: встроенный шкаф, барная стойка"
@@ -252,7 +266,6 @@ export function ContactV2() {
                   {errors.scope ? <p className="text-[11px] text-red-600 font-semibold mt-1.5">{errors.scope}</p> : null}
                 </div>
 
-                {/* 7. Drawings checkbox */}
                 <div className="pt-2">
                   <label className="flex items-center gap-3 select-none" data-cursor="interactive">
                     <input
@@ -269,11 +282,12 @@ export function ContactV2() {
                   </label>
                 </div>
 
-                {/* 8. Additional Comments */}
                 <div>
                   <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Дополнительный комментарий</span>
                   <textarea
+                    ref={messageRef}
                     name="message"
+                    aria-label="Дополнительный комментарий"
                     value={values.message}
                     onChange={handleChange("message")}
                     placeholder="Опишите особенности проекта, требования к материалам или стыкам..."
@@ -284,7 +298,6 @@ export function ContactV2() {
 
               </div>
 
-              {/* Submit Block */}
               <div className="flex flex-col gap-4 pt-4">
                 <ButtonV2 type="submit" variant="primary" className="w-full">
                   Отправить бриф на оценку

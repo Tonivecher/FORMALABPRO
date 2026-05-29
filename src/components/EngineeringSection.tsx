@@ -7,7 +7,6 @@ export function EngineeringSection() {
       <div className="page-grid">
         <div className="grid grid-cols-12 gap-y-12 md:gap-x-12 lg:gap-x-16 items-center">
           
-          {/* LEFT: TEXT BLOCK */}
           <div className="col-span-12 lg:col-span-5 flex flex-col justify-center">
             <SectionReveal>
               <p className="section-kicker">конструкторская дисциплина</p>
@@ -25,7 +24,6 @@ export function EngineeringSection() {
               </p>
             </SectionReveal>
 
-            {/* TECHNICAL SPECS BULLETS */}
             <SectionReveal className="mt-10 grid sm:grid-cols-2 gap-6 pt-8 border-t border-white/5">
               <div className="border-l border-[var(--color-brass)]/30 pl-4">
                 <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest block">
@@ -47,11 +45,9 @@ export function EngineeringSection() {
             </SectionReveal>
           </div>
 
-          {/* RIGHT: BLUEPRINTS PREVIEWS */}
           <div className="col-span-12 lg:col-span-7">
             <div className="grid grid-cols-12 gap-6 relative">
               
-              {/* Kitchen Module Model */}
               <div className="col-span-8 overflow-hidden rounded-md border border-white/10 bg-black/40 group relative shadow-2xl">
                 <div className="absolute inset-0 bg-[var(--color-brass)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 <img
@@ -65,7 +61,6 @@ export function EngineeringSection() {
                 </div>
               </div>
 
-              {/* Joint Connection Model */}
               <div className="col-span-4 overflow-hidden rounded-md border border-white/10 bg-black/40 group relative shadow-2xl self-end">
                 <div className="absolute inset-0 bg-[var(--color-brass)]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 <img
@@ -79,7 +74,6 @@ export function EngineeringSection() {
                 </div>
               </div>
 
-              {/* Decorative engineering grid overlay backdrop */}
               <div className="absolute -inset-4 z-[-1] opacity-20 pointer-events-none" 
                    style={{
                      backgroundImage: "radial-gradient(var(--color-brass) 1px, transparent 1px)",

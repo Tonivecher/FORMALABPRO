@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { galleryItems } from "../data/siteContent";
@@ -7,7 +7,6 @@ import { SectionReveal } from "./SectionReveal";
 import { GalleryModal } from "./GalleryModal";
 import type { GalleryItem } from "../types/site";
 
-// Technical category filter definitions
 const filters = [
   { id: "all", label: "Все" },
   { id: "private", label: "Частные интерьеры", category: "Private Interior" },
@@ -22,7 +21,6 @@ export function GallerySection() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
 
-  // Determine if a gallery item matches the active filter
   const filteredItems = galleryItems.filter((item) => {
     if (activeFilter === "all") return true;
     const filterConfig = filters.find((f) => f.id === activeFilter);
@@ -46,11 +44,16 @@ export function GallerySection() {
     setScrollProgress(pct);
   };
 
+  const handleFilterChange = (filterId: string) => {
+    setActiveFilter(filterId);
+    setScrollProgress(0);
+    scrollRef.current?.scrollTo({ left: 0 });
+  };
+
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
 
-    // Get all card elements
     const cards = Array.from(el.children).filter(
       (child) => child instanceof HTMLElement
     ) as HTMLElement[];
@@ -61,11 +64,9 @@ export function GallerySection() {
     const containerWidth = el.clientWidth;
     let targetScroll = currentScroll;
 
-    // Determine padding offset based on screen width
     const padding = window.innerWidth >= 640 ? 32 : 16;
 
     if (direction === "right") {
-      // Find the first card that is currently to the right of the visible viewport start
       const nextCard = cards.find((card) => card.offsetLeft > currentScroll + padding + 10);
       if (nextCard) {
         targetScroll = nextCard.offsetLeft - padding;
@@ -73,7 +74,6 @@ export function GallerySection() {
         targetScroll = currentScroll + containerWidth * 0.75;
       }
     } else {
-      // Find the first card to the left of the visible viewport start
       const prevCard = [...cards]
         .reverse()
         .find((card) => card.offsetLeft < currentScroll - padding - 10);
@@ -84,7 +84,6 @@ export function GallerySection() {
       }
     }
 
-    // Clamp scroll bounds
     const maxScroll = el.scrollWidth - containerWidth;
     targetScroll = Math.max(0, Math.min(targetScroll, maxScroll));
 
@@ -93,14 +92,6 @@ export function GallerySection() {
       behavior: "smooth",
     });
   };
-
-  // Reset scroll and progress bar on filter change
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollLeft = 0;
-      setScrollProgress(0);
-    }
-  }, [activeFilter]);
 
   return (
     <section id="gallery" className="section-rule py-[var(--section-space)] bg-[var(--color-black)] overflow-hidden">
@@ -120,7 +111,6 @@ export function GallerySection() {
           </SectionReveal>
         </div>
 
-        {/* ACCESSIBLE FILTER BUTTONS BAR */}
         <SectionReveal className="mt-12 flex items-center justify-between border-b border-white/5 pb-6">
           <div className="flex flex-wrap items-center gap-3">
             {filters.map((filter) => {
@@ -130,7 +120,7 @@ export function GallerySection() {
                   key={filter.id}
                   type="button"
                   aria-pressed={isActive}
-                  onClick={() => setActiveFilter(filter.id)}
+                  onClick={() => handleFilterChange(filter.id)}
                   className={`px-4 py-2.5 rounded-full text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 border ${
                     isActive
                       ? "bg-[var(--color-brass)] text-black border-[var(--color-brass)]"
@@ -145,10 +135,7 @@ export function GallerySection() {
           </div>
         </SectionReveal>
 
-        {/* HORIZONTAL SNAP SCROLL VIEWPORT WITH OVERLAY ARROWS */}
         <div className="relative mt-12 group/gallery">
-          
-          {/* OVERLAY NAVIGATION - LEFT ARROW */}
           <button
             type="button"
             onClick={() => scroll("left")}
@@ -159,7 +146,6 @@ export function GallerySection() {
             <ChevronLeft className="h-6 w-6 text-white" strokeWidth={2.5} />
           </button>
 
-          {/* OVERLAY NAVIGATION - RIGHT ARROW */}
           <button
             type="button"
             onClick={() => scroll("right")}
@@ -170,7 +156,6 @@ export function GallerySection() {
             <ChevronRight className="h-6 w-6 text-white" strokeWidth={2.5} />
           </button>
 
-          {/* HORIZONTAL SNAP SCROLL CONTAINER */}
           <motion.div
             layout
             ref={scrollRef}
@@ -178,8 +163,8 @@ export function GallerySection() {
             data-lenis-prevent
             className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-6 -mx-4 px-4 sm:-mx-8 sm:px-8 scrollbar-thin select-none"
             style={{
-              scrollbarWidth: "none", // For Firefox
-              msOverflowStyle: "none", // For IE
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
             }}
           >
             <AnimatePresence mode="popLayout">
@@ -190,7 +175,6 @@ export function GallerySection() {
           </motion.div>
         </div>
 
-        {/* HORIZONTAL PROGRESS BAR INDICATOR */}
         <div className="mt-6 h-[2px] w-full bg-white/5 rounded overflow-hidden relative">
           <div
             className="absolute h-full left-0 top-0 bg-[var(--color-brass)] transition-all duration-150 ease-out"
@@ -199,7 +183,6 @@ export function GallerySection() {
         </div>
       </div>
 
-      {/* CASE DETAIL OVERLAY MODAL */}
       <GalleryModal theme="v1" item={selectedItem} onClose={() => setSelectedItem(null)} />
     </section>
   );

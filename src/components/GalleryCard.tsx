@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, FileText, ChevronDown } from "lucide-react";
 import type { GalleryItem } from "../types/site";
+import { requestContactIntent } from "../hooks/useContactIntent";
 import { useSmoothScroll } from "../hooks/useSmoothScroll";
 
 interface GalleryCardProps {
@@ -52,7 +53,6 @@ export function GalleryCard({ item, index, onOpen }: GalleryCardProps) {
       <div
         className={`media-surface relative h-full w-full flex flex-col justify-between ${aspectClassMap[item.span]} ${minHeightMap[item.span]}`}
       >
-        {/* Main Case Image (monochrome by default, colors on hover) */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img
             src={item.image}
@@ -65,7 +65,6 @@ export function GalleryCard({ item, index, onOpen }: GalleryCardProps) {
           <div className="absolute inset-x-0 top-0 h-px bg-white/10" />
         </div>
 
-        {/* TOP BADGE */}
         <div className="relative z-10 p-5 md:p-6 flex justify-between items-start pointer-events-none">
           <span className="bg-black/60 backdrop-blur-md px-3 py-1 rounded text-[10px] uppercase tracking-widest text-[var(--color-brass)] border border-white/5">
             {item.category}
@@ -75,7 +74,6 @@ export function GalleryCard({ item, index, onOpen }: GalleryCardProps) {
           </span>
         </div>
 
-        {/* BOTTOM METADATA (visible initially) */}
         <div className="relative z-10 p-5 md:p-7 mt-auto">
           <h3 className="font-display text-2xl md:text-3xl leading-[1.05] tracking-display text-white max-w-[15ch]">
             {item.title}
@@ -84,7 +82,6 @@ export function GalleryCard({ item, index, onOpen }: GalleryCardProps) {
             {item.description}
           </p>
 
-          {/* Mobile specs toggle button */}
           <button
             type="button"
             onClick={(e) => {
@@ -100,7 +97,6 @@ export function GalleryCard({ item, index, onOpen }: GalleryCardProps) {
           </button>
         </div>
 
-        {/* DESKTOP HOVER SPEC OVERLAY (sleek, technical, blueprint theme) */}
         <div className="absolute inset-0 z-20 bg-black/92 backdrop-blur-md p-6 md:p-8 flex flex-col justify-between opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-500 ease-editorial border border-[var(--color-brass)]/20 rounded-md hidden xl:flex">
           <div>
             <div className="flex justify-between items-center border-b border-white/10 pb-4">
@@ -113,11 +109,9 @@ export function GalleryCard({ item, index, onOpen }: GalleryCardProps) {
                 </h4>
               </div>
               <span className="text-[10px] font-mono text-white/30">
-                // SPEC_CARD_{item.id.toUpperCase()}
               </span>
             </div>
 
-            {/* Technical case details grid */}
             <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 text-xs">
               <div className="border-l border-[var(--color-brass)]/30 pl-3">
                 <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest block">
@@ -157,20 +151,15 @@ export function GalleryCard({ item, index, onOpen }: GalleryCardProps) {
             </div>
           </div>
 
-          {/* CTA discussed matching objects */}
           <div className="border-t border-white/5 pt-4 flex justify-between items-center">
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 scrollTo("#contact", { offset: -72 });
-                setTimeout(() => {
-                  const messageTextarea = document.getElementsByName("message")[0] as HTMLTextAreaElement;
-                  if (messageTextarea) {
-                    messageTextarea.value = `Здравствуйте! Хочу обсудить аналогичное решение для проекта: ${item.title}.\n`;
-                    messageTextarea.focus();
-                  }
-                }, 800);
+                window.setTimeout(() => {
+                  requestContactIntent(`Здравствуйте! Хочу обсудить аналогичное решение для проекта: ${item.title}.\n`);
+                }, 450);
               }}
               className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-brass)] hover:text-white transition-colors duration-300"
               data-cursor="interactive"
@@ -181,7 +170,6 @@ export function GalleryCard({ item, index, onOpen }: GalleryCardProps) {
           </div>
         </div>
 
-        {/* MOBILE SPEC ACCORDION DRAWER (renders inline inside the layout) */}
         <AnimatePresence>
           {showMobileSpecs && (
             <motion.div

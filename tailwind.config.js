@@ -11,7 +11,7 @@ export default {
       },
       fontFamily: {
         sans: ['"Manrope"', "system-ui", "sans-serif"],
-        display: ['"Cormorant Garamond"', "Georgia", "serif"],
+        display: ['"Roundex"', "Georgia", "serif"],
       },
       letterSpacing: {
         display: "-0.02em",

@@ -9,7 +9,6 @@ export function AudienceV2() {
   return (
     <section id="audience" className="bg-[#F0F1F4] text-[#091423] border-b border-[#091423] relative">
       
-      {/* Title block grid */}
       <div className="grid lg:grid-cols-2 border-b border-[#091423]">
         <div className="p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423]">
           <SectionReveal>
@@ -30,7 +29,6 @@ export function AudienceV2() {
         </div>
       </div>
 
-      {/* 2x2 Quadrant Grid */}
       <div className="grid md:grid-cols-2">
         {audienceSegments.map((segment, index) => (
           <div
@@ -46,7 +44,6 @@ export function AudienceV2() {
             <SectionReveal delay={index * 0.05}>
               <div className="flex justify-between items-start">
                 <span className="text-[10px] font-mono opacity-50 font-bold block">
-                  // SECTOR_0{index + 1}
                 </span>
                 <span className="text-[10px] font-mono text-[var(--color-lime)] bg-[#091423] text-white px-2 py-0.5 rounded font-bold uppercase tracking-wider">
                   {segment.id}
@@ -61,7 +58,6 @@ export function AudienceV2() {
                 {segment.description}
               </p>
 
-              {/* Points checklist with custom dots */}
               <ul className="mt-6 space-y-3.5 border-t border-[#091423]/10 pt-6">
                 {segment.points.map((point, idx) => (
                   <li key={idx} className="flex items-center gap-3 text-xs md:text-sm font-semibold text-[#091423]/80 uppercase tracking-wider">
@@ -72,7 +68,6 @@ export function AudienceV2() {
               </ul>
             </SectionReveal>
 
-            {/* Bottom brief redirect CTA */}
             <div className="mt-10 pt-4">
               <button
                 type="button"

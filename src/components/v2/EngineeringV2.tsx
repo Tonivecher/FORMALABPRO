@@ -5,7 +5,6 @@ export function EngineeringV2() {
   return (
     <section id="engineering" className="bg-[#F0F1F4] text-[#091423] border-b border-[#091423] overflow-hidden">
       
-      {/* HEADER GRID */}
       <div className="grid lg:grid-cols-2 border-b border-[#091423]">
         <div className="p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423]">
           <SectionReveal>
@@ -26,13 +25,8 @@ export function EngineeringV2() {
         </div>
       </div>
 
-      {/* CONTENT GRID */}
       <div className="grid lg:grid-cols-12">
-        
-        {/* LEFT COLUMN: DETAILED DRAWINGS EXPOSITION */}
         <div className="col-span-12 lg:col-span-7 p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423] bg-white/50 relative">
-          
-          {/* Grid blueprint background effect */}
           <div className="absolute inset-0 z-0 opacity-[0.04] pointer-events-none" 
                style={{
                  backgroundImage: "linear-gradient(#091423 1px, transparent 1px), linear-gradient(90deg, #091423 1px, transparent 1px)",
@@ -41,8 +35,6 @@ export function EngineeringV2() {
           />
 
           <div className="grid grid-cols-12 gap-6 relative z-10">
-            
-            {/* Primary module blueprint */}
             <div className="col-span-7 border-[2px] border-[#091423] bg-white group overflow-hidden shadow-sm">
               <img
                 src={withBase("/projects/engineering-cad-details.webp")}
@@ -56,7 +48,6 @@ export function EngineeringV2() {
               </div>
             </div>
 
-            {/* Joint section blueprint */}
             <div className="col-span-5 border-[2px] border-[#091423] bg-white group overflow-hidden shadow-sm self-end">
               <img
                 src={withBase("/projects/engineering-cad-joint.webp")}
@@ -73,12 +64,10 @@ export function EngineeringV2() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: TEXT SPECIFICATION SHEET */}
         <div className="col-span-12 lg:col-span-5 p-6 md:p-10 lg:p-14 flex flex-col justify-between h-full">
           <div>
             <SectionReveal className="space-y-6">
               <h3 className="font-mono text-[11px] uppercase tracking-[0.2em] opacity-50">
-                // ТЕХНИЧЕСКИЙ РЕГЛАМЕНТ ПРОЕКТИРОВАНИЯ
               </h3>
               <p className="text-sm md:text-base leading-[1.6] text-[#091423]/90">
                 Мы осуществляем сквозное проектирование в едином координационном контуре. Перед запуском деталей в производство конструкторский отдел разрабатывает детальную рабочую КД (конструкторскую документацию). 
@@ -88,7 +77,6 @@ export function EngineeringV2() {
               </p>
             </SectionReveal>
 
-            {/* BLUEPRINT STATS */}
             <SectionReveal className="mt-8 space-y-4 text-xs font-mono">
               <div className="flex border-b border-[#091423]/10 pb-2">
                 <span className="w-1/3 opacity-50">[ ДОПУСКИ ]</span>

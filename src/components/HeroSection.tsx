@@ -16,7 +16,6 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
   const { scrollTo } = useSmoothScroll();
   const shouldReduceMotion = useReducedMotion();
 
-  // Technical facts to reinforce credibility at first glance
   const proofLines = [
     "Москва и проекты по России",
     "Работаем с архитекторами и дизайнерами напрямую",
@@ -28,7 +27,6 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
     <section className="relative flex min-h-screen items-end overflow-hidden pb-10 pt-28 md:pt-36">
       <ParallaxHeroMedia image={heroImage} />
 
-      {/* Thin technical coordinate line at top */}
       <div className="absolute top-28 left-0 right-0 z-20 pointer-events-none hidden md:block">
         <div className="page-grid flex justify-between text-[0.62rem] uppercase tracking-[0.38em] text-white/40">
           <motion.span
@@ -87,7 +85,6 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
             </p>
           </SectionReveal>
 
-          {/* Micro Proof list (hidden on mobile by default, togglable via isDesktopView) */}
           <SectionReveal delay={0.7} className={`mt-8 ${isDesktopView ? "block" : "hidden sm:block"}`}>
             <ul className="grid gap-3 sm:grid-cols-2 max-w-3xl border-l border-[var(--color-brass)]/30 pl-4 py-1">
               {proofLines.map((line, index) => (
@@ -99,7 +96,6 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
             </ul>
           </SectionReveal>
 
-          {/* 3 Dedicated Active CTAs + Mobile dynamic switcher */}
           <SectionReveal delay={0.8} className="mt-10 flex flex-wrap items-center gap-5">
             <MagneticButton
               type="button"
@@ -112,7 +108,6 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
             <button
               type="button"
               onClick={() => {
-                // Focus drawings checklist if possible
                 scrollTo("#contact", { offset: -72 });
                 setTimeout(() => {
                   const drawingsCheckbox = document.getElementById("hasDrawings") as HTMLInputElement;
@@ -141,7 +136,6 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
               <ArrowDownRight className="h-4 w-4 transition duration-300 group-hover:translate-x-1 group-hover:translate-y-1" strokeWidth={1.6} />
             </button>
 
-            {/* Premium, technical switcher to toggle between mobile and full desktop view */}
             {setIsDesktopView && (
               <div className="w-full sm:hidden mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
                 <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-white/30">
@@ -154,7 +148,6 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
                   className="inline-flex items-center gap-2.5 text-[9px] font-mono uppercase tracking-widest text-[var(--color-brass)] active:opacity-75 transition-opacity duration-300"
                   data-cursor="interactive"
                 >
-                  {/* Framer motion slide-fade text animation */}
                   <div className="relative overflow-hidden h-5 flex items-center pr-1 border-b border-[var(--color-brass)]/30 pb-0.5">
                     <AnimatePresence mode="wait">
                       <motion.span
@@ -170,7 +163,6 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
                     </AnimatePresence>
                   </div>
                   
-                  {/* Rotating technical Plus/Close icon */}
                   <motion.div
                     animate={{ rotate: isDesktopView ? 45 : 0 }}
                     transition={{ duration: 0.3, ease: "easeOut" }}
@@ -184,7 +176,6 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
           </SectionReveal>
         </div>
 
-        {/* Brand essence text block (hidden on mobile by default, togglable via isDesktopView) */}
         <SectionReveal
           className={`col-span-12 self-end lg:col-span-4 lg:col-start-9 lg:pl-6 ${
             isDesktopView ? "block" : "hidden lg:block"
@@ -203,7 +194,6 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
           </div>
         </SectionReveal>
 
-        {/* BOTTOM METRICS (descriptions togglable on mobile via isDesktopView) */}
         <div className="col-span-12 section-rule pt-6 md:pt-8 mt-4">
           <div className="grid gap-6 md:grid-cols-3">
             {heroMetrics.map((metric, index) => (

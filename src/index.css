@@ -40,17 +40,17 @@
 @layer base {
   :root {
     color-scheme: dark;
-    --color-black: #070706;      /* graphite-950 */
-    --color-white: #F3EEE5;      /* stone-100 */
-    --color-graphite: #11110F;   /* graphite-900 */
+    --color-black: #070706;
+    --color-white: #F3EEE5;
+    --color-graphite: #11110F;
     --color-graphite-soft: #1E1E1C;
     --color-chrome: rgba(72, 74, 78, 0.16);
-    --color-muted: #C9BDAA;      /* stone-300 */
+    --color-muted: #C9BDAA;
     --color-subtle: rgba(243, 238, 229, 0.48);
     --color-line: rgba(243, 238, 229, 0.1);
-    --color-walnut: #8A6242;     /* walnut-500 */
-    --color-brass: #C5A46D;      /* brass-400 */
-    --color-lime: #D7FF3F;       /* lime-accent */
+    --color-walnut: #8A6242;
+    --color-brass: #C5A46D;
+    --color-lime: #D7FF3F;
     --section-space: clamp(5rem, 8vw, 8.5rem);
     --container-padding: clamp(1.25rem, 3vw, 2.75rem);
   }
@@ -81,17 +81,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.02em;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-  }
-
-  input,
-  textarea,
-  [contenteditable="true"] {
-    user-select: text !important;
-    -webkit-user-select: text !important;
-    -moz-user-select: text !important;
   }
 
   #root {
@@ -105,7 +94,7 @@
   h5,
   h6 {
     margin: 0;
-    font-family: "Cormorant Garamond", Georgia, serif;
+    font-family: "Roundex", Georgia, serif;
     font-weight: 400;
     letter-spacing: -0.02em;
     line-height: 1.05;

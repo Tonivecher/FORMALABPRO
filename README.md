@@ -1,8 +1,8 @@
-# PASHADEMO
+# FORMALAB PRO
 
-Публичная демо-версия лендинга для мебельного производства «Инженерия формы». Проект показывает премиальные интерьерные изделия, встроенные системы, HoReCa- и retail-мебель, а также рабочий процесс от инженерной проработки до монтажа.
+Production frontend for a premium custom furniture and architectural millwork studio. The site presents private interiors, HoReCa, retail fixtures, engineering process, materials, project cases and a client brief.
 
-## Технологии
+## Stack
 
 - React 19
 - TypeScript
@@ -11,29 +11,30 @@
 - Framer Motion
 - Lenis smooth scrolling
 
-## Возможности
+## Features
 
-- Адаптивный лендинг для desktop и mobile.
-- Две визуальные концепции интерфейса с переключателем версий.
-- SEO-метаданные, Open Graph и JSON-LD разметка.
-- Галерея проектов и блоки услуг, материалов, процесса, доверия и FAQ.
-- Контактный бриф с клиентской валидацией.
-- Настройка под публикацию на Timeweb Cloud.
+- Responsive single-page site for desktop and mobile.
+- Two visual modes with a client-facing theme switcher.
+- SEO metadata, Open Graph tags and JSON-LD markup.
+- Project gallery with category filtering and detailed case views.
+- Engineering, materials, process, trust, FAQ and contact brief sections.
+- Client-side validation for the project brief.
+- Root-path production build for Timeweb Cloud.
 
-## Быстрый старт
+## Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Локальная версия открывается по адресу:
+Local URL:
 
 ```text
 http://127.0.0.1:5173/
 ```
 
-## Проверка и сборка
+## Quality Checks
 
 ```bash
 npm run lint
@@ -41,38 +42,34 @@ npm run build
 npm run preview
 ```
 
-Для деплоя на домен, где сайт открывается из корня, используйте:
+For production domains where the site is served from `/`:
 
 ```bash
 VITE_BASE_PATH=/ npm run build
 ```
 
-## Структура
+## Project Structure
 
 ```text
 src/
-  components/       UI-компоненты и секции лендинга
-  components/v2/    альтернативная светлая концепция
-  data/             текстовый контент и данные секций
-  hooks/            хуки для плавной прокрутки и интерактивности
-  lib/              общие утилиты
-  types/            типы данных сайта
+  components/       page sections and shared UI
+  components/v2/    alternative light visual mode
+  data/             site copy and structured section data
+  hooks/            browser and interaction hooks
+  lib/              shared utilities
+  types/            TypeScript contracts
 public/
-  gallery/          изображения галереи
-  projects/         изображения проектов
-  images/           дополнительные визуальные материалы
+  gallery/          gallery images
+  projects/         project case images
+  images/           additional visual assets
 ```
 
-## Публикация
+## Deployment
 
-Production-деплой выполняется в существующее приложение Timeweb Cloud.
-
-```bash
-VITE_BASE_PATH=/ npm run build
-```
+Production is deployed from the `main` branch to the existing Timeweb Cloud app.
 
 Production URL:
 
 ```text
-https://tonivecher-pashademo-95c1.twc1.net/
+https://formalabpro.tech/
 ```

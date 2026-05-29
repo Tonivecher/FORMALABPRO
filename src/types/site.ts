@@ -26,7 +26,6 @@ export interface GalleryItem {
   image: string;
   alt: string;
   span: GallerySpan;
-  // New Case Study fields
   task?: string;
   materials?: string;
   scope?: string;

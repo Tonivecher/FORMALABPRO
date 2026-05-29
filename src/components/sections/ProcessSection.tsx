@@ -47,7 +47,6 @@ export function ProcessSection() {
     >
       <div className="page-grid grid grid-cols-12 gap-y-12 lg:gap-x-10">
         
-        {/* Left Column: Sticky Title & Scroll Progress Timeline Bar */}
         <div className="col-span-12 lg:col-span-4 lg:sticky lg:top-32 lg:h-fit self-start">
           <SectionReveal>
             <p className="section-kicker">как мы работаем</p>
@@ -59,13 +58,11 @@ export function ProcessSection() {
             </p>
           </SectionReveal>
 
-          {/* Graphical timeline tracker */}
           {!shouldReduceMotion && isDesktopFinePointer ? (
             <ProcessTimelineTracker containerRef={containerRef} />
           ) : null}
         </div>
 
-        {/* Right Column: 8 Chronological Steps */}
         <div className="col-span-12 lg:col-span-7 lg:col-start-6 space-y-12 md:space-y-16">
           {processSteps.map((step, index) => (
             <SectionReveal
@@ -74,7 +71,6 @@ export function ProcessSection() {
               y={25}
               className="group relative border-b border-white/5 pb-8 md:pb-10 last:border-b-0 last:pb-0"
             >
-              {/* Technical floating index */}
               <div className="flex items-center gap-3">
                 <span className="font-display text-xl md:text-2xl text-[var(--color-lime)] font-semibold">
                   {step.number}
@@ -85,7 +81,6 @@ export function ProcessSection() {
                 </span>
               </div>
 
-              {/* Title & Description */}
               <h3 className="mt-4 font-display text-2xl md:text-3xl tracking-tight text-white group-hover:text-[var(--color-brass)] transition-colors duration-300">
                 {step.title}
               </h3>
@@ -94,7 +89,6 @@ export function ProcessSection() {
                 {step.description}
               </p>
 
-              {/* Technical subtle outline */}
               <div className="absolute left-[-24px] top-0 bottom-0 w-0.5 bg-[var(--color-lime)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden lg:block" />
             </SectionReveal>
           ))}

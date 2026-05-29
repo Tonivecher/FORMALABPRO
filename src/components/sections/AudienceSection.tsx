@@ -24,7 +24,6 @@ export function AudienceSection() {
           </SectionReveal>
         </div>
 
-        {/* 4 Audience Cards Grid */}
         <div className="mt-16 grid gap-6 md:grid-cols-2">
           {audienceSegments.map((segment, index) => (
             <SectionReveal
@@ -32,9 +31,7 @@ export function AudienceSection() {
               delay={index * 0.08}
               className="group relative flex flex-col justify-between overflow-hidden rounded-md border border-white/5 bg-[var(--color-graphite)] p-6 md:p-8 transition-all duration-500 hover:border-white/15"
             >
-              {/* Technical index badge */}
               <div className="absolute top-6 right-6 font-display text-sm text-[var(--color-lime)] opacity-60">
-                // 0{index + 1}
               </div>
 
               <div>
@@ -45,7 +42,6 @@ export function AudienceSection() {
                   {segment.description}
                 </p>
 
-                {/* Key value points */}
                 <ul className="mt-6 space-y-3 border-t border-white/5 pt-6">
                   {segment.points.map((point, idx) => (
                     <li key={idx} className="flex items-center gap-2 text-xs md:text-sm text-white/70">
@@ -56,7 +52,6 @@ export function AudienceSection() {
                 </ul>
               </div>
 
-              {/* Call to action anchor linking to the Brief Form */}
               <div className="mt-8 flex items-center justify-between">
                 <button
                   type="button"
@@ -79,7 +74,6 @@ export function AudienceSection() {
                 </button>
               </div>
 
-              {/* Card visual background elements */}
               <div className="absolute inset-x-0 bottom-0 h-1 bg-[linear-gradient(90deg,transparent_0%,rgba(197,164,109,0.3)_50%,transparent_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </SectionReveal>
           ))}

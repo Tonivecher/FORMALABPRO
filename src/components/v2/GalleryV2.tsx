@@ -1,14 +1,14 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
 import { galleryItems } from "../../data/siteContent";
+import { requestContactIntent } from "../../hooks/useContactIntent";
 import { useSmoothScroll } from "../../hooks/useSmoothScroll";
 import { ButtonV2 } from "./ButtonV2";
 import { SectionReveal } from "../SectionReveal";
 import { GalleryModal } from "../GalleryModal";
 import type { GalleryItem } from "../../types/site";
 
-// Technical category filter definitions
 const filters = [
   { id: "all", label: "Все" },
   { id: "private", label: "Частные интерьеры", category: "Private Interior" },
@@ -24,7 +24,6 @@ export function GalleryV2() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
 
-  // Determine if a gallery item matches the active filter
   const filteredItems = galleryItems.filter((item) => {
     if (activeFilter === "all") return true;
     const filterConfig = filters.find((f) => f.id === activeFilter);
@@ -48,11 +47,16 @@ export function GalleryV2() {
     setScrollProgress(pct);
   };
 
+  const handleFilterChange = (filterId: string) => {
+    setActiveFilter(filterId);
+    setScrollProgress(0);
+    scrollRef.current?.scrollTo({ left: 0 });
+  };
+
   const scroll = (direction: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
 
-    // Get all card elements
     const cards = Array.from(el.children).filter(
       (child) => child instanceof HTMLElement
     ) as HTMLElement[];
@@ -64,7 +68,6 @@ export function GalleryV2() {
     let targetScroll = currentScroll;
 
     if (direction === "right") {
-      // Find the first card that is currently to the right of the visible viewport start
       const nextCard = cards.find((card) => card.offsetLeft > currentScroll + 10);
       if (nextCard) {
         targetScroll = nextCard.offsetLeft;
@@ -72,7 +75,6 @@ export function GalleryV2() {
         targetScroll = currentScroll + containerWidth * 0.85;
       }
     } else {
-      // Find the first card to the left of the visible viewport start
       const prevCard = [...cards]
         .reverse()
         .find((card) => card.offsetLeft < currentScroll - 10);
@@ -83,7 +85,6 @@ export function GalleryV2() {
       }
     }
 
-    // Clamp scroll bounds
     const maxScroll = el.scrollWidth - containerWidth;
     targetScroll = Math.max(0, Math.min(targetScroll, maxScroll));
 
@@ -93,18 +94,9 @@ export function GalleryV2() {
     });
   };
 
-  // Reset scroll and progress bar on filter change
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollLeft = 0;
-      setScrollProgress(0);
-    }
-  }, [activeFilter]);
-
   return (
     <section id="gallery" className="bg-[#F0F1F4] text-[#091423] border-b border-[#091423] relative overflow-hidden">
       
-      {/* Title block grid */}
       <div className="grid lg:grid-cols-2 border-b border-[#091423]">
         <div className="p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423]">
           <SectionReveal>
@@ -125,7 +117,6 @@ export function GalleryV2() {
         </div>
       </div>
 
-      {/* ACCESSIBLE FILTER BUTTONS BAR (Atoll style: dark navy/light gray) */}
       <div className="p-6 md:px-10 lg:px-14 border-b border-[#091423] flex flex-wrap items-center gap-3">
         {filters.map((filter) => {
           const isActive = activeFilter === filter.id;
@@ -134,7 +125,7 @@ export function GalleryV2() {
               key={filter.id}
               type="button"
               aria-pressed={isActive}
-              onClick={() => setActiveFilter(filter.id)}
+              onClick={() => handleFilterChange(filter.id)}
               className={`px-4 py-2.5 rounded-[4px] text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-300 border ${
                 isActive
                   ? "bg-[#091423] text-white border-[#091423]"
@@ -148,10 +139,7 @@ export function GalleryV2() {
         })}
       </div>
 
-      {/* PORTFOLIO GRID: Horizontally scrolling panels with overlay nav */}
       <div className="relative group/gallery">
-        
-        {/* OVERLAY NAVIGATION - LEFT ARROW */}
         <button
           type="button"
           onClick={() => scroll("left")}
@@ -162,7 +150,6 @@ export function GalleryV2() {
           <ChevronLeft className="h-6 w-6" strokeWidth={3} />
         </button>
 
-        {/* OVERLAY NAVIGATION - RIGHT ARROW */}
         <button
           type="button"
           onClick={() => scroll("right")}
@@ -173,7 +160,6 @@ export function GalleryV2() {
           <ChevronRight className="h-6 w-6" strokeWidth={3} />
         </button>
 
-        {/* HORIZONTAL SNAP SCROLL CONTAINER */}
         <motion.div
           layout
           ref={scrollRef}
@@ -197,7 +183,6 @@ export function GalleryV2() {
                 className="grid lg:grid-cols-2 w-[90vw] md:w-[80vw] lg:w-[85vw] flex-shrink-0 snap-start border-r border-[#091423]"
               >
                 
-                {/* Left Column: Rich case study text details */}
                 <div className="p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423] flex flex-col justify-between h-full">
                   <div>
                     <div className="flex justify-between items-center pb-4 border-b border-[#091423]/10">
@@ -205,7 +190,6 @@ export function GalleryV2() {
                         {item.category}
                       </span>
                       <span className="text-[10px] font-mono opacity-40">
-                        // SPEC_REF_{item.id.toUpperCase()}
                       </span>
                     </div>
 
@@ -217,7 +201,6 @@ export function GalleryV2() {
                       {item.description}
                     </p>
 
-                    {/* Blueprint Specifications Grid */}
                     <div className="mt-8 grid sm:grid-cols-2 gap-x-6 gap-y-5 text-xs">
                       <div className="border-l-2 border-[#091423]/25 pl-4.5">
                         <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
@@ -263,13 +246,9 @@ export function GalleryV2() {
                       variant="secondary"
                       onClick={() => {
                         scrollTo("#contact", { offset: -50 });
-                        setTimeout(() => {
-                          const messageTextarea = document.getElementsByName("message")[0] as HTMLTextAreaElement;
-                          if (messageTextarea) {
-                            messageTextarea.value = `Здравствуйте! Хочу обсудить аналогичное решение для проекта: ${item.title}.\n`;
-                            messageTextarea.focus();
-                          }
-                        }, 800);
+                        window.setTimeout(() => {
+                          requestContactIntent(`Здравствуйте! Хочу обсудить аналогичное решение для проекта: ${item.title}.\n`);
+                        }, 450);
                       }}
                       className="w-full sm:w-auto"
                     >
@@ -279,7 +258,6 @@ export function GalleryV2() {
 
                 </div>
 
-                {/* Right Column: Full-size project image */}
                 <div 
                   onClick={() => setSelectedItem(item)}
                   className="relative aspect-[16/10] lg:aspect-auto overflow-hidden group cursor-pointer"
@@ -301,7 +279,6 @@ export function GalleryV2() {
         </motion.div>
       </div>
 
-      {/* PROGRESS TRACKER V2 */}
       <div className="h-[4px] w-full bg-[#091423]/10 relative border-t border-[#091423]">
         <div
           className="absolute h-full left-0 top-0 bg-[#091423] transition-all duration-150 ease-out"
@@ -309,7 +286,6 @@ export function GalleryV2() {
         />
       </div>
 
-      {/* BLUEPRINT DETAIL OVERLAY MODAL */}
       <GalleryModal theme="v2" item={selectedItem} onClose={() => setSelectedItem(null)} />
 
     </section>

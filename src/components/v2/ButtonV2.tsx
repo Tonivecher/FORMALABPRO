@@ -33,7 +33,6 @@ export function ButtonV2({
       } rounded-[4px] px-8 py-4.5 min-h-[50px] text-xs md:text-sm font-semibold select-none cursor-none ${className}`}
       data-cursor="interactive"
     >
-      {/* CORNER ARROW: BOTTOM LEFT (rotated -135deg) */}
       <span className="absolute bottom-1.5 left-1.5 flex h-2 w-2 pointer-events-none">
         <motion.span
           animate={isHovered ? { x: -2, y: 2 } : { x: 0, y: 0 }}
@@ -44,7 +43,6 @@ export function ButtonV2({
         />
       </span>
 
-      {/* CORNER ARROW: TOP RIGHT (rotated 45deg) */}
       <span className="absolute top-1.5 right-1.5 flex h-2 w-2 pointer-events-none">
         <motion.span
           animate={isHovered ? { x: 2, y: -2 } : { x: 0, y: 0 }}
@@ -55,9 +53,7 @@ export function ButtonV2({
         />
       </span>
 
-      {/* DOUBLE TEXT ROLL SLIDE OVERFLOW */}
       <span className="relative flex flex-col overflow-hidden h-[1.2rem] items-center">
-        {/* Upper label (slide in from top) */}
         <motion.span
           animate={isHovered ? { y: 0, opacity: 1 } : { y: -20, opacity: 0 }}
           transition={{ duration: 0.35, ease: [0.25, 1, 0.3, 1] }}
@@ -66,7 +62,6 @@ export function ButtonV2({
           {children}
         </motion.span>
 
-        {/* Lower label (slide out to bottom) */}
         <motion.span
           animate={isHovered ? { y: 20, opacity: 0 } : { y: 0, opacity: 1 }}
           transition={{ duration: 0.35, ease: [0.25, 1, 0.3, 1] }}

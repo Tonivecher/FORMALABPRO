@@ -27,7 +27,6 @@ export function SiteHeader({ isDesktopView = false, setIsDesktopView }: SiteHead
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Prevent scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -97,7 +96,6 @@ export function SiteHeader({ isDesktopView = false, setIsDesktopView }: SiteHead
               </MagneticButton>
             </div>
 
-            {/* Mobile hamburger menu toggle button */}
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -115,7 +113,6 @@ export function SiteHeader({ isDesktopView = false, setIsDesktopView }: SiteHead
         </div>
       </header>
 
-      {/* LUXURIOUS FULL-SCREEN MOBILE OVERLAY (Dark Serif Theme) */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -125,13 +122,11 @@ export function SiteHeader({ isDesktopView = false, setIsDesktopView }: SiteHead
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-40 bg-black/98 backdrop-blur-2xl flex flex-col justify-between p-6 pt-32 pb-8 md:hidden"
           >
-            {/* Tech details coordinates at top */}
             <div className="flex justify-between text-[9px] font-mono tracking-widest text-white/30 uppercase border-b border-white/5 pb-4">
               <span>55°45′N 37°37′E // MOSCOW</span>
               <span>MENU // REV_1.2</span>
             </div>
 
-            {/* Main Links */}
             <nav className="flex flex-col gap-5 my-auto">
               {navItems.map((item, index) => (
                 <motion.button
@@ -152,9 +147,7 @@ export function SiteHeader({ isDesktopView = false, setIsDesktopView }: SiteHead
               ))}
             </nav>
 
-            {/* Bottom info + CTA */}
             <div className="space-y-6 pt-6 border-t border-white/5">
-              {/* Monospace Interactive Layout Toggle Control */}
               {setIsDesktopView && (
                 <button
                   type="button"

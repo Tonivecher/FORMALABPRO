@@ -30,7 +30,6 @@ export function MaterialsV2() {
     <section id="materials" className="bg-[#F0F1F4] text-[#091423] border-b border-[#091423] relative">
       
       <div className="grid lg:grid-cols-2 border-b border-[#091423]">
-        {/* Left Column title */}
         <div className="p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423]">
           <SectionReveal>
             <span className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-60">
@@ -47,7 +46,6 @@ export function MaterialsV2() {
           </SectionReveal>
         </div>
 
-        {/* Right Column collage */}
         <div className="grid grid-rows-2 h-full">
           <div className="grid grid-cols-2 border-b border-[#091423]">
             <div className="relative overflow-hidden group border-r border-[#091423]">
@@ -57,7 +55,6 @@ export function MaterialsV2() {
                 className="h-full w-full object-cover grayscale transition duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
               />
               <div className="absolute bottom-4 left-4 z-10 bg-white/90 px-3 py-1 rounded text-[9px] uppercase tracking-widest text-[#091423] border border-[#091423]/10 font-bold">
-                // 01 WOOD LAB
               </div>
             </div>
             
@@ -68,7 +65,6 @@ export function MaterialsV2() {
                 className="h-full w-full object-cover grayscale transition duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
               />
               <div className="absolute bottom-4 left-4 z-10 bg-white/90 px-3 py-1 rounded text-[9px] uppercase tracking-widest text-[#091423] border border-[#091423]/10 font-bold">
-                // 02 METAL DIVISION
               </div>
             </div>
           </div>
@@ -80,13 +76,11 @@ export function MaterialsV2() {
               className="h-full w-full object-cover grayscale transition duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
             />
             <div className="absolute bottom-4 left-4 z-10 bg-white/90 px-3 py-1 rounded text-[9px] uppercase tracking-widest text-[#091423] border border-[#091423]/10 font-bold">
-              // 03 LIGHT INTEGRATION
             </div>
           </div>
         </div>
       </div>
 
-      {/* Why details matter 4-quadrant row */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 border-b border-[#091423]">
         {customNodes.map((node, index) => {
           const borderRightClass = index < 3 ? "lg:border-r" : "lg:border-r-0";
@@ -123,7 +117,6 @@ export function MaterialsV2() {
       })}
       </div>
 
-      {/* 3 columns of material property specifications */}
       <div className="grid lg:grid-cols-3">
         {materialFeatures.map((feature, index) => (
           <div
@@ -136,7 +129,6 @@ export function MaterialsV2() {
           >
             <SectionReveal delay={0.06 * index}>
               <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-[#091423]/50 block font-bold">
-                // {feature.eyebrow}
               </span>
               <h3 className="mt-4 font-display text-xl md:text-2xl font-normal uppercase leading-tight tracking-tight text-[#091423]">
                 {feature.title}

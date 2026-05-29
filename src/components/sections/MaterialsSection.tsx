@@ -30,7 +30,6 @@ export function MaterialsSection() {
     <section id="materials" className="section-rule py-[var(--section-space)] bg-[var(--color-black)] relative">
       <div className="page-grid grid grid-cols-12 gap-y-12 lg:gap-x-10">
         
-        {/* Left Side: Title and Philosophy */}
         <SectionReveal className="col-span-12 lg:col-span-5">
           <p className="section-kicker">материалы и инженерия узлов</p>
           <h2 className="section-title max-w-[12ch] text-white">
@@ -45,7 +44,6 @@ export function MaterialsSection() {
           </div>
         </SectionReveal>
 
-        {/* Right Side: Showcase image collage with parallax and smooth reveal hover effect */}
         <SectionReveal className="col-span-12 lg:col-span-7" delay={0.08}>
           <div className="grid gap-4 md:grid-cols-[minmax(0,1.3fr)_minmax(0,0.9fr)]">
             <div className="media-surface group relative overflow-hidden rounded-md aspect-[4/3] md:aspect-auto">
@@ -55,7 +53,6 @@ export function MaterialsSection() {
                 className="image-monochrome h-full min-h-[26rem] w-full object-cover"
               />
               <div className="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded text-[10px] uppercase tracking-widest text-[var(--color-brass)] border border-white/5">
-                // 01 WOOD LAB
               </div>
             </div>
             
@@ -67,7 +64,6 @@ export function MaterialsSection() {
                   className="image-monochrome h-full min-h-[12.5rem] w-full object-cover"
                 />
                 <div className="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded text-[10px] uppercase tracking-widest text-[var(--color-brass)] border border-white/5">
-                  // 02 METAL DIVISION
                 </div>
               </div>
               <div className="media-surface group relative overflow-hidden rounded-md aspect-video md:aspect-auto">
@@ -77,14 +73,12 @@ export function MaterialsSection() {
                   className="image-monochrome h-full min-h-[12.5rem] w-full object-cover"
                 />
                 <div className="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded text-[10px] uppercase tracking-widest text-[var(--color-brass)] border border-white/5">
-                  // 03 LIGHT INTEGRATION
                 </div>
               </div>
             </div>
           </div>
         </SectionReveal>
 
-        {/* Bottom: "Why Details Matter" grid block */}
         <div className="col-span-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 border-t border-white/10 pt-12 mt-6">
           {customNodes.map((node, index) => (
             <SectionReveal
@@ -105,7 +99,6 @@ export function MaterialsSection() {
           ))}
         </div>
 
-        {/* 3 Columns detailing material properties */}
         <div className="col-span-12 grid gap-10 lg:grid-cols-3 border-t border-white/5 pt-10 mt-6">
           {materialFeatures.map((feature, index) => (
             <SectionReveal

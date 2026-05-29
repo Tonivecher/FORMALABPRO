@@ -47,7 +47,6 @@ export function ProcessV2() {
     >
       <div className="grid lg:grid-cols-12">
         
-        {/* Left Sticky Column */}
         <div className="col-span-12 lg:col-span-5 p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423] lg:sticky lg:top-14 lg:h-[calc(100vh-14px)] flex flex-col justify-between self-start">
           <SectionReveal>
             <span className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-60">
@@ -61,13 +60,11 @@ export function ProcessV2() {
             </p>
           </SectionReveal>
 
-          {/* Blueprint style vertical progress track */}
           {!shouldReduceMotion && isDesktopFinePointer ? (
             <ProcessTimelineTracker containerRef={containerRef} />
           ) : null}
         </div>
 
-        {/* Right Scrolling Column (8 Steps with full borders) */}
         <div className="col-span-12 lg:col-span-7 flex flex-col">
           {processSteps.map((step, index) => (
             <div
@@ -86,7 +83,6 @@ export function ProcessV2() {
                     </span>
                   </div>
                   <span className="text-[9px] font-mono text-[#091423]/30">
-                    // EFFICIENCY_INDEX_0{index + 1}
                   </span>
                 </div>
 
@@ -99,7 +95,6 @@ export function ProcessV2() {
                 </p>
               </SectionReveal>
 
-              {/* Technical active margin indicator */}
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#091423] opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden lg:block" />
             </div>
           ))}

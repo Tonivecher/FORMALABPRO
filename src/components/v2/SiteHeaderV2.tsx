@@ -26,7 +26,6 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Prevent scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -49,7 +48,6 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
       >
         <div className="page-grid grid grid-cols-12 items-center gap-4 py-4.5">
           
-          {/* LOGO */}
           <button
             type="button"
             onClick={() => {
@@ -68,7 +66,6 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
             </span>
           </button>
 
-          {/* NAVIGATION LINKS (desktop navigation) */}
           <nav className="col-span-4 hidden items-center justify-center gap-6 md:col-span-5 md:flex xl:gap-8">
             {navItems.map((item) => (
               <button
@@ -83,9 +80,7 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
             ))}
           </nav>
 
-          {/* ACTIONS */}
           <div className="col-span-4 flex justify-end items-center gap-4 md:col-span-3 z-50">
-            {/* Desktop Version Switcher */}
             <button
               type="button"
               onClick={onToggleVersion}
@@ -106,7 +101,6 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
               </ButtonV2>
             </div>
 
-            {/* Mobile Hamburger toggle button */}
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -124,7 +118,6 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
         </div>
       </header>
 
-      {/* TECHNICAL MONOSPACE MOBILE SLIDE-DOWN MENU (V2 Light Theme) */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -134,13 +127,11 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-x-0 top-0 z-40 bg-[#F0F1F4] border-b border-[#091423] pt-24 pb-8 px-6 flex flex-col justify-between md:hidden min-h-[75vh]"
           >
-            {/* Top coordinate stats banner */}
             <div className="flex justify-between border-b border-[#091423]/10 pb-3 text-[9px] font-mono text-[#091423]/50 tracking-[0.2em] font-bold uppercase mt-4">
               <span>EF // MILLWORK LAB</span>
               <span>GRID_MOBILE // V2.0</span>
             </div>
 
-            {/* Structured Monospace Numbered Links */}
             <nav className="flex flex-col border-b border-[#091423]/10 my-6">
               {navItems.map((item, index) => (
                 <button
@@ -161,9 +152,7 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
               ))}
             </nav>
 
-            {/* Bottom Actions & Switcher */}
             <div className="space-y-4 pt-2">
-              {/* Monospace Interactive Version Toggle Control */}
               <button
                 type="button"
                 onClick={() => {

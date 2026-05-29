@@ -38,7 +38,6 @@ export function SeoTextV2() {
             </p>
           </SectionReveal>
 
-          {/* Technical terms layout */}
           <SectionReveal delay={0.16} className="mt-10 pt-8 border-t border-[#091423]/10">
             <div className="flex flex-wrap gap-x-6 gap-y-3 text-[9px] font-mono uppercase tracking-[0.2em] text-[#091423]/40 font-bold">
               <span>#архитектурная_мебель</span>

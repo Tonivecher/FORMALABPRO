@@ -11,7 +11,7 @@ import type {
   StudioContacts,
 } from "../types/site";
 
-export const studioName = "Инженерия формы";
+export const studioName = "FORMALAB PRO";
 
 export const heroImage = withBase("/projects/enhanced_IMG-20210304-WA0004.webp");
 
@@ -527,9 +527,9 @@ export const faqItems: FaqItem[] = [
 ];
 
 export const studioContacts = {
-  email: "atelier@pashademo.example",
-  phone: "+7 (000) 000-00-00",
+  email: "info@formalabpro.tech",
+  phone: "Контакт после брифа",
   location: "Москва · частные и общественные интерьеры",
-  emailHref: null,
+  emailHref: "mailto:info@formalabpro.tech",
   phoneHref: null,
 } satisfies StudioContacts;
