@@ -7,30 +7,31 @@ import { useSmoothScroll } from "../hooks/useSmoothScroll";
 interface GalleryCardProps {
   item: GalleryItem;
   index: number;
+  onOpen: (item: GalleryItem) => void;
 }
 
 const spanClassMap: Record<GalleryItem["span"], string> = {
-  feature: "md:col-span-2 xl:col-span-7 xl:row-span-5",
-  portrait: "xl:col-span-5 xl:row-span-5",
-  landscape: "xl:col-span-5 xl:row-span-4",
-  square: "xl:col-span-4 xl:row-span-4",
+  feature: "w-[85vw] sm:w-[550px] md:w-[700px] flex-shrink-0 snap-start",
+  portrait: "w-[70vw] sm:w-[350px] md:w-[420px] flex-shrink-0 snap-start",
+  landscape: "w-[80vw] sm:w-[480px] md:w-[580px] flex-shrink-0 snap-start",
+  square: "w-[75vw] sm:w-[420px] md:w-[500px] flex-shrink-0 snap-start",
 };
 
 const aspectClassMap: Record<GalleryItem["span"], string> = {
-  feature: "aspect-[5/4] xl:aspect-auto",
-  portrait: "aspect-[3/4] xl:aspect-auto",
-  landscape: "aspect-[16/10] xl:aspect-auto",
-  square: "aspect-square xl:aspect-auto",
+  feature: "aspect-auto h-[28rem] md:h-[34rem]",
+  portrait: "aspect-auto h-[28rem] md:h-[34rem]",
+  landscape: "aspect-auto h-[28rem] md:h-[34rem]",
+  square: "aspect-auto h-[28rem] md:h-[34rem]",
 };
 
 const minHeightMap: Record<GalleryItem["span"], string> = {
-  feature: "min-h-[30rem] xl:h-full",
-  portrait: "min-h-[30rem] xl:h-full",
-  landscape: "min-h-[22rem] xl:h-full",
-  square: "min-h-[22rem] xl:h-full",
+  feature: "h-full",
+  portrait: "h-full",
+  landscape: "h-full",
+  square: "h-full",
 };
 
-export function GalleryCard({ item, index }: GalleryCardProps) {
+export function GalleryCard({ item, index, onOpen }: GalleryCardProps) {
   const [showMobileSpecs, setShowMobileSpecs] = useState(false);
   const { scrollTo } = useSmoothScroll();
 
@@ -45,7 +46,8 @@ export function GalleryCard({ item, index }: GalleryCardProps) {
         delay: Math.min(index * 0.05, 0.2),
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`group relative isolate overflow-hidden rounded-md border border-white/5 bg-[var(--color-graphite)] ${spanClassMap[item.span]}`}
+      onClick={() => onOpen(item)}
+      className={`group relative isolate overflow-hidden rounded-md border border-white/5 bg-[var(--color-graphite)] cursor-pointer ${spanClassMap[item.span]}`}
     >
       <div
         className={`media-surface relative h-full w-full flex flex-col justify-between ${aspectClassMap[item.span]} ${minHeightMap[item.span]}`}
@@ -85,7 +87,10 @@ export function GalleryCard({ item, index }: GalleryCardProps) {
           {/* Mobile specs toggle button */}
           <button
             type="button"
-            onClick={() => setShowMobileSpecs(!showMobileSpecs)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMobileSpecs(!showMobileSpecs);
+            }}
             className="mt-4 flex xl:hidden items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--color-brass)] py-1.5"
             data-cursor="interactive"
           >
@@ -156,7 +161,8 @@ export function GalleryCard({ item, index }: GalleryCardProps) {
           <div className="border-t border-white/5 pt-4 flex justify-between items-center">
             <button
               type="button"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 scrollTo("#contact", { offset: -72 });
                 setTimeout(() => {
                   const messageTextarea = document.getElementsByName("message")[0] as HTMLTextAreaElement;
@@ -214,7 +220,8 @@ export function GalleryCard({ item, index }: GalleryCardProps) {
                 <div className="pt-2">
                   <button
                     type="button"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       scrollTo("#contact", { offset: -72 });
                       setShowMobileSpecs(false);
                     }}

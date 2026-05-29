@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
 import { galleryItems } from "../../data/siteContent";
 import { useSmoothScroll } from "../../hooks/useSmoothScroll";
 import { ButtonV2 } from "./ButtonV2";
 import { SectionReveal } from "../SectionReveal";
+import { GalleryModal } from "../GalleryModal";
+import type { GalleryItem } from "../../types/site";
 
 // Technical category filter definitions
 const filters = [
@@ -18,6 +20,9 @@ const filters = [
 export function GalleryV2() {
   const [activeFilter, setActiveFilter] = useState("all");
   const { scrollTo } = useSmoothScroll();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
 
   // Determine if a gallery item matches the active filter
   const filteredItems = galleryItems.filter((item) => {
@@ -31,8 +36,73 @@ export function GalleryV2() {
     return item.category === filterConfig.category;
   });
 
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) {
+      setScrollProgress(0);
+      return;
+    }
+    const pct = (el.scrollLeft / maxScroll) * 100;
+    setScrollProgress(pct);
+  };
+
+  const scroll = (direction: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    // Get all card elements
+    const cards = Array.from(el.children).filter(
+      (child) => child instanceof HTMLElement
+    ) as HTMLElement[];
+
+    if (cards.length === 0) return;
+
+    const currentScroll = el.scrollLeft;
+    const containerWidth = el.clientWidth;
+    let targetScroll = currentScroll;
+
+    if (direction === "right") {
+      // Find the first card that is currently to the right of the visible viewport start
+      const nextCard = cards.find((card) => card.offsetLeft > currentScroll + 10);
+      if (nextCard) {
+        targetScroll = nextCard.offsetLeft;
+      } else {
+        targetScroll = currentScroll + containerWidth * 0.85;
+      }
+    } else {
+      // Find the first card to the left of the visible viewport start
+      const prevCard = [...cards]
+        .reverse()
+        .find((card) => card.offsetLeft < currentScroll - 10);
+      if (prevCard) {
+        targetScroll = prevCard.offsetLeft;
+      } else {
+        targetScroll = 0;
+      }
+    }
+
+    // Clamp scroll bounds
+    const maxScroll = el.scrollWidth - containerWidth;
+    targetScroll = Math.max(0, Math.min(targetScroll, maxScroll));
+
+    el.scrollTo({
+      left: targetScroll,
+      behavior: "smooth",
+    });
+  };
+
+  // Reset scroll and progress bar on filter change
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = 0;
+      setScrollProgress(0);
+    }
+  }, [activeFilter]);
+
   return (
-    <section id="gallery" className="bg-[#F0F1F4] text-[#091423] border-b border-[#091423] relative">
+    <section id="gallery" className="bg-[#F0F1F4] text-[#091423] border-b border-[#091423] relative overflow-hidden">
       
       {/* Title block grid */}
       <div className="grid lg:grid-cols-2 border-b border-[#091423]">
@@ -78,118 +148,169 @@ export function GalleryV2() {
         })}
       </div>
 
-      {/* PORTFOLIO GRID: Horizontally bordered row panels */}
-      <div className="flex flex-col">
-        <AnimatePresence mode="popLayout">
-          {filteredItems.map((item, index) => (
-            <motion.div
-              layout
-              key={item.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -30 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.05 }}
-              className="grid lg:grid-cols-2 border-b border-[#091423] last:border-b-0"
-            >
-              
-              {/* Left Column: Rich case study text details */}
-              <div className="p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423] flex flex-col justify-between h-full">
-                <div>
-                  <div className="flex justify-between items-center pb-4 border-b border-[#091423]/10">
-                    <span className="bg-[#091423]/10 px-3 py-1 rounded-[3px] text-[10px] font-bold uppercase tracking-wider text-[#091423]">
-                      {item.category}
-                    </span>
-                    <span className="text-[10px] font-mono opacity-40">
-                      // SPEC_REF_{item.id.toUpperCase()}
-                    </span>
+      {/* PORTFOLIO GRID: Horizontally scrolling panels with overlay nav */}
+      <div className="relative group/gallery">
+        
+        {/* OVERLAY NAVIGATION - LEFT ARROW */}
+        <button
+          type="button"
+          onClick={() => scroll("left")}
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-14 h-14 rounded-[4px] bg-[#F0F1F4] hover:bg-[#091423] border-[2px] border-[#091423] hidden md:flex items-center justify-center text-[#091423] hover:text-white transition-all duration-300 active:scale-90 shadow-xl opacity-100"
+          data-cursor="interactive"
+          aria-label="Листать назад"
+        >
+          <ChevronLeft className="h-6 w-6" strokeWidth={3} />
+        </button>
+
+        {/* OVERLAY NAVIGATION - RIGHT ARROW */}
+        <button
+          type="button"
+          onClick={() => scroll("right")}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-14 h-14 rounded-[4px] bg-[#F0F1F4] hover:bg-[#091423] border-[2px] border-[#091423] hidden md:flex items-center justify-center text-[#091423] hover:text-white transition-all duration-300 active:scale-90 shadow-xl opacity-100"
+          data-cursor="interactive"
+          aria-label="Листать вперед"
+        >
+          <ChevronRight className="h-6 w-6" strokeWidth={3} />
+        </button>
+
+        {/* HORIZONTAL SNAP SCROLL CONTAINER */}
+        <motion.div
+          layout
+          ref={scrollRef}
+          onScroll={handleScroll}
+          data-lenis-prevent
+          className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredItems.map((item, index) => (
+              <motion.div
+                layout
+                key={item.id}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.05 }}
+                className="grid lg:grid-cols-2 w-[90vw] md:w-[80vw] lg:w-[85vw] flex-shrink-0 snap-start border-r border-[#091423]"
+              >
+                
+                {/* Left Column: Rich case study text details */}
+                <div className="p-6 md:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-[#091423] flex flex-col justify-between h-full">
+                  <div>
+                    <div className="flex justify-between items-center pb-4 border-b border-[#091423]/10">
+                      <span className="bg-[#091423]/10 px-3 py-1 rounded-[3px] text-[10px] font-bold uppercase tracking-wider text-[#091423]">
+                        {item.category}
+                      </span>
+                      <span className="text-[10px] font-mono opacity-40">
+                        // SPEC_REF_{item.id.toUpperCase()}
+                      </span>
+                    </div>
+
+                    <h3 className="mt-8 font-display text-3xl md:text-4xl lg:text-5xl font-normal uppercase leading-tight tracking-tight text-[#091423]">
+                      {item.title}
+                    </h3>
+
+                    <p className="mt-4 text-xs md:text-sm leading-6 text-[#091423]/60">
+                      {item.description}
+                    </p>
+
+                    {/* Blueprint Specifications Grid */}
+                    <div className="mt-8 grid sm:grid-cols-2 gap-x-6 gap-y-5 text-xs">
+                      <div className="border-l-2 border-[#091423]/25 pl-4.5">
+                        <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
+                          цель проекта //
+                        </span>
+                        <p className="mt-1.5 text-[#091423] leading-5 font-semibold">
+                          {item.task}
+                        </p>
+                      </div>
+
+                      <div className="border-l-2 border-[#091423]/25 pl-4.5">
+                        <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
+                          материалы //
+                        </span>
+                        <p className="mt-1.5 text-[#091423] leading-5 font-semibold">
+                          {item.materials}
+                        </p>
+                      </div>
+
+                      <div className="border-l-2 border-[#091423]/25 pl-4.5">
+                        <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
+                          объем работ //
+                        </span>
+                        <p className="mt-1.5 text-[#091423] leading-5 font-semibold">
+                          {item.scope}
+                        </p>
+                      </div>
+
+                      <div className="border-l-2 border-[#091423]/25 pl-4.5">
+                        <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
+                          результат //
+                        </span>
+                        <p className="mt-1.5 text-[#091423] leading-5 font-bold flex items-center gap-1">
+                          <CheckCircle2 className="h-4 w-4 text-[#091423] inline" />
+                          {item.result}
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
-                  <h3 className="mt-8 font-display text-3xl md:text-4xl lg:text-5xl font-normal uppercase leading-tight tracking-tight text-[#091423]">
-                    {item.title}
-                  </h3>
-
-                  <p className="mt-4 text-xs md:text-sm leading-6 text-[#091423]/60">
-                    {item.description}
-                  </p>
-
-                  {/* Blueprint Specifications Grid */}
-                  <div className="mt-8 grid sm:grid-cols-2 gap-x-6 gap-y-5 text-xs">
-                    <div className="border-l-2 border-[#091423]/25 pl-4.5">
-                      <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
-                        цель проекта //
-                      </span>
-                      <p className="mt-1.5 text-[#091423] leading-5 font-semibold">
-                        {item.task}
-                      </p>
-                    </div>
-
-                    <div className="border-l-2 border-[#091423]/25 pl-4.5">
-                      <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
-                        материалы //
-                      </span>
-                      <p className="mt-1.5 text-[#091423] leading-5 font-semibold">
-                        {item.materials}
-                      </p>
-                    </div>
-
-                    <div className="border-l-2 border-[#091423]/25 pl-4.5">
-                      <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
-                        объем работ //
-                      </span>
-                      <p className="mt-1.5 text-[#091423] leading-5 font-semibold">
-                        {item.scope}
-                      </p>
-                    </div>
-
-                    <div className="border-l-2 border-[#091423]/25 pl-4.5">
-                      <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
-                        результат //
-                      </span>
-                      <p className="mt-1.5 text-[#091423] leading-5 font-bold flex items-center gap-1">
-                        <CheckCircle2 className="h-4 w-4 text-[#091423] inline" />
-                        {item.result}
-                      </p>
-                    </div>
+                  <div className="mt-10 pt-6 border-t border-[#091423]/10">
+                    <ButtonV2
+                      variant="secondary"
+                      onClick={() => {
+                        scrollTo("#contact", { offset: -50 });
+                        setTimeout(() => {
+                          const messageTextarea = document.getElementsByName("message")[0] as HTMLTextAreaElement;
+                          if (messageTextarea) {
+                            messageTextarea.value = `Здравствуйте! Хочу обсудить аналогичное решение для проекта: ${item.title}.\n`;
+                            messageTextarea.focus();
+                          }
+                        }, 800);
+                      }}
+                      className="w-full sm:w-auto"
+                    >
+                      Обсудить аналогичное изделие
+                    </ButtonV2>
                   </div>
+
                 </div>
 
-                <div className="mt-10 pt-6 border-t border-[#091423]/10">
-                  <ButtonV2
-                    variant="secondary"
-                    onClick={() => {
-                      scrollTo("#contact", { offset: -50 });
-                      setTimeout(() => {
-                        const messageTextarea = document.getElementsByName("message")[0] as HTMLTextAreaElement;
-                        if (messageTextarea) {
-                          messageTextarea.value = `Здравствуйте! Хочу обсудить аналогичное решение для проекта: ${item.title}.\n`;
-                          messageTextarea.focus();
-                        }
-                      }, 800);
-                    }}
-                    className="w-full sm:w-auto"
-                  >
-                    Обсудить аналогичное изделие
-                  </ButtonV2>
+                {/* Right Column: Full-size project image */}
+                <div 
+                  onClick={() => setSelectedItem(item)}
+                  className="relative aspect-[16/10] lg:aspect-auto overflow-hidden group cursor-pointer"
+                  title="Кликните, чтобы открыть в полном цвете и спецификации"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.alt}
+                    className="h-full w-full object-cover grayscale transition duration-700 ease-editorial group-hover:scale-[1.03] group-hover:grayscale-0"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 pointer-events-none border-t border-[#091423]/20" />
                 </div>
 
-              </div>
-
-              {/* Right Column: Full-size project image */}
-              <div className="relative aspect-[16/10] lg:aspect-auto overflow-hidden group">
-                <img
-                  src={item.image}
-                  alt={item.alt}
-                  className="h-full w-full object-cover grayscale transition duration-700 ease-editorial group-hover:scale-[1.03] group-hover:grayscale-0"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="absolute inset-0 pointer-events-none border-t border-[#091423]/20" />
-              </div>
-
-            </motion.div>
-          ))}
-        </AnimatePresence>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
+
+      {/* PROGRESS TRACKER V2 */}
+      <div className="h-[4px] w-full bg-[#091423]/10 relative border-t border-[#091423]">
+        <div
+          className="absolute h-full left-0 top-0 bg-[#091423] transition-all duration-150 ease-out"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
+      {/* BLUEPRINT DETAIL OVERLAY MODAL */}
+      <GalleryModal theme="v2" item={selectedItem} onClose={() => setSelectedItem(null)} />
 
     </section>
   );

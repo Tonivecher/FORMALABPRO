@@ -18,6 +18,7 @@ import { ProcessSection } from "./components/sections/ProcessSection";
 import { TrustSection } from "./components/sections/TrustSection";
 import { SeoTextSection } from "./components/sections/SeoTextSection";
 import { FaqSection } from "./components/sections/FaqSection";
+import { EngineeringSection } from "./components/EngineeringSection";
 
 // Version 2 (Light Blueprint Canvas Style - Atoll Digital)
 import { SiteHeaderV2 } from "./components/v2/SiteHeaderV2";
@@ -31,6 +32,7 @@ import { TrustV2 } from "./components/v2/TrustV2";
 import { SeoTextV2 } from "./components/v2/SeoTextV2";
 import { FaqV2 } from "./components/v2/FaqV2";
 import { ContactV2 } from "./components/v2/ContactV2";
+import { EngineeringV2 } from "./components/v2/EngineeringV2";
 
 function App() {
   // Set Version 1 (Dark Serif Style) as the default layout (eye-friendly, quiet luxury)
@@ -78,6 +80,7 @@ function App() {
             <AudienceSection />
             <CapabilitiesSection />
             <GallerySection />
+            <EngineeringSection />
             <MaterialsSection />
             <ProcessSection />
             <TrustSection />
@@ -94,6 +97,7 @@ function App() {
             <AudienceV2 />
             <CapabilitiesV2 />
             <GalleryV2 />
+            <EngineeringV2 />
             <MaterialsV2 />
             <ProcessV2 />
             <TrustV2 />
