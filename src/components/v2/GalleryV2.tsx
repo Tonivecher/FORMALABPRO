@@ -258,9 +258,11 @@ export function GalleryV2() {
 
                 </div>
 
-                <div 
+                <button
+                  type="button"
                   onClick={() => setSelectedItem(item)}
                   className="relative aspect-[16/10] lg:aspect-auto overflow-hidden group cursor-pointer"
+                  aria-label={`Открыть кейс: ${item.title}`}
                   title="Кликните, чтобы открыть в полном цвете и спецификации"
                 >
                   <img
@@ -269,9 +271,10 @@ export function GalleryV2() {
                     className="h-full w-full object-cover grayscale transition duration-700 ease-editorial group-hover:scale-[1.03] group-hover:grayscale-0"
                     loading="lazy"
                     decoding="async"
+                    sizes="(max-width: 768px) 90vw, (max-width: 1024px) 80vw, 42vw"
                   />
                   <div className="absolute inset-0 pointer-events-none border-t border-[#091423]/20" />
-                </div>
+                </button>
 
               </motion.div>
             ))}

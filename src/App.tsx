@@ -1,32 +1,14 @@
-import { useState, useEffect } from "react";
-import { ContactSection } from "./components/ContactSection";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { CustomCursor } from "./components/CustomCursor";
-import { GallerySection } from "./components/GallerySection";
-import { HeroSection } from "./components/HeroSection";
 import { PageShell } from "./components/PageShell";
 import { SiteHeader } from "./components/SiteHeader";
 import { SmoothScrollProvider } from "./components/SmoothScrollProvider";
 import { BlueprintLoader } from "./components/BlueprintLoader";
-import { AudienceSection } from "./components/sections/AudienceSection";
-import { CapabilitiesSection } from "./components/sections/CapabilitiesSection";
-import { MaterialsSection } from "./components/sections/MaterialsSection";
-import { ProcessSection } from "./components/sections/ProcessSection";
-import { TrustSection } from "./components/sections/TrustSection";
-import { SeoTextSection } from "./components/sections/SeoTextSection";
-import { FaqSection } from "./components/sections/FaqSection";
-import { EngineeringSection } from "./components/EngineeringSection";
 import { SiteHeaderV2 } from "./components/v2/SiteHeaderV2";
-import { HeroV2 } from "./components/v2/HeroV2";
-import { AudienceV2 } from "./components/v2/AudienceV2";
-import { CapabilitiesV2 } from "./components/v2/CapabilitiesV2";
-import { GalleryV2 } from "./components/v2/GalleryV2";
-import { MaterialsV2 } from "./components/v2/MaterialsV2";
-import { ProcessV2 } from "./components/v2/ProcessV2";
-import { TrustV2 } from "./components/v2/TrustV2";
-import { SeoTextV2 } from "./components/v2/SeoTextV2";
-import { FaqV2 } from "./components/v2/FaqV2";
-import { ContactV2 } from "./components/v2/ContactV2";
-import { EngineeringV2 } from "./components/v2/EngineeringV2";
+import { V1Page } from "./components/V1Page";
+
+const loadV2Page = () => import("./components/v2/V2Page");
+const V2Page = lazy(loadV2Page);
 
 function App() {
   const [designVersion, setDesignVersion] = useState<"v1" | "v2">("v1");
@@ -34,6 +16,9 @@ function App() {
   const [isDesktopView, setIsDesktopView] = useState(false);
 
   useEffect(() => {
+    const previousBodyBackground = document.body.style.backgroundColor;
+    const previousRootBackground = document.documentElement.style.backgroundColor;
+
     if (designVersion === "v2") {
       document.body.style.backgroundColor = "#F0F1F4";
       document.documentElement.style.backgroundColor = "#F0F1F4";
@@ -41,7 +26,26 @@ function App() {
       document.body.style.backgroundColor = "#070706";
       document.documentElement.style.backgroundColor = "#070706";
     }
+
+    return () => {
+      document.body.style.backgroundColor = previousBodyBackground;
+      document.documentElement.style.backgroundColor = previousRootBackground;
+    };
   }, [designVersion]);
+
+  useEffect(() => {
+    const preload = () => {
+      void loadV2Page();
+    };
+
+    if ("requestIdleCallback" in window) {
+      const idleCallbackId = window.requestIdleCallback(preload);
+      return () => window.cancelIdleCallback(idleCallbackId);
+    }
+
+    const timeoutId = globalThis.setTimeout(preload, 1200);
+    return () => globalThis.clearTimeout(timeoutId);
+  }, []);
 
   const toggleVersion = () => {
     setDesignVersion((current) => (current === "v1" ? "v2" : "v1"));
@@ -56,6 +60,10 @@ function App() {
 
         <CustomCursor />
 
+        <a href="#content" className="skip-link">
+          Перейти к содержимому
+        </a>
+
         {designVersion === "v1" ? (
           <SiteHeader isDesktopView={isDesktopView} setIsDesktopView={setIsDesktopView} />
         ) : (
@@ -63,35 +71,13 @@ function App() {
         )}
 
         {designVersion === "v1" && (
-          <main className="theme-v1">
-            <HeroSection isDesktopView={isDesktopView} setIsDesktopView={setIsDesktopView} />
-            <AudienceSection />
-            <CapabilitiesSection />
-            <GallerySection />
-            <EngineeringSection />
-            <MaterialsSection />
-            <ProcessSection />
-            <TrustSection />
-            <SeoTextSection />
-            <FaqSection />
-            <ContactSection />
-          </main>
+          <V1Page isDesktopView={isDesktopView} setIsDesktopView={setIsDesktopView} />
         )}
 
         {designVersion === "v2" && (
-          <main className="theme-v2 bg-[#F0F1F4] text-[#091423]">
-            <HeroV2 />
-            <AudienceV2 />
-            <CapabilitiesV2 />
-            <GalleryV2 />
-            <EngineeringV2 />
-            <MaterialsV2 />
-            <ProcessV2 />
-            <TrustV2 />
-            <SeoTextV2 />
-            <FaqV2 />
-            <ContactV2 />
-          </main>
+          <Suspense fallback={null}>
+            <V2Page />
+          </Suspense>
         )}
 
         <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[999] block">

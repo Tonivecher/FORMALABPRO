@@ -1,26 +1,32 @@
 import { useEffect } from "react";
 
+import type { ContactFormValues } from "../types/site";
+
 const CONTACT_INTENT_EVENT = "formalabpro:contact-intent";
 
-interface ContactIntentDetail {
-  message: string;
-}
+export type ContactIntentDetail = Partial<ContactFormValues>;
 
-export function requestContactIntent(message: string) {
+export function requestContactIntent(intent: string | ContactIntentDetail) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const detail = typeof intent === "string" ? { message: intent } : intent;
+
   window.dispatchEvent(
     new CustomEvent<ContactIntentDetail>(CONTACT_INTENT_EVENT, {
-      detail: { message },
+      detail,
     }),
   );
 }
 
-export function useContactIntent(onMessage: (message: string) => void) {
+export function useContactIntent(onIntent: (intent: ContactIntentDetail) => void) {
   useEffect(() => {
     const handleContactIntent = (event: Event) => {
       const detail = (event as CustomEvent<ContactIntentDetail>).detail;
 
-      if (typeof detail?.message === "string" && detail.message.trim()) {
-        onMessage(detail.message);
+      if (detail && Object.keys(detail).length > 0) {
+        onIntent(detail);
       }
     };
 
@@ -29,5 +35,5 @@ export function useContactIntent(onMessage: (message: string) => void) {
     return () => {
       window.removeEventListener(CONTACT_INTENT_EVENT, handleContactIntent);
     };
-  }, [onMessage]);
+  }, [onIntent]);
 }

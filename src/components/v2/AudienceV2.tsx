@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { audienceSegments } from "../../data/siteContent";
+import { requestContactIntent } from "../../hooks/useContactIntent";
 import { useSmoothScroll } from "../../hooks/useSmoothScroll";
 import { SectionReveal } from "../SectionReveal";
 
@@ -74,12 +75,9 @@ export function AudienceV2() {
                 onClick={() => {
                   scrollTo("#contact", { offset: -50 });
                   setTimeout(() => {
-                    const projectTypeSelect = document.getElementById("projectType") as HTMLSelectElement;
-                    if (projectTypeSelect) {
-                      projectTypeSelect.value = segment.id === "architects" ? "other" : segment.id === "residential" ? "private" : segment.id;
-                      projectTypeSelect.dispatchEvent(new Event("change", { bubbles: true }));
-                      projectTypeSelect.focus();
-                    }
+                    requestContactIntent({
+                      projectType: segment.id === "architects" ? "other" : segment.id === "residential" ? "private" : segment.id,
+                    });
                   }, 800);
                 }}
                 className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#091423] hover:text-[#091423]/60 transition duration-300 border-b border-[#091423] pb-1"

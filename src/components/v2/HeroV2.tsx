@@ -14,7 +14,7 @@ export function HeroV2() {
   ];
 
   return (
-    <section className="relative min-h-screen bg-[#F0F1F4] text-[#091423] pt-24 border-b border-[#091423] overflow-hidden flex flex-col justify-between">
+    <section className="relative min-h-[100dvh] bg-[#F0F1F4] text-[#091423] pt-24 border-b border-[#091423] overflow-hidden flex flex-col justify-between">
       
       <div className="w-full grid lg:grid-cols-2 border-t border-[#091423]">
         
@@ -70,8 +70,12 @@ export function HeroV2() {
             <img
               src={heroImage}
               alt="Премиальный интерьерный проект мебельного производства"
+              width={2048}
+              height={1280}
               className="h-full w-full object-cover grayscale transition duration-700 ease-editorial group-hover:scale-[1.03] group-hover:grayscale-0"
               loading="eager"
+              decoding="async"
+              fetchPriority="high"
             />
             <div className="absolute inset-0 pointer-events-none border-t border-[#091423] opacity-35" />
           </div>

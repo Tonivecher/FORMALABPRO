@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 
 import { studioContacts } from "../../data/siteContent";
-import { useContactIntent } from "../../hooks/useContactIntent";
+import { useContactIntent, type ContactIntentDetail } from "../../hooks/useContactIntent";
 import type { ContactFormValues } from "../../types/site";
 import { ButtonV2 } from "./ButtonV2";
 import { SectionReveal } from "../SectionReveal";
@@ -24,14 +24,29 @@ export function ContactV2() {
   const [errors, setErrors] = useState<ContactErrors>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const projectTypeRef = useRef<HTMLSelectElement>(null);
+  const drawingsRef = useRef<HTMLInputElement>(null);
 
-  const applyContactIntent = useCallback((message: string) => {
+  const applyContactIntent = useCallback((intent: ContactIntentDetail) => {
     setValues((current) => ({
       ...current,
-      message,
+      ...intent,
     }));
     setIsSubmitted(false);
-    window.setTimeout(() => messageRef.current?.focus(), 0);
+
+    window.setTimeout(() => {
+      if (intent.hasDrawings) {
+        drawingsRef.current?.focus();
+        return;
+      }
+
+      if (intent.projectType) {
+        projectTypeRef.current?.focus();
+        return;
+      }
+
+      messageRef.current?.focus();
+    }, 0);
   }, []);
 
   useContactIntent(applyContactIntent);
@@ -155,7 +170,7 @@ export function ContactV2() {
 
         <div className="col-span-12 lg:col-span-7 p-6 md:p-10 lg:p-14 bg-[#E8EAEF]/60 flex flex-col justify-center h-full">
           <SectionReveal className="w-full">
-            <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-2xl mx-auto relative">
+            <form noValidate onSubmit={handleSubmit} className="space-y-6 w-full max-w-2xl mx-auto relative">
               <div className="absolute top-0 right-0 font-mono text-[9px] text-[#091423]/30">
                 BRIEF FORM
               </div>
@@ -167,44 +182,52 @@ export function ContactV2() {
               <div className="space-y-6 pt-4">
                 
                 <div>
-                  <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Ваше имя *</span>
+                  <label htmlFor="contact-v2-name" className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Ваше имя *</label>
                   <input
+                    id="contact-v2-name"
                     type="text"
                     name="name"
-                    aria-label="Ваше имя"
                     required
+                    autoComplete="name"
+                    aria-invalid={Boolean(errors.name)}
+                    aria-errormessage={errors.name ? "contact-v2-name-error" : undefined}
                     value={values.name}
                     onChange={handleChange("name")}
                     placeholder="Представьтесь, пожалуйста"
                     data-cursor="interactive"
                     className="w-full bg-transparent border-b border-[#091423]/20 py-2.5 text-[#091423] outline-none focus:border-[#091423] transition duration-200"
                   />
-                  {errors.name ? <p className="text-[11px] text-red-600 font-semibold mt-1.5">{errors.name}</p> : null}
+                  {errors.name ? <p id="contact-v2-name-error" className="text-[11px] text-red-600 font-semibold mt-1.5">{errors.name}</p> : null}
                 </div>
 
                 <div>
-                  <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Email или телефон *</span>
+                  <label htmlFor="contact-v2-contact" className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Email или телефон *</label>
                   <input
+                    id="contact-v2-contact"
                     type="text"
                     name="contact"
-                    aria-label="Email или телефон"
                     required
+                    autoComplete="email"
+                    aria-invalid={Boolean(errors.contact)}
+                    aria-errormessage={errors.contact ? "contact-v2-contact-error" : undefined}
                     value={values.contact}
                     onChange={handleChange("contact")}
                     placeholder="Для отправки расчетов и вопросов"
                     data-cursor="interactive"
                     className="w-full bg-transparent border-b border-[#091423]/20 py-2.5 text-[#091423] outline-none focus:border-[#091423] transition duration-200"
                   />
-                  {errors.contact ? <p className="text-[11px] text-red-600 font-semibold mt-1.5">{errors.contact}</p> : null}
+                  {errors.contact ? <p id="contact-v2-contact-error" className="text-[11px] text-red-600 font-semibold mt-1.5">{errors.contact}</p> : null}
                 </div>
 
                 <div>
-                  <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Направление проекта *</span>
+                  <label htmlFor="projectType" className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Направление проекта *</label>
                   <select
                     id="projectType"
+                    ref={projectTypeRef}
                     name="projectType"
-                    aria-label="Направление проекта"
                     required
+                    aria-invalid={Boolean(errors.projectType)}
+                    aria-errormessage={errors.projectType ? "contact-v2-project-type-error" : undefined}
                     value={values.projectType}
                     onChange={handleChange("projectType")}
                     data-cursor="interactive"
@@ -217,16 +240,17 @@ export function ContactV2() {
                     <option value="office">Офис / Коммерческий объект</option>
                     <option value="other">Другое / Сложные столярные изделия</option>
                   </select>
-                  {errors.projectType ? <p className="text-[11px] text-red-600 font-semibold mt-1.5">{errors.projectType}</p> : null}
+                  {errors.projectType ? <p id="contact-v2-project-type-error" className="text-[11px] text-red-600 font-semibold mt-1.5">{errors.projectType}</p> : null}
                 </div>
 
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div>
-                    <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Город / Объект</span>
+                    <label htmlFor="contact-v2-location" className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Город / Объект</label>
                     <input
+                      id="contact-v2-location"
                       type="text"
                       name="location"
-                      aria-label="Город или объект"
+                      autoComplete="address-level2"
                       value={values.location}
                       onChange={handleChange("location")}
                       placeholder="Например: Москва"
@@ -236,11 +260,11 @@ export function ContactV2() {
                   </div>
 
                   <div>
-                    <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Желаемые сроки</span>
+                    <label htmlFor="contact-v2-timeframe" className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Желаемые сроки</label>
                     <input
+                      id="contact-v2-timeframe"
                       type="text"
                       name="timeframe"
-                      aria-label="Желаемые сроки"
                       value={values.timeframe}
                       onChange={handleChange("timeframe")}
                       placeholder="Например: сентябрь 2026"
@@ -251,24 +275,27 @@ export function ContactV2() {
                 </div>
 
                 <div>
-                  <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Что нужно изготовить? *</span>
+                  <label htmlFor="contact-v2-scope" className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Что нужно изготовить? *</label>
                   <input
+                    id="contact-v2-scope"
                     type="text"
                     name="scope"
-                    aria-label="Что нужно изготовить"
                     required
+                    aria-invalid={Boolean(errors.scope)}
+                    aria-errormessage={errors.scope ? "contact-v2-scope-error" : undefined}
                     value={values.scope}
                     onChange={handleChange("scope")}
                     placeholder="Например: встроенный шкаф, барная стойка"
                     data-cursor="interactive"
                     className="w-full bg-transparent border-b border-[#091423]/20 py-2.5 text-[#091423] outline-none focus:border-[#091423] transition duration-200"
                   />
-                  {errors.scope ? <p className="text-[11px] text-red-600 font-semibold mt-1.5">{errors.scope}</p> : null}
+                  {errors.scope ? <p id="contact-v2-scope-error" className="text-[11px] text-red-600 font-semibold mt-1.5">{errors.scope}</p> : null}
                 </div>
 
                 <div className="pt-2">
                   <label className="flex items-center gap-3 select-none" data-cursor="interactive">
                     <input
+                      ref={drawingsRef}
                       type="checkbox"
                       id="hasDrawings"
                       name="hasDrawings"
@@ -283,11 +310,11 @@ export function ContactV2() {
                 </div>
 
                 <div>
-                  <span className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Дополнительный комментарий</span>
+                  <label htmlFor="contact-v2-message" className="text-[9px] font-mono uppercase opacity-50 block font-bold mb-2">Дополнительный комментарий</label>
                   <textarea
+                    id="contact-v2-message"
                     ref={messageRef}
                     name="message"
-                    aria-label="Дополнительный комментарий"
                     value={values.message}
                     onChange={handleChange("message")}
                     placeholder="Опишите особенности проекта, требования к материалам или стыкам..."
@@ -308,7 +335,7 @@ export function ContactV2() {
                 </p>
                 
                 {isSubmitted ? (
-                  <div className="p-3 bg-[#091423]/5 border border-[#091423]/10 rounded-md w-full">
+                  <div className="p-3 bg-[#091423]/5 border border-[#091423]/10 rounded-md w-full" role="status" aria-live="polite">
                     <p className="text-xs leading-5 text-[#091423]">
                       Бриф подготовлен. Рабочие каналы связи будут подключены после уточнения контактов ателье.
                     </p>

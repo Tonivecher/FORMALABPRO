@@ -18,6 +18,11 @@ export function ParallaxHeroMedia({ image }: ParallaxHeroMediaProps) {
           src={image}
           alt=""
           aria-hidden="true"
+          width={2048}
+          height={1280}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
           className="image-monochrome h-full w-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,6,0.22)_0%,rgba(7,7,6,0.58)_45%,rgba(7,7,6,0.96)_100%)]" />
@@ -45,6 +50,11 @@ function ParallaxHeroMediaMotion({ image }: ParallaxHeroMediaProps) {
         src={image}
         alt=""
         aria-hidden="true"
+        width={2048}
+        height={1280}
+        loading="eager"
+        decoding="async"
+        fetchPriority="high"
         className="image-monochrome h-full w-full object-cover object-center"
         initial={{ clipPath: "polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%)", scale: 1.15 }}
         animate={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)", scale: 1 }}

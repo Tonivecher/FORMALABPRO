@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://formalabpro.tech/sitemap.xml

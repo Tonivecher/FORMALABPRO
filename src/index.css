@@ -1,9 +1,6 @@
 @font-face {
   font-family: "Roundex";
-  src:
-    url("./assets/fonts/Roundex-Regular.woff2") format("woff2"),
-    url("./assets/fonts/Roundex-Regular.woff") format("woff"),
-    url("./assets/fonts/Roundex-Regular.otf") format("opentype");
+  src: url("./assets/fonts/Roundex-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -158,7 +155,7 @@
     color: var(--color-white);
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
     html,
     body,
     a,
@@ -172,6 +169,24 @@
 }
 
 @layer components {
+  .skip-link {
+    @apply fixed left-4 top-4 z-[10000] rounded bg-[var(--color-brass)] px-4 py-3 text-xs font-bold uppercase tracking-widest text-black shadow-2xl;
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .skip-link:focus,
+  .skip-link:focus-visible {
+    clip-path: none;
+    height: auto;
+    overflow: visible;
+    white-space: normal;
+    width: auto;
+  }
+
   .page-grid {
     @apply mx-auto w-full max-w-[1440px] px-5 md:px-8 xl:px-10;
   }
@@ -222,10 +237,10 @@
 }
 
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
-  .theme-v1 > section:not(:first-child),
-  .theme-v2 > section:not(:first-child) {
+  .theme-v1 > section:nth-of-type(n + 4),
+  .theme-v2 > section:nth-of-type(n + 4) {
     content-visibility: auto;
-    contain-intrinsic-size: auto 56rem;
+    contain-intrinsic-size: auto 64rem;
   }
 }
 

@@ -41,6 +41,7 @@ export function EngineeringV2() {
                 alt="Кухонный модуль в 3D САПР"
                 className="w-full h-auto object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
                 loading="lazy"
+                decoding="async"
               />
               <div className="p-3 border-t border-[#091423] font-mono text-[9px] uppercase tracking-wider flex justify-between">
                 <span>Ref // CAD_01</span>
@@ -54,6 +55,7 @@ export function EngineeringV2() {
                 alt="Узел сопряжения профилей в 3D"
                 className="w-full h-auto object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
                 loading="lazy"
+                decoding="async"
               />
               <div className="p-3 border-t border-[#091423] font-mono text-[9px] uppercase tracking-wider flex justify-between">
                 <span>Ref // CAD_02</span>

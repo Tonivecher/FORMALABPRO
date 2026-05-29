@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import { useCallback, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 
 import { studioContacts } from "../data/siteContent";
-import { useContactIntent } from "../hooks/useContactIntent";
+import { useContactIntent, type ContactIntentDetail } from "../hooks/useContactIntent";
 import type { ContactFormValues } from "../types/site";
 import { MagneticButton } from "./MagneticButton";
 import { SectionReveal } from "./SectionReveal";
@@ -25,14 +25,29 @@ export function ContactSection() {
   const [errors, setErrors] = useState<ContactErrors>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const messageRef = useRef<HTMLTextAreaElement>(null);
+  const projectTypeRef = useRef<HTMLSelectElement>(null);
+  const drawingsRef = useRef<HTMLInputElement>(null);
 
-  const applyContactIntent = useCallback((message: string) => {
+  const applyContactIntent = useCallback((intent: ContactIntentDetail) => {
     setValues((current) => ({
       ...current,
-      message,
+      ...intent,
     }));
     setIsSubmitted(false);
-    window.setTimeout(() => messageRef.current?.focus(), 0);
+
+    window.setTimeout(() => {
+      if (intent.hasDrawings) {
+        drawingsRef.current?.focus();
+        return;
+      }
+
+      if (intent.projectType) {
+        projectTypeRef.current?.focus();
+        return;
+      }
+
+      messageRef.current?.focus();
+    }, 0);
   }, []);
 
   useContactIntent(applyContactIntent);
@@ -151,7 +166,7 @@ export function ContactSection() {
         </SectionReveal>
 
         <SectionReveal className="col-span-12 lg:col-span-6 lg:col-start-7" delay={0.08}>
-          <form onSubmit={handleSubmit} className="space-y-8 bg-[var(--color-graphite)] p-6 md:p-8 rounded-md border border-white/5 relative">
+          <form noValidate onSubmit={handleSubmit} className="space-y-8 bg-[var(--color-graphite)] p-6 md:p-8 rounded-md border border-white/5 relative">
             <div className="absolute top-6 right-6 font-mono text-[9px] text-white/20">
               BRIEF FORM
             </div>
@@ -163,44 +178,52 @@ export function ContactSection() {
             <div className="space-y-6">
               
               <div>
-                <span className="section-kicker block mb-2">Ваше имя *</span>
+                <label htmlFor="contact-name" className="section-kicker block mb-2">Ваше имя *</label>
                 <input
+                  id="contact-name"
                   type="text"
                   name="name"
-                  aria-label="Ваше имя"
                   required
+                  autoComplete="name"
+                  aria-invalid={Boolean(errors.name)}
+                  aria-errormessage={errors.name ? "contact-name-error" : undefined}
                   value={values.name}
                   onChange={handleChange("name")}
                   placeholder="Представьтесь, пожалуйста"
                   data-cursor="interactive"
                   className="w-full bg-transparent border-b border-white/10 py-2.5 text-white outline-none focus:border-[var(--color-brass)] transition duration-200"
                 />
-                {errors.name ? <p className="field-error text-[var(--color-lime)]">{errors.name}</p> : null}
+                {errors.name ? <p id="contact-name-error" className="field-error text-[var(--color-lime)]">{errors.name}</p> : null}
               </div>
 
               <div>
-                <span className="section-kicker block mb-2">Email или телефон *</span>
+                <label htmlFor="contact-contact" className="section-kicker block mb-2">Email или телефон *</label>
                 <input
+                  id="contact-contact"
                   type="text"
                   name="contact"
-                  aria-label="Email или телефон"
                   required
+                  autoComplete="email"
+                  aria-invalid={Boolean(errors.contact)}
+                  aria-errormessage={errors.contact ? "contact-contact-error" : undefined}
                   value={values.contact}
                   onChange={handleChange("contact")}
                   placeholder="Для отправки расчетов и вопросов"
                   data-cursor="interactive"
                   className="w-full bg-transparent border-b border-white/10 py-2.5 text-white outline-none focus:border-[var(--color-brass)] transition duration-200"
                 />
-                {errors.contact ? <p className="field-error text-[var(--color-lime)]">{errors.contact}</p> : null}
+                {errors.contact ? <p id="contact-contact-error" className="field-error text-[var(--color-lime)]">{errors.contact}</p> : null}
               </div>
 
               <div>
-                <span className="section-kicker block mb-2">Направление проекта *</span>
+                <label htmlFor="projectType" className="section-kicker block mb-2">Направление проекта *</label>
                 <select
                   id="projectType"
+                  ref={projectTypeRef}
                   name="projectType"
-                  aria-label="Направление проекта"
                   required
+                  aria-invalid={Boolean(errors.projectType)}
+                  aria-errormessage={errors.projectType ? "contact-project-type-error" : undefined}
                   value={values.projectType}
                   onChange={handleChange("projectType")}
                   data-cursor="interactive"
@@ -213,16 +236,17 @@ export function ContactSection() {
                   <option value="office">Офис / Коммерческий объект</option>
                   <option value="other">Другое / Сложные столярные изделия</option>
                 </select>
-                {errors.projectType ? <p className="field-error text-[var(--color-lime)]">{errors.projectType}</p> : null}
+                {errors.projectType ? <p id="contact-project-type-error" className="field-error text-[var(--color-lime)]">{errors.projectType}</p> : null}
               </div>
 
               <div className="grid gap-6 sm:grid-cols-2">
                 <div>
-                  <span className="section-kicker block mb-2">Город / Объект</span>
+                  <label htmlFor="contact-location" className="section-kicker block mb-2">Город / Объект</label>
                   <input
+                    id="contact-location"
                     type="text"
                     name="location"
-                    aria-label="Город или объект"
+                    autoComplete="address-level2"
                     value={values.location}
                     onChange={handleChange("location")}
                     placeholder="Например: Москва"
@@ -232,11 +256,11 @@ export function ContactSection() {
                 </div>
 
                 <div>
-                  <span className="section-kicker block mb-2">Желаемые сроки</span>
+                  <label htmlFor="contact-timeframe" className="section-kicker block mb-2">Желаемые сроки</label>
                   <input
+                    id="contact-timeframe"
                     type="text"
                     name="timeframe"
-                    aria-label="Желаемые сроки"
                     value={values.timeframe}
                     onChange={handleChange("timeframe")}
                     placeholder="Например: сентябрь 2026"
@@ -247,24 +271,27 @@ export function ContactSection() {
               </div>
 
               <div>
-                <span className="section-kicker block mb-2">Что нужно изготовить? *</span>
+                <label htmlFor="contact-scope" className="section-kicker block mb-2">Что нужно изготовить? *</label>
                 <input
+                  id="contact-scope"
                   type="text"
                   name="scope"
-                  aria-label="Что нужно изготовить"
                   required
+                  aria-invalid={Boolean(errors.scope)}
+                  aria-errormessage={errors.scope ? "contact-scope-error" : undefined}
                   value={values.scope}
                   onChange={handleChange("scope")}
                   placeholder="Например: встроенный шкаф, барная стойка"
                   data-cursor="interactive"
                   className="w-full bg-transparent border-b border-white/10 py-2.5 text-white outline-none focus:border-[var(--color-brass)] transition duration-200"
                 />
-                {errors.scope ? <p className="field-error text-[var(--color-lime)]">{errors.scope}</p> : null}
+                {errors.scope ? <p id="contact-scope-error" className="field-error text-[var(--color-lime)]">{errors.scope}</p> : null}
               </div>
 
               <div className="pt-2">
                 <label className="flex items-center gap-3 select-none" data-cursor="interactive">
                   <input
+                    ref={drawingsRef}
                     type="checkbox"
                     id="hasDrawings"
                     name="hasDrawings"
@@ -279,11 +306,11 @@ export function ContactSection() {
               </div>
 
               <div>
-                <span className="section-kicker block mb-2">Дополнительный комментарий</span>
+                <label htmlFor="contact-message" className="section-kicker block mb-2">Дополнительный комментарий</label>
                 <textarea
+                  id="contact-message"
                   ref={messageRef}
                   name="message"
-                  aria-label="Дополнительный комментарий"
                   value={values.message}
                   onChange={handleChange("message")}
                   placeholder="Опишите особенности проекта, требования к материалам или стыкам..."
@@ -304,7 +331,7 @@ export function ContactSection() {
               </p>
               
               {isSubmitted ? (
-                <div className="p-3 bg-[var(--color-brass)]/10 border border-[var(--color-brass)]/20 rounded-md w-full">
+                <div className="p-3 bg-[var(--color-brass)]/10 border border-[var(--color-brass)]/20 rounded-md w-full" role="status" aria-live="polite">
                   <p className="text-xs leading-5 text-[var(--color-brass)]">
                     Бриф подготовлен. Рабочие каналы связи будут подключены после уточнения контактов ателье.
                   </p>

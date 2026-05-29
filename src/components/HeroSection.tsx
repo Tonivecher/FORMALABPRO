@@ -2,6 +2,7 @@ import { ArrowDownRight, ArrowUpRight, ShieldCheck, Plus } from "lucide-react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 
 import { heroImage, heroMetrics } from "../data/siteContent";
+import { requestContactIntent } from "../hooks/useContactIntent";
 import { useSmoothScroll } from "../hooks/useSmoothScroll";
 import { MagneticButton } from "./MagneticButton";
 import { ParallaxHeroMedia } from "./ParallaxHeroMedia";
@@ -24,7 +25,7 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
   ];
 
   return (
-    <section className="relative flex min-h-screen items-end overflow-hidden pb-10 pt-28 md:pt-36">
+    <section className="relative flex min-h-[100dvh] items-end overflow-hidden pb-10 pt-28 md:pt-36">
       <ParallaxHeroMedia image={heroImage} />
 
       <div className="absolute top-28 left-0 right-0 z-20 pointer-events-none hidden md:block">
@@ -55,7 +56,7 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
         </motion.div>
       </div>
 
-      <div className="page-grid relative z-10 grid min-h-[calc(100vh-8rem)] grid-cols-12 gap-y-8 md:gap-y-12">
+      <div className="page-grid relative z-10 grid min-h-[calc(100dvh-8rem)] grid-cols-12 gap-y-8 md:gap-y-12">
         <div className="col-span-12 self-end lg:col-span-8 xl:col-span-9">
           <SectionReveal delay={0.4}>
             <p className="section-kicker flex items-center gap-2">
@@ -110,11 +111,7 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
               onClick={() => {
                 scrollTo("#contact", { offset: -72 });
                 setTimeout(() => {
-                  const drawingsCheckbox = document.getElementById("hasDrawings") as HTMLInputElement;
-                  if (drawingsCheckbox) {
-                    drawingsCheckbox.checked = true;
-                    drawingsCheckbox.focus();
-                  }
+                  requestContactIntent({ hasDrawings: true });
                 }, 800);
               }}
               className={`section-link border border-white/10 hover:border-white/30 px-5 py-3 rounded-full hover:bg-white/[0.02] ${

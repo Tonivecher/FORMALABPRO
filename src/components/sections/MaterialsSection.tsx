@@ -50,6 +50,10 @@ export function MaterialsSection() {
               <img
                 src={materialFeatures[0].image}
                 alt={materialFeatures[0].alt}
+                width={1024}
+                height={1024}
+                loading="lazy"
+                decoding="async"
                 className="image-monochrome h-full min-h-[26rem] w-full object-cover"
               />
               <div className="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded text-[10px] uppercase tracking-widest text-[var(--color-brass)] border border-white/5">
@@ -61,6 +65,10 @@ export function MaterialsSection() {
                 <img
                   src={materialFeatures[1].image}
                   alt={materialFeatures[1].alt}
+                  width={896}
+                  height={1280}
+                  loading="lazy"
+                  decoding="async"
                   className="image-monochrome h-full min-h-[12.5rem] w-full object-cover"
                 />
                 <div className="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded text-[10px] uppercase tracking-widest text-[var(--color-brass)] border border-white/5">
@@ -70,6 +78,8 @@ export function MaterialsSection() {
                 <img
                   src={atmosphereImage.src}
                   alt={atmosphereImage.alt}
+                  loading="lazy"
+                  decoding="async"
                   className="image-monochrome h-full min-h-[12.5rem] w-full object-cover"
                 />
                 <div className="absolute bottom-4 left-4 z-10 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded text-[10px] uppercase tracking-widest text-[var(--color-brass)] border border-white/5">

@@ -48,6 +48,19 @@ export function GalleryCard({ item, index, onOpen }: GalleryCardProps) {
         ease: [0.22, 1, 0.36, 1],
       }}
       onClick={() => onOpen(item)}
+      onKeyDown={(event) => {
+        if (event.target !== event.currentTarget) {
+          return;
+        }
+
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onOpen(item);
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label={`Открыть кейс: ${item.title}`}
       className={`group relative isolate overflow-hidden rounded-md border border-white/5 bg-[var(--color-graphite)] cursor-pointer ${spanClassMap[item.span]}`}
     >
       <div
@@ -60,6 +73,7 @@ export function GalleryCard({ item, index, onOpen }: GalleryCardProps) {
             className="image-monochrome h-full w-full object-cover transition duration-700 ease-editorial group-hover:scale-[1.04]"
             loading="lazy"
             decoding="async"
+            sizes="(max-width: 640px) 85vw, (max-width: 768px) 550px, 700px"
           />
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,7,6,0.1)_0%,rgba(7,7,6,0.48)_50%,rgba(7,7,6,0.96)_100%)]" />
           <div className="absolute inset-x-0 top-0 h-px bg-white/10" />

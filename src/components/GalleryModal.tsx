@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2, ArrowUpRight } from "lucide-react";
 import type { GalleryItem } from "../types/site";
 import { requestContactIntent } from "../hooks/useContactIntent";
+import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
 import { useSmoothScroll } from "../hooks/useSmoothScroll";
 
 interface GalleryModalProps {
@@ -13,6 +14,8 @@ interface GalleryModalProps {
 
 export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
   const { scrollTo } = useSmoothScroll();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -22,14 +25,56 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
+  useBodyScrollLock(Boolean(item));
+
   useEffect(() => {
-    if (item) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
+    if (!item) {
+      return;
     }
+
+    const previouslyFocused = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+
+    window.setTimeout(() => closeButtonRef.current?.focus(), 0);
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const dialog = dialogRef.current;
+      if (!dialog) {
+        return;
+      }
+
+      const focusableElements = Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((element) => !element.hasAttribute("disabled") && element.offsetParent !== null);
+
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleKeyDown);
+      previouslyFocused?.focus();
     };
   }, [item]);
 
@@ -54,6 +99,7 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
         />
 
         <motion.div
+          ref={dialogRef}
           initial={{ opacity: 0, scale: 0.95, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 30 }}
@@ -68,6 +114,7 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
           }`}
         >
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={onClose}
             className={`absolute top-4 right-4 z-50 p-2.5 rounded-full transition-all duration-300 active:scale-90 border ${
@@ -89,6 +136,8 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
               alt={item.alt}
               className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
               loading="eager"
+              decoding="async"
+              sizes="(max-width: 768px) 100vw, 60vw"
             />
             {isV1 && (
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/30 pointer-events-none" />

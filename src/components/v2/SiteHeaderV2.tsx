@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { navItems, studioName } from "../../data/siteContent";
+import { useBodyScrollLock } from "../../hooks/useBodyScrollLock";
 import { useSmoothScroll } from "../../hooks/useSmoothScroll";
 import { ButtonV2 } from "./ButtonV2";
 
@@ -13,7 +14,11 @@ interface SiteHeaderV2Props {
 export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Props) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const firstMenuItemRef = useRef<HTMLButtonElement>(null);
   const { scrollTo } = useSmoothScroll();
+  const mobileMenuId = "site-header-v2-mobile-menu";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,15 +31,56 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useBodyScrollLock(isMobileMenuOpen);
+
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
+    if (!isMobileMenuOpen) {
+      return;
     }
-    return () => {
-      document.body.style.overflow = "";
+
+    firstMenuItemRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        window.setTimeout(() => menuButtonRef.current?.focus(), 0);
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const menu = mobileMenuRef.current;
+      if (!menu) {
+        return;
+      }
+
+      const focusableElements = Array.from(
+        menu.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((element) => !element.hasAttribute("disabled") && element.offsetParent !== null);
+
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
     };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMobileMenuOpen]);
 
   return (
@@ -102,10 +148,13 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
             </div>
 
             <button
+              ref={menuButtonRef}
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="flex h-9 w-9 items-center justify-center border border-[#091423] bg-[#091423]/5 text-[#091423] md:hidden hover:bg-[#091423]/10 active:scale-95 transition-all duration-300"
               aria-label={isMobileMenuOpen ? "Закрыть меню" : "Открыть меню"}
+              aria-controls={mobileMenuId}
+              aria-expanded={isMobileMenuOpen}
               data-cursor="interactive"
             >
               {isMobileMenuOpen ? (
@@ -121,6 +170,10 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            ref={mobileMenuRef}
+            id={mobileMenuId}
+            role="dialog"
+            aria-modal="true"
             initial={{ y: "-100%" }}
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
@@ -135,6 +188,7 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
             <nav className="flex flex-col border-b border-[#091423]/10 my-6">
               {navItems.map((item, index) => (
                 <button
+                  ref={index === 0 ? firstMenuItemRef : undefined}
                   key={item.id}
                   type="button"
                   onClick={() => {

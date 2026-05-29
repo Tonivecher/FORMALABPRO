@@ -1,8 +1,9 @@
 import { ArrowUpRight, Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { navItems, studioName } from "../data/siteContent";
+import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
 import { useSmoothScroll } from "../hooks/useSmoothScroll";
 import { MagneticButton } from "./MagneticButton";
 
@@ -14,7 +15,11 @@ interface SiteHeaderProps {
 export function SiteHeader({ isDesktopView = false, setIsDesktopView }: SiteHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const firstMenuItemRef = useRef<HTMLButtonElement>(null);
   const { scrollTo } = useSmoothScroll();
+  const mobileMenuId = "site-header-mobile-menu";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,15 +32,56 @@ export function SiteHeader({ isDesktopView = false, setIsDesktopView }: SiteHead
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useBodyScrollLock(isMobileMenuOpen);
+
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
+    if (!isMobileMenuOpen) {
+      return;
     }
-    return () => {
-      document.body.style.overflow = "";
+
+    firstMenuItemRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        window.setTimeout(() => menuButtonRef.current?.focus(), 0);
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const menu = mobileMenuRef.current;
+      if (!menu) {
+        return;
+      }
+
+      const focusableElements = Array.from(
+        menu.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((element) => !element.hasAttribute("disabled") && element.offsetParent !== null);
+
+      if (focusableElements.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
     };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMobileMenuOpen]);
 
   return (
@@ -97,10 +143,13 @@ export function SiteHeader({ isDesktopView = false, setIsDesktopView }: SiteHead
             </div>
 
             <button
+              ref={menuButtonRef}
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] text-white md:hidden hover:border-white/30 transition-colors duration-300 active:scale-95"
               aria-label={isMobileMenuOpen ? "Закрыть меню" : "Открыть меню"}
+              aria-controls={mobileMenuId}
+              aria-expanded={isMobileMenuOpen}
               data-cursor="interactive"
             >
               {isMobileMenuOpen ? (
@@ -116,6 +165,10 @@ export function SiteHeader({ isDesktopView = false, setIsDesktopView }: SiteHead
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            ref={mobileMenuRef}
+            id={mobileMenuId}
+            role="dialog"
+            aria-modal="true"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -130,6 +183,7 @@ export function SiteHeader({ isDesktopView = false, setIsDesktopView }: SiteHead
             <nav className="flex flex-col gap-5 my-auto">
               {navItems.map((item, index) => (
                 <motion.button
+                  ref={index === 0 ? firstMenuItemRef : undefined}
                   initial={{ opacity: 0, x: -15 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.04, ease: "easeOut" }}

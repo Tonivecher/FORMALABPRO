@@ -55,6 +55,7 @@ export function EngineeringSection() {
                   alt="3D САПР чертеж кухонных модулей"
                   className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded text-[8px] font-mono uppercase tracking-widest text-white/70 border border-white/5">
                   модель модуля // 01
@@ -68,6 +69,7 @@ export function EngineeringSection() {
                   alt="3D САПР чертеж узла примыкания"
                   className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded text-[8px] font-mono uppercase tracking-widest text-white/70 border border-white/5">
                   узел // 02
