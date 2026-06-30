@@ -10,16 +10,16 @@ export function AudienceSection() {
   return (
     <section id="audience" className="section-rule py-[var(--section-space)] bg-[var(--color-black)]">
       <div className="page-grid">
-        <div className="grid grid-cols-12 gap-y-6">
-          <SectionReveal className="col-span-12 lg:col-span-6">
+        <div className="grid gap-y-8 md:grid-cols-2 md:gap-x-6 lg:items-end">
+          <SectionReveal className="min-w-0">
             <p className="section-kicker">для кого мы производим</p>
-            <h2 className="section-title max-w-[14ch]">
+            <h2 className="section-title max-w-full xl:max-w-[13ch]">
               Инженерия под ваши сценарии.
             </h2>
           </SectionReveal>
 
-          <SectionReveal className="col-span-12 lg:col-span-6 lg:self-end">
-            <p className="section-copy max-w-xl text-[var(--color-muted)]">
+          <SectionReveal className="min-w-0">
+            <p className="section-copy max-w-none text-[var(--color-muted)]">
               Мы не просто изготавливаем мебель — мы создаем архитектурные узлы, встроенные системы и износостойкое коммерческое наполнение. Позиционируем себя как надежного партнера, говорящего на языке чертежей и проектной дисциплины.
             </p>
           </SectionReveal>

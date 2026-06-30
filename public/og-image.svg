@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="shade" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#11110F"/>
+      <stop offset="0.52" stop-color="#070706"/>
+      <stop offset="1" stop-color="#1E1E1C"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#shade)"/>
+  <rect x="40" y="40" width="1120" height="550" rx="18" stroke="#C5A46D" stroke-opacity="0.32"/>
+  <rect x="84" y="86" width="80" height="80" fill="#050505" stroke="#F4F1EB" stroke-opacity="0.16"/>
+  <path d="M105 109H143" stroke="#F4F1EB" stroke-width="3"/>
+  <path d="M105 143H143" stroke="#F4F1EB" stroke-width="3"/>
+  <path d="M112 109V143" stroke="#F4F1EB" stroke-width="3"/>
+  <path d="M124 109V143" stroke="#F4F1EB" stroke-width="3"/>
+  <path d="M112 109H139" stroke="#F4F1EB" stroke-width="3"/>
+  <path d="M124 126H141" stroke="#F4F1EB" stroke-width="3"/>
+  <text x="190" y="117" fill="#F4F1EB" font-family="Manrope, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="8">FORMALAB PRO</text>
+  <text x="190" y="157" fill="#C5A46D" font-family="Manrope, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="7">PREMIUM FURNITURE ATELIER</text>
+  <text x="84" y="300" fill="#F4F1EB" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="700">Мебель, собранная как</text>
+  <text x="84" y="374" fill="#F4F1EB" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="700">архитектура пространства</text>
+  <text x="84" y="452" fill="#C9BDAA" font-family="Manrope, Arial, sans-serif" font-size="25" font-weight="400">Встроенные системы, HoReCa и retail-мебель с точными узлами,</text>
+  <text x="84" y="490" fill="#C9BDAA" font-family="Manrope, Arial, sans-serif" font-size="25" font-weight="400">честными материалами и монтажом в одном контуре.</text>
+  <line x1="84" y1="536" x2="1116" y2="536" stroke="#F4F1EB" stroke-opacity="0.12"/>
+  <text x="84" y="566" fill="#C5A46D" font-family="Manrope, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="6">MOSCOW // ARCHITECTURAL MILLWORK LAB</text>
+</svg>
