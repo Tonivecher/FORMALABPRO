@@ -357,7 +357,7 @@ export function ContactV2() {
 
         <div className="col-span-12 border-t border-[#091423]/10 px-6 py-5 text-left md:px-10 lg:px-14 lg:text-right">
           <p className="text-[10px] font-bold tracking-[0.28em] text-[#091423]/38">
-            <span className="uppercase">Сайт разработан by</span>{" "}
+            <span className="uppercase">Дизайн, разработка и AI-интеграция —</span>{" "}
             <a
               href={developerCredit.telegramHref}
               target="_blank"

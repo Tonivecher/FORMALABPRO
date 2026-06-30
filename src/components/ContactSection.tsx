@@ -351,7 +351,7 @@ export function ContactSection() {
 
         <div className="col-span-12 border-t border-white/10 pt-6">
           <p className="text-[10px] font-bold tracking-[0.28em] text-white/28 md:text-right">
-            <span className="uppercase">Сайт разработан by</span>{" "}
+            <span className="uppercase">Дизайн, разработка и AI-интеграция —</span>{" "}
             <a
               href={developerCredit.telegramHref}
               target="_blank"
