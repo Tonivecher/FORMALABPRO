@@ -1,7 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { useCallback, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 
-import { studioContacts } from "../data/siteContent";
+import { developerCredit, studioContacts } from "../data/siteContent";
 import { useContactIntent, type ContactIntentDetail } from "../hooks/useContactIntent";
 import { createEmailBriefHref } from "../lib/contactLinks";
 import type { ContactFormValues } from "../types/site";
@@ -348,6 +348,21 @@ export function ContactSection() {
             </div>
           </form>
         </SectionReveal>
+
+        <div className="col-span-12 border-t border-white/10 pt-6">
+          <p className="text-[10px] font-bold tracking-[0.28em] text-white/28 md:text-right">
+            <span className="uppercase">Сайт разработан by</span>{" "}
+            <a
+              href={developerCredit.telegramHref}
+              target="_blank"
+              rel="noreferrer"
+              className="tracking-[0.16em] text-white/45 transition duration-300 hover:text-[var(--color-brass)]"
+              data-cursor="interactive"
+            >
+              {developerCredit.name}
+            </a>
+          </p>
+        </div>
       </div>
     </section>
   );

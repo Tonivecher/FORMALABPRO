@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 
-import { studioContacts } from "../../data/siteContent";
+import { developerCredit, studioContacts } from "../../data/siteContent";
 import { useContactIntent, type ContactIntentDetail } from "../../hooks/useContactIntent";
 import { createEmailBriefHref } from "../../lib/contactLinks";
 import type { ContactFormValues } from "../../types/site";
@@ -353,6 +353,21 @@ export function ContactV2() {
 
             </form>
           </SectionReveal>
+        </div>
+
+        <div className="col-span-12 border-t border-[#091423]/10 px-6 py-5 text-left md:px-10 lg:px-14 lg:text-right">
+          <p className="text-[10px] font-bold tracking-[0.28em] text-[#091423]/38">
+            <span className="uppercase">Сайт разработан by</span>{" "}
+            <a
+              href={developerCredit.telegramHref}
+              target="_blank"
+              rel="noreferrer"
+              className="tracking-[0.16em] text-[#091423]/58 transition duration-300 hover:text-[#091423]"
+              data-cursor="interactive"
+            >
+              {developerCredit.name}
+            </a>
+          </p>
         </div>
 
       </div>

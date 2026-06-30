@@ -546,3 +546,8 @@ export const studioContacts = {
   yandexMapsHref: "https://yandex.ru/maps/?ll=37.867574%2C55.701719&z=17&pt=37.867574%2C55.701719%2Cpm2rdm",
   twoGisHref: "https://2gis.ru/moscow/search/55.701719%2C37.867574",
 } satisfies StudioContacts;
+
+export const developerCredit = {
+  name: "ToniVecher digital lab",
+  telegramHref: "https://t.me/ai_nickolai",
+} as const;
