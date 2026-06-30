@@ -9,7 +9,7 @@ const projectTypeLabels: Record<string, string> = {
   other: "Другое / сложные столярные изделия",
 };
 
-export function createWhatsAppBriefHref(values: ContactFormValues) {
+function createBriefMessage(values: ContactFormValues) {
   const fields = [
     ["Имя", values.name.trim()],
     ["Контакт", values.contact.trim()],
@@ -27,5 +27,13 @@ export function createWhatsAppBriefHref(values: ContactFormValues) {
     ...fields.map(([label, value]) => `${label}: ${value}`),
   ].join("\n");
 
-  return `${studioContacts.whatsappHref}?text=${encodeURIComponent(message)}`;
+  return message;
+}
+
+export function createEmailBriefHref(values: ContactFormValues) {
+  const message = createBriefMessage(values);
+  const subject = "Бриф проекта FORMALAB PRO";
+  const emailHref = studioContacts.emailHref ?? `mailto:${studioContacts.email}`;
+
+  return `${emailHref}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
 }

@@ -527,7 +527,7 @@ export const faqItems: FaqItem[] = [
 ];
 
 export const studioContacts = {
-  email: "info@formalabpro.tech",
+  email: "pavel@formalabpro.tech",
   phone: "+7 985 219-04-45",
   phoneRaw: "+79852190445",
   director: "Нижегородев Павел Вячеславович",
@@ -538,7 +538,7 @@ export const studioContacts = {
     latitude: 55.701719,
     longitude: 37.867574,
   },
-  emailHref: "mailto:info@formalabpro.tech",
+  emailHref: "mailto:pavel@formalabpro.tech",
   phoneHref: "tel:+79852190445",
   smsHref: "sms:+79852190445",
   whatsappHref: "https://wa.me/79852190445",

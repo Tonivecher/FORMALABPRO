@@ -1,3 +1,5 @@
+import { Mail } from "lucide-react";
+
 import { studioContacts } from "../data/siteContent";
 
 type ContactTone = "dark" | "light";
@@ -97,9 +99,28 @@ export function ContactChannelLinks({ tone = "dark" }: ContactChannelLinksProps)
           Руководитель проекта: <span className="font-semibold">{studioContacts.director}</span>
         </p>
         <p className={`mt-1 text-[11px] leading-5 ${subtleClass}`}>
-          Быстрее всего ответит на звонок или сообщение в мессенджере.
+          Предпочтительно отправлять ТЗ, чертежи и сметы на email. Звонок и мессенджеры — для быстрых уточнений.
         </p>
       </div>
+
+      {studioContacts.emailHref ? (
+        <a
+          href={studioContacts.emailHref}
+          className={`group inline-flex min-h-[50px] w-full items-center justify-center gap-2 rounded-full border px-4 text-xs font-bold uppercase tracking-widest transition duration-200 active:scale-95 ${
+            isDark
+              ? "border-[var(--color-brass)]/45 bg-[var(--color-brass)]/12 text-[var(--color-brass)] hover:border-[var(--color-brass)]/70"
+              : "border-[#C6A461]/55 bg-[#C6A461]/16 text-[#091423] hover:border-[#091423]/35"
+          }`}
+          aria-label={`Отправить email ${studioContacts.director}: ${studioContacts.email}`}
+          data-cursor="interactive"
+        >
+          <Mail className="h-5 w-5" strokeWidth={1.8} />
+          <span>Отправить email</span>
+          <span className="hidden text-[10px] normal-case tracking-normal opacity-70 sm:inline">
+            {studioContacts.email}
+          </span>
+        </a>
+      ) : null}
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <a
@@ -187,9 +208,20 @@ export function FloatingContactDock() {
       <span className="hidden pl-3 pr-1 text-[10px] font-bold uppercase tracking-widest text-white/62 sm:inline">
         Связаться с Павлом
       </span>
+      {studioContacts.emailHref ? (
+        <a
+          href={studioContacts.emailHref}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brass)] text-[#070706] transition duration-200 hover:brightness-110 active:scale-95"
+          aria-label={`Отправить email ${studioContacts.director}: ${studioContacts.email}`}
+          title="Email (предпочтительно)"
+          data-cursor="interactive"
+        >
+          <Mail className="h-5 w-5" strokeWidth={1.8} />
+        </a>
+      ) : null}
       <a
         href={studioContacts.phoneHref ?? undefined}
-        className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-brass)] text-[#070706] transition duration-200 hover:brightness-110 active:scale-95"
+        className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white transition duration-200 hover:border-white/30 active:scale-95"
         aria-label={`Позвонить ${studioContacts.director}: ${studioContacts.phone}`}
         title="Позвонить"
         data-cursor="interactive"

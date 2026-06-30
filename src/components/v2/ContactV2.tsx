@@ -2,7 +2,7 @@ import { useCallback, useRef, useState, type ChangeEvent, type FormEvent } from 
 
 import { studioContacts } from "../../data/siteContent";
 import { useContactIntent, type ContactIntentDetail } from "../../hooks/useContactIntent";
-import { createWhatsAppBriefHref } from "../../lib/contactLinks";
+import { createEmailBriefHref } from "../../lib/contactLinks";
 import type { ContactFormValues } from "../../types/site";
 import { ContactChannelLinks } from "../ContactActions";
 import { ButtonV2 } from "./ButtonV2";
@@ -107,7 +107,7 @@ export function ContactV2() {
     }
 
     setIsSubmitted(true);
-    window.open(createWhatsAppBriefHref(values), "_blank", "noopener,noreferrer");
+    window.location.assign(createEmailBriefHref(values));
   };
 
   return (
@@ -123,13 +123,13 @@ export function ContactV2() {
               Давайте обсудим ваш проект.
             </h2>
             <p className="mt-6 text-xs md:text-sm leading-6 text-[#091423]/70 max-w-sm">
-              Заполните проектный бриф справа или свяжитесь напрямую с Павлом Нижегородевым. По телефону и в мессенджерах быстрее уточнить чертежи, материалы и сроки производства.
+              Заполните проектный бриф справа или свяжитесь напрямую с Павлом Нижегородевым. Для ТЗ, чертежей и смет предпочтительнее email; телефон и мессенджеры остаются для быстрых уточнений.
             </p>
           </SectionReveal>
 
           <div className="mt-12 space-y-8">
             <div className="border-t border-[#091423]/10 pt-5">
-              <span className="text-[10px] font-mono uppercase opacity-50 block font-bold">EMAIL //</span>
+              <span className="text-[10px] font-mono uppercase opacity-50 block font-bold">PREFERRED EMAIL //</span>
               {studioContacts.emailHref ? (
                 <a
                   href={studioContacts.emailHref}
@@ -143,6 +143,9 @@ export function ContactV2() {
                   {studioContacts.email}
                 </span>
               )}
+              <p className="mt-3 max-w-sm text-[10px] leading-5 text-[#091423]/55">
+                Для чертежей, ведомостей, смет и проектной переписки.
+              </p>
             </div>
 
             <div className="border-t border-[#091423]/10 pt-5">
@@ -336,13 +339,13 @@ export function ContactV2() {
                 </ButtonV2>
                 
                 <p className="max-w-md text-[10px] leading-5 text-[#091423]/50">
-                  После проверки обязательных полей сайт откроет WhatsApp с заполненным текстом брифа для руководителя.
+                  После проверки обязательных полей сайт откроет письмо на {studioContacts.email} с заполненным текстом брифа.
                 </p>
                 
                 {isSubmitted ? (
                   <div className="p-3 bg-[#091423]/5 border border-[#091423]/10 rounded-md w-full" role="status" aria-live="polite">
                     <p className="text-xs leading-5 text-[#091423]">
-                      Бриф подготовлен и открыт в WhatsApp. Если приложение не открылось, позвоните по номеру {studioContacts.phone}.
+                      Бриф подготовлен в письме. Если почтовый клиент не открылся, напишите на {studioContacts.email} или позвоните по номеру {studioContacts.phone}.
                     </p>
                   </div>
                 ) : null}

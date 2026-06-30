@@ -3,7 +3,7 @@ import { useCallback, useRef, useState, type ChangeEvent, type FormEvent } from 
 
 import { studioContacts } from "../data/siteContent";
 import { useContactIntent, type ContactIntentDetail } from "../hooks/useContactIntent";
-import { createWhatsAppBriefHref } from "../lib/contactLinks";
+import { createEmailBriefHref } from "../lib/contactLinks";
 import type { ContactFormValues } from "../types/site";
 import { ContactChannelLinks } from "./ContactActions";
 import { MagneticButton } from "./MagneticButton";
@@ -108,7 +108,7 @@ export function ContactSection() {
     }
 
     setIsSubmitted(true);
-    window.open(createWhatsAppBriefHref(values), "_blank", "noopener,noreferrer");
+    window.location.assign(createEmailBriefHref(values));
   };
 
   return (
@@ -121,12 +121,12 @@ export function ContactSection() {
             Давайте обсудим ваш проект.
           </h2>
           <p className="section-copy mt-8 max-w-xl text-[var(--color-muted)]">
-            Заполните проектный бриф справа или свяжитесь напрямую с Павлом Нижегородевым. По телефону и в мессенджерах быстрее уточнить чертежи, материалы и сроки производства.
+            Заполните проектный бриф справа или свяжитесь напрямую с Павлом Нижегородевым. Для ТЗ, чертежей и смет предпочтительнее email; телефон и мессенджеры остаются для быстрых уточнений.
           </p>
 
           <div className="mt-12 space-y-8">
             <div className="border-t border-white/10 pt-5">
-              <p className="section-kicker">Прямая связь (Email)</p>
+              <p className="section-kicker">Предпочтительная связь (Email)</p>
               {studioContacts.emailHref ? (
                 <a
                   href={studioContacts.emailHref}
@@ -140,6 +140,9 @@ export function ContactSection() {
                   {studioContacts.email}
                 </span>
               )}
+              <p className="mt-3 max-w-sm text-xs leading-5 text-white/42">
+                Удобно для чертежей, ведомостей, смет и проектной переписки.
+              </p>
             </div>
 
             <div className="border-t border-white/10 pt-5">
@@ -332,13 +335,13 @@ export function ContactSection() {
               </MagneticButton>
               
               <p className="max-w-md text-xs leading-5 text-white/40">
-                После проверки обязательных полей сайт откроет WhatsApp с заполненным текстом брифа для руководителя.
+                После проверки обязательных полей сайт откроет письмо на {studioContacts.email} с заполненным текстом брифа.
               </p>
               
               {isSubmitted ? (
                 <div className="p-3 bg-[var(--color-brass)]/10 border border-[var(--color-brass)]/20 rounded-md w-full" role="status" aria-live="polite">
                   <p className="text-xs leading-5 text-[var(--color-brass)]">
-                    Бриф подготовлен и открыт в WhatsApp. Если приложение не открылось, позвоните по номеру {studioContacts.phone}.
+                    Бриф подготовлен в письме. Если почтовый клиент не открылся, напишите на {studioContacts.email} или позвоните по номеру {studioContacts.phone}.
                   </p>
                 </div>
               ) : null}
