@@ -130,13 +130,13 @@ export function ContactSection() {
               {studioContacts.emailHref ? (
                 <a
                   href={studioContacts.emailHref}
-                  className="mt-4 inline-block font-display text-xl md:text-2xl tracking-[-0.05em] text-white/90 hover:text-[var(--color-brass)] transition duration-300"
+                  className="mt-4 inline-block font-sans text-xl font-semibold tracking-normal text-white/90 hover:text-[var(--color-brass)] transition duration-300 md:text-2xl"
                   data-cursor="interactive"
                 >
                   {studioContacts.email}
                 </a>
               ) : (
-                <span className="mt-4 inline-block font-display text-xl md:text-2xl tracking-[-0.05em] text-white/90">
+                <span className="mt-4 inline-block font-sans text-xl font-semibold tracking-normal text-white/90 md:text-2xl">
                   {studioContacts.email}
                 </span>
               )}
