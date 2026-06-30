@@ -10,15 +10,10 @@ import { ProcessSection } from "./sections/ProcessSection";
 import { SeoTextSection } from "./sections/SeoTextSection";
 import { TrustSection } from "./sections/TrustSection";
 
-interface V1PageProps {
-  isDesktopView: boolean;
-  setIsDesktopView: (value: boolean) => void;
-}
-
-export function V1Page({ isDesktopView, setIsDesktopView }: V1PageProps) {
+export function V1Page() {
   return (
     <main id="content" tabIndex={-1} className="theme-v1">
-      <HeroSection isDesktopView={isDesktopView} setIsDesktopView={setIsDesktopView} />
+      <HeroSection />
       <AudienceSection />
       <CapabilitiesSection />
       <GallerySection />

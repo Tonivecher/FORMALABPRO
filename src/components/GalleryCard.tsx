@@ -60,7 +60,6 @@ export function GalleryCard({ item, index, onOpen }: GalleryCardProps) {
       }}
       role="button"
       tabIndex={0}
-      aria-label={`Открыть кейс: ${item.title}`}
       className={`group relative isolate overflow-hidden rounded-md border border-white/5 bg-[var(--color-graphite)] cursor-pointer ${spanClassMap[item.span]}`}
     >
       <div

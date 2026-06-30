@@ -3,7 +3,9 @@ import { useCallback, useRef, useState, type ChangeEvent, type FormEvent } from 
 
 import { studioContacts } from "../data/siteContent";
 import { useContactIntent, type ContactIntentDetail } from "../hooks/useContactIntent";
+import { createWhatsAppBriefHref } from "../lib/contactLinks";
 import type { ContactFormValues } from "../types/site";
+import { ContactChannelLinks } from "./ContactActions";
 import { MagneticButton } from "./MagneticButton";
 import { SectionReveal } from "./SectionReveal";
 
@@ -106,6 +108,7 @@ export function ContactSection() {
     }
 
     setIsSubmitted(true);
+    window.open(createWhatsAppBriefHref(values), "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -118,7 +121,7 @@ export function ContactSection() {
             Давайте обсудим ваш проект.
           </h2>
           <p className="section-copy mt-8 max-w-xl text-[var(--color-muted)]">
-            Заполните проектный бриф справа. Мы проанализируем тип объекта, чертежи, материалы и вернемся с предварительной оценкой, конструкторскими решениями и сроками производства.
+            Заполните проектный бриф справа или свяжитесь напрямую с Павлом Нижегородевым. По телефону и в мессенджерах быстрее уточнить чертежи, материалы и сроки производства.
           </p>
 
           <div className="mt-12 space-y-8">
@@ -140,7 +143,7 @@ export function ContactSection() {
             </div>
 
             <div className="border-t border-white/10 pt-5">
-              <p className="section-kicker">Телефон ателье</p>
+              <p className="section-kicker">Руководитель проекта</p>
               {studioContacts.phoneHref ? (
                 <a
                   href={studioContacts.phoneHref}
@@ -159,9 +162,11 @@ export function ContactSection() {
             <div className="border-t border-white/10 pt-5">
               <p className="section-kicker">Локация</p>
               <p className="mt-4 text-sm md:text-base text-white/60 leading-6">
-                {studioContacts.location}
+                {studioContacts.address}
               </p>
             </div>
+
+            <ContactChannelLinks tone="dark" />
           </div>
         </SectionReveal>
 
@@ -297,7 +302,7 @@ export function ContactSection() {
                     name="hasDrawings"
                     checked={values.hasDrawings}
                     onChange={handleChange("hasDrawings")}
-                    className="h-4.5 w-4.5 rounded border-white/10 bg-transparent text-[var(--color-brass)] focus:ring-[var(--color-brass)]"
+                    className="h-[1.125rem] w-[1.125rem] rounded border-white/10 bg-transparent text-[var(--color-brass)] focus:ring-[var(--color-brass)]"
                   />
                   <span className="text-xs md:text-sm text-white/70">
                     У меня есть чертежи, спецификации или визуализации
@@ -327,13 +332,13 @@ export function ContactSection() {
               </MagneticButton>
               
               <p className="max-w-md text-xs leading-5 text-white/40">
-                Бриф проверит обязательные поля и сохранит введенные данные в текущей сессии сайта.
+                После проверки обязательных полей сайт откроет WhatsApp с заполненным текстом брифа для руководителя.
               </p>
               
               {isSubmitted ? (
                 <div className="p-3 bg-[var(--color-brass)]/10 border border-[var(--color-brass)]/20 rounded-md w-full" role="status" aria-live="polite">
                   <p className="text-xs leading-5 text-[var(--color-brass)]">
-                    Бриф подготовлен. Рабочие каналы связи будут подключены после уточнения контактов ателье.
+                    Бриф подготовлен и открыт в WhatsApp. Если приложение не открылось, позвоните по номеру {studioContacts.phone}.
                   </p>
                 </div>
               ) : null}

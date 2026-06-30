@@ -30,7 +30,7 @@ export function ButtonV2({
         isPrimary
           ? "bg-[#091423] text-white border border-[#091423] hover:bg-[#091423]/90"
           : "bg-transparent text-[#091423] border border-[#091423] hover:bg-[#091423]/5"
-      } rounded-[4px] px-8 py-4.5 min-h-[50px] text-xs md:text-sm font-semibold select-none cursor-none ${className}`}
+      } rounded-[4px] px-8 py-[1.125rem] min-h-[50px] text-xs md:text-sm font-semibold select-none cursor-none ${className}`}
       data-cursor="interactive"
     >
       <span className="absolute bottom-1.5 left-1.5 flex h-2 w-2 pointer-events-none">

@@ -2,7 +2,9 @@ import { useCallback, useRef, useState, type ChangeEvent, type FormEvent } from 
 
 import { studioContacts } from "../../data/siteContent";
 import { useContactIntent, type ContactIntentDetail } from "../../hooks/useContactIntent";
+import { createWhatsAppBriefHref } from "../../lib/contactLinks";
 import type { ContactFormValues } from "../../types/site";
+import { ContactChannelLinks } from "../ContactActions";
 import { ButtonV2 } from "./ButtonV2";
 import { SectionReveal } from "../SectionReveal";
 
@@ -105,6 +107,7 @@ export function ContactV2() {
     }
 
     setIsSubmitted(true);
+    window.open(createWhatsAppBriefHref(values), "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -120,7 +123,7 @@ export function ContactV2() {
               Давайте обсудим ваш проект.
             </h2>
             <p className="mt-6 text-xs md:text-sm leading-6 text-[#091423]/70 max-w-sm">
-              Заполните проектный бриф справа. Мы проанализируем чертежи, материалы и вернемся с предварительной оценкой, конструкторскими решениями и сроками производства.
+              Заполните проектный бриф справа или свяжитесь напрямую с Павлом Нижегородевым. По телефону и в мессенджерах быстрее уточнить чертежи, материалы и сроки производства.
             </p>
           </SectionReveal>
 
@@ -143,7 +146,7 @@ export function ContactV2() {
             </div>
 
             <div className="border-t border-[#091423]/10 pt-5">
-              <span className="text-[10px] font-mono uppercase opacity-50 block font-bold">TELEPHONE //</span>
+              <span className="text-[10px] font-mono uppercase opacity-50 block font-bold">DIRECTOR //</span>
               {studioContacts.phoneHref ? (
                 <a
                   href={studioContacts.phoneHref}
@@ -162,9 +165,11 @@ export function ContactV2() {
             <div className="border-t border-[#091423]/10 pt-5">
               <span className="text-[10px] font-mono uppercase opacity-50 block font-bold">GEOGRAPHY //</span>
               <p className="mt-3 text-xs md:text-sm text-[#091423]/70 leading-6 font-semibold uppercase tracking-wider">
-                {studioContacts.location}
+                {studioContacts.address}
               </p>
             </div>
+
+            <ContactChannelLinks tone="light" />
           </div>
         </div>
 
@@ -301,7 +306,7 @@ export function ContactV2() {
                       name="hasDrawings"
                       checked={values.hasDrawings}
                       onChange={handleChange("hasDrawings")}
-                      className="h-4.5 w-4.5 rounded border-[#091423]/20 bg-transparent text-[#091423] focus:ring-[#091423]"
+                      className="h-[1.125rem] w-[1.125rem] rounded border-[#091423]/20 bg-transparent text-[#091423] focus:ring-[#091423]"
                     />
                     <span className="text-xs md:text-sm text-[#091423]/80 font-semibold">
                       У меня есть готовые чертежи, спецификации или визуализации
@@ -331,13 +336,13 @@ export function ContactV2() {
                 </ButtonV2>
                 
                 <p className="max-w-md text-[10px] leading-5 text-[#091423]/50">
-                  Бриф проверит обязательные поля и сохранит введенные данные в текущей сессии сайта.
+                  После проверки обязательных полей сайт откроет WhatsApp с заполненным текстом брифа для руководителя.
                 </p>
                 
                 {isSubmitted ? (
                   <div className="p-3 bg-[#091423]/5 border border-[#091423]/10 rounded-md w-full" role="status" aria-live="polite">
                     <p className="text-xs leading-5 text-[#091423]">
-                      Бриф подготовлен. Рабочие каналы связи будут подключены после уточнения контактов ателье.
+                      Бриф подготовлен и открыт в WhatsApp. Если приложение не открылось, позвоните по номеру {studioContacts.phone}.
                     </p>
                   </div>
                 ) : null}

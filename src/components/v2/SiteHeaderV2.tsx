@@ -92,7 +92,7 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
             : "bg-[#F0F1F4] border-b border-[#091423]/25"
         } text-[#091423]`}
       >
-        <div className="page-grid grid grid-cols-12 items-center gap-4 py-4.5">
+        <div className="page-grid grid grid-cols-12 items-center gap-4 py-[1.125rem]">
           
           <button
             type="button"
@@ -101,7 +101,7 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
               scrollTo(0, { immediate: true });
             }}
             className="col-span-8 flex flex-col items-start text-left md:col-span-4 z-50"
-            aria-label="Вернуться к началу"
+            aria-label="FORMALAB PRO. Вернуться к началу"
             data-cursor="interactive"
           >
             <span className="text-[9px] font-mono uppercase tracking-[0.3em] opacity-40 font-bold">
@@ -134,7 +134,7 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
               data-cursor="interactive"
               title="Переключить версию дизайна страницы"
             >
-              VER: {currentVersion.toUpperCase()} 🔄
+              VER: {currentVersion.toUpperCase()}
             </button>
 
             <div className="hidden md:flex">
@@ -158,9 +158,9 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
               data-cursor="interactive"
             >
               {isMobileMenuOpen ? (
-                <X className="h-4.5 w-4.5" strokeWidth={1.8} />
+                <X className="h-[1.125rem] w-[1.125rem]" strokeWidth={1.8} />
               ) : (
-                <Menu className="h-4.5 w-4.5" strokeWidth={1.8} />
+                <Menu className="h-[1.125rem] w-[1.125rem]" strokeWidth={1.8} />
               )}
             </button>
           </div>
@@ -201,7 +201,7 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
                     <span className="opacity-45">0{index + 1} //</span>
                     <span>{item.label}</span>
                   </span>
-                  <span className="opacity-35">➔</span>
+                  <span className="opacity-35">-</span>
                 </button>
               ))}
             </nav>
@@ -216,7 +216,7 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
                 className="w-full flex items-center justify-between border border-[#091423] bg-[#091423]/5 px-4 py-3.5 text-[10px] font-mono font-bold uppercase tracking-widest text-[#091423] hover:bg-[#091423]/10 active:scale-98 transition-all duration-300"
               >
                 <span>СМЕНИТЬ КОНЦЕПЦИЮ (ТЕКУЩАЯ: V2)</span>
-                <span className="flex items-center gap-1">V1 🔄</span>
+                <span className="flex items-center gap-1">V1</span>
               </button>
 
               <ButtonV2
@@ -227,7 +227,7 @@ export function SiteHeaderV2({ currentVersion, onToggleVersion }: SiteHeaderV2Pr
                 }}
                 className="w-full py-4 !text-[11px] font-bold tracking-widest min-h-[48px]"
               >
-                ЗАПОЛНИТЬ ПРОЕКТНЫЙ БРИФ ➔
+                ЗАПОЛНИТЬ ПРОЕКТНЫЙ БРИФ
               </ButtonV2>
             </div>
 

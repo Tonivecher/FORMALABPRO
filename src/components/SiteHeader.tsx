@@ -99,7 +99,7 @@ export function SiteHeader({ isDesktopView = false, setIsDesktopView }: SiteHead
               scrollTo(0, { immediate: true });
             }}
             className="col-span-8 flex min-w-0 flex-col items-start text-left md:col-span-4 z-50"
-            aria-label="Вернуться к началу страницы"
+            aria-label={`PREMIUM FURNITURE ATELIER ${studioName}. Вернуться к началу страницы`}
             data-cursor="interactive"
           >
             <span className="text-[0.65rem] uppercase tracking-[0.42em] text-white/40">
@@ -212,7 +212,7 @@ export function SiteHeader({ isDesktopView = false, setIsDesktopView }: SiteHead
                   className="w-full flex items-center justify-between border border-[var(--color-brass)]/20 bg-white/[0.02] px-4 py-3.5 rounded text-[9px] font-mono font-bold uppercase tracking-widest text-[var(--color-brass)] hover:bg-white/[0.04] active:scale-98 transition-all duration-300"
                 >
                   <span>РЕЖИМ ОТОБРАЖЕНИЯ: {isDesktopView ? "DESKTOP" : "MOBILE"}</span>
-                  <span className="flex items-center gap-1">СМЕНИТЬ 🔄</span>
+                  <span className="flex items-center gap-1">СМЕНИТЬ</span>
                 </button>
               )}
 

@@ -528,8 +528,21 @@ export const faqItems: FaqItem[] = [
 
 export const studioContacts = {
   email: "info@formalabpro.tech",
-  phone: "Контакт после брифа",
-  location: "Москва · частные и общественные интерьеры",
+  phone: "+7 985 219-04-45",
+  phoneRaw: "+79852190445",
+  director: "Нижегородев Павел Вячеславович",
+  directorTranslit: "Pavel Nizhegorodev",
+  location: "Москва · ул. Златоустовская, 15А",
+  address: "г. Москва, ул. Златоустовская, 15А",
+  coordinates: {
+    latitude: 55.701719,
+    longitude: 37.867574,
+  },
   emailHref: "mailto:info@formalabpro.tech",
-  phoneHref: null,
+  phoneHref: "tel:+79852190445",
+  smsHref: "sms:+79852190445",
+  whatsappHref: "https://wa.me/79852190445",
+  telegramHref: "https://t.me/+79852190445",
+  yandexMapsHref: "https://yandex.ru/maps/?ll=37.867574%2C55.701719&z=17&pt=37.867574%2C55.701719%2Cpm2rdm",
+  twoGisHref: "https://2gis.ru/moscow/search/55.701719%2C37.867574",
 } satisfies StudioContacts;

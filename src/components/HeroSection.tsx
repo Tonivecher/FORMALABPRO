@@ -25,7 +25,7 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
   ];
 
   return (
-    <section className="relative flex min-h-[100dvh] items-end overflow-hidden pb-10 pt-28 md:pt-36">
+    <section className="relative flex min-h-[100dvh] items-end overflow-hidden pb-28 pt-28 sm:pb-10 md:pt-36">
       <ParallaxHeroMedia image={heroImage} />
 
       <div className="absolute top-28 left-0 right-0 z-20 pointer-events-none hidden md:block">
@@ -57,7 +57,7 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
       </div>
 
       <div className="page-grid relative z-10 grid min-h-[calc(100dvh-8rem)] grid-cols-12 gap-y-8 md:gap-y-12">
-        <div className="col-span-12 self-end lg:col-span-8 xl:col-span-9">
+        <div className="col-span-12 min-w-0 self-end lg:col-span-8 xl:col-span-9">
           <SectionReveal delay={0.4}>
             <p className="section-kicker flex items-center gap-2">
               <span className="h-1 w-1 rounded-full bg-[var(--color-lime)] animate-pulse" />
@@ -66,13 +66,13 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
           </SectionReveal>
 
           <SectionReveal delay={0.5}>
-            <h1 className="mt-6 max-w-[22ch] font-display text-[clamp(2.1rem,5vw,4.6rem)] leading-[0.96] tracking-display text-white">
+            <h1 className="mt-6 max-w-full font-display text-[2rem] leading-[0.98] tracking-display text-white sm:max-w-[22ch] sm:text-[clamp(2.1rem,5vw,4.6rem)] sm:leading-[0.96]">
               Премиальная мебель и интерьерные изделия по проектам архитекторов
             </h1>
           </SectionReveal>
 
           <SectionReveal delay={0.6}>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--color-muted)] md:text-xl md:leading-9">
+            <p className="mt-6 max-w-[34ch] text-base leading-8 text-[var(--color-muted)] sm:max-w-2xl md:text-xl md:leading-9">
               {isDesktopView ? (
                 "Производим встроенные системы, кухни, гардеробные, стеновые панели, стойки, витрины и сложные столярные изделия — от инженерной проработки до монтажа на объекте."
               ) : (
@@ -126,7 +126,7 @@ export function HeroSection({ isDesktopView = false, setIsDesktopView }: HeroSec
             <button
               type="button"
               onClick={() => scrollTo("#gallery", { offset: -48 })}
-              className="section-link hover:text-white group py-2"
+              className="section-link group w-full justify-start py-2 hover:text-white sm:w-auto"
               data-cursor="interactive"
             >
               Смотреть объекты

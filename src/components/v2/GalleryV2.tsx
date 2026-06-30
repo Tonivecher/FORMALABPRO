@@ -202,7 +202,7 @@ export function GalleryV2() {
                     </p>
 
                     <div className="mt-8 grid sm:grid-cols-2 gap-x-6 gap-y-5 text-xs">
-                      <div className="border-l-2 border-[#091423]/25 pl-4.5">
+                      <div className="border-l-2 border-[#091423]/25 pl-[1.125rem]">
                         <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
                           цель проекта //
                         </span>
@@ -211,7 +211,7 @@ export function GalleryV2() {
                         </p>
                       </div>
 
-                      <div className="border-l-2 border-[#091423]/25 pl-4.5">
+                      <div className="border-l-2 border-[#091423]/25 pl-[1.125rem]">
                         <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
                           материалы //
                         </span>
@@ -220,7 +220,7 @@ export function GalleryV2() {
                         </p>
                       </div>
 
-                      <div className="border-l-2 border-[#091423]/25 pl-4.5">
+                      <div className="border-l-2 border-[#091423]/25 pl-[1.125rem]">
                         <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
                           объем работ //
                         </span>
@@ -229,7 +229,7 @@ export function GalleryV2() {
                         </p>
                       </div>
 
-                      <div className="border-l-2 border-[#091423]/25 pl-4.5">
+                      <div className="border-l-2 border-[#091423]/25 pl-[1.125rem]">
                         <span className="text-[10px] font-mono opacity-40 uppercase tracking-widest block">
                           результат //
                         </span>

@@ -64,6 +64,7 @@
   html {
     scroll-behavior: auto;
     background: var(--color-black);
+    overflow-x: clip;
   }
 
   body {
@@ -78,6 +79,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.02em;
+    overflow-x: clip;
   }
 
   #root {

@@ -85,7 +85,7 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 sm:p-6 md:p-10">
+      <div className="fixed inset-0 z-[1000] flex items-start justify-center overflow-y-auto p-3 pt-[calc(env(safe-area-inset-top,0px)+0.75rem)] pb-[calc(env(safe-area-inset-bottom,0px)+0.75rem)] sm:items-center sm:p-6 md:p-10">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -107,7 +107,7 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
           role="dialog"
           aria-modal="true"
           aria-labelledby={titleId}
-          className={`relative z-10 flex flex-col md:flex-row w-full max-w-5xl h-[85vh] sm:h-[80vh] rounded-md overflow-hidden shadow-2xl border ${
+          className={`relative z-10 flex max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl flex-col overflow-hidden rounded-md border shadow-2xl sm:max-h-[calc(100dvh-3rem)] md:h-[80dvh] md:flex-row ${
             isV1 
               ? "bg-[var(--color-graphite)] border-white/10 text-white" 
               : "bg-[#F0F1F4] border-[#091423] text-[#091423] border-[2px]"
@@ -128,7 +128,7 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
             <X className="h-5 w-5" />
           </button>
 
-          <div className={`relative md:w-3/5 h-[40vh] md:h-full overflow-hidden flex items-center justify-center bg-black ${
+          <div className={`relative flex h-[38dvh] max-h-[320px] items-center justify-center overflow-hidden bg-black md:h-full md:max-h-none md:w-3/5 ${
             !isV1 && "border-b md:border-b-0 md:border-r border-[#091423]"
           }`}>
             <img
@@ -144,7 +144,7 @@ export function GalleryModal({ item, onClose, theme }: GalleryModalProps) {
             )}
           </div>
 
-          <div className={`md:w-2/5 h-[45vh] md:h-full p-6 sm:p-8 md:p-10 flex flex-col justify-between overflow-y-auto ${
+          <div className={`flex min-h-0 flex-1 flex-col justify-between overflow-y-auto p-6 sm:p-8 md:h-full md:w-2/5 md:p-10 ${
             isV1 ? "scrollbar-none" : "scrollbar-thin"
           }`}>
             <div>

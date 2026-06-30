@@ -64,9 +64,22 @@ export interface FaqItem {
 export interface StudioContacts {
   email: string;
   phone: string;
+  phoneRaw: string;
+  director: string;
+  directorTranslit: string;
   location: string;
+  address: string;
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
   emailHref: string | null;
   phoneHref: string | null;
+  smsHref: string;
+  whatsappHref: string;
+  telegramHref: string;
+  yandexMapsHref: string;
+  twoGisHref: string;
 }
 
 export interface ContactFormValues {

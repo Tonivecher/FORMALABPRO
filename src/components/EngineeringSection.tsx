@@ -53,6 +53,8 @@ export function EngineeringSection() {
                 <img
                   src={withBase("/projects/engineering-cad-details.webp")}
                   alt="3D САПР чертеж кухонных модулей"
+                  width={2560}
+                  height={1590}
                   className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                   decoding="async"
@@ -67,6 +69,8 @@ export function EngineeringSection() {
                 <img
                   src={withBase("/projects/engineering-cad-joint.webp")}
                   alt="3D САПР чертеж узла примыкания"
+                  width={2560}
+                  height={1590}
                   className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                   decoding="async"
